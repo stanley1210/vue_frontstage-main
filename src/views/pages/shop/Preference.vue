@@ -1,107 +1,155 @@
 <template>
  <div class="form-container">
-    <form @submit.prevent="submitForm">
+    <form >
       <div class="form-group">
-        <label for="selectName">Select Name</label>
-        <input type="text" v-model="form.selectName" id="selectName" required />
+        <label >車輛名稱搜尋</label>
+        <input type="text" id="selectName" required />
+        <button type="submit">查詢</button>
       </div>
 
       <div class="form-group">
-        <label for="productionYear">Production Year</label>
-        <input type="number" v-model="form.productionYear" id="productionYear" required />
+        <label >年分</label>
+        <input type="text"  id="productionYear" required />
       </div>
 
       <div class="form-group">
-        <label for="price">Price</label>
-        <input type="number" v-model="form.price" id="price" required />
+        <label >價錢</label>
+        <input type="text" id="price" required />
       </div>
 
       <div class="form-group">
-        <label for="milage">Milage</label>
-        <input type="number" v-model="form.milage" id="milage" required />
+        <label >里程數</label>
+        <input type="text"  id="milage" required />
       </div>
 
       <div class="form-group">
-        <label for="score">Score</label>
-        <input type="number" v-model="form.score" id="score" required />
+        <label for="score">車況評分</label>
+        <input type="text"  id="score" required />
       </div>
 
       <div class="form-group">
-        <label for="customerId">Customer ID</label>
-        <input type="number" v-model="form.customerId" id="customerId" required />
+        <label for="customerId">建立會員</label>
+        <input type="text"  id="customerId" required />
       </div>
 
       <div class="form-group">
-        <label for="carinfoId">Carinfo ID</label>
-        <input type="number" v-model="form.carinfoId" id="carinfoId" required />
+        <label for="carinfoId">條件查詢</label>
+        <input type="text"  id="carinfoId" required />
       </div>
 
-      <div class="form-group">
-        <label for="brand">Brand</label>
-        <select v-model="form.brand" id="brand" required>
-          <option v-for="brand in brands" :key="brand" :value="brand">{{ brand }}</option>
-        </select>
-      </div>
+   <div class="form-group">
+   <label for="brand">品牌</label>
+    <select id="brand" required>
+    <option option value="" disabled>選擇你要的品牌</option>
+    <option value="Brand 1">袋鼠會咬人</option>
+    <option value="Brand 2">袋鼠會吃人</option>
+    <option value="Brand 3">唐人街拳法</option>
+  </select> 
+ </div>
 
-      <div class="form-group">
-        <label>
-          <input type="checkbox" v-model="form.suspension" />
-          Suspension
-        </label>
-      </div>
+ <div class="form-group">
+   <label for="suspension">車型</label>
+    <select id="suspension" required>
+    <option option value="" disabled>選擇你要的車型</option>
+    <option value="suspension 1">轎車</option>
+    <option value="suspension 2">休旅車</option>
+    <option value="suspension 3">敞篷車</option>
+    <option value="suspension 4">跑車</option>
+    <option value="suspension 5">吉普車</option>
+    <option value="suspension 6">掀背車</option>
+  </select> 
+ </div>
 
-      <div class="form-group">
-        <label>
-          <input type="checkbox" v-model="form.door" />
-          Door
-        </label>
-      </div>
+ <div class="form-group">
+   <label for="door">車門數</label>
+    <select id="door" required>
+    <option option value="" disabled>選擇你要的車門數</option>
+    <option value="door 1">二門</option>
+    <option value="door 2">三門</option>
+    <option value="door 3">四門</option>
+    <option value="door 4">五門</option>
+    <option value="door 5">六門</option>
+  </select> 
+ </div>
 
-      <div class="form-group">
-        <label>
-          <input type="checkbox" v-model="form.passenger" />
-          Passenger
-        </label>
-      </div>
+ <div class="form-group">
+   <label for="passenger">乘客數</label>
+    <select id="passenger" required>
+    <option option value="" disabled>選擇能容納的乘客數</option>
+    <option value="passenger 1">二人座</option>
+    <option value="passenger 2">四人座</option>
+    <option value="passenger 3">五人座</option>
+    <option value="passenger 4">七人座以上</option>
+  </select> 
+ </div>
 
-      <div class="form-group">
-        <label>
-          <input type="checkbox" v-model="form.rearWheel" />
-          Rear Wheel
-        </label>
-      </div>
+ <div class="form-group">
+   <label for="rearWheel">驅動方式</label>
+    <select id="rearWheel" required>
+    <option option value="" disabled>選擇你要的驅動方式</option>
+    <option value="rearWheel 1">前驅</option>
+    <option value="rearWheel 2">後驅</option>
+    <option value="rearWheel 3">四驅</option>
+  </select> 
+ </div>
 
-      <div class="form-group">
-        <label>
-          <input type="checkbox" v-model="form.gasoline" />
-          Gasoline
-        </label>
-      </div>
+ <div class="form-group">
+   <label for="gasoline">引擎燃料</label>
+    <select id="gasoline" required>
+    <option option value="" disabled>選擇你要的引擎燃料</option>
+    <option value="gasoline 1">汽油</option>
+    <option value="gasoline 2">柴油</option>
+    <option value="gasoline 3">油電複合</option>
+    <option value="gasoline 4">純電</option>
+  </select> 
+ </div>
 
-      <div class="form-group">
-        <label>
-          <input type="checkbox" v-model="form.transmission" />
-          Transmission
-        </label>
-      </div>
+ <div class="form-group">
+   <label for="transmission">變速系統</label>
+    <select id="transmission" required>
+    <option option value="" disabled>選擇你要的引擎燃料</option>
+    <option value="transmission 1">自排</option>
+    <option value="transmission 2">手排</option>
+    <option value="transmission 3">手自排</option>
+    <option value="transmission 4">自手排</option>
+  </select> 
+ </div>
 
-      <div class="form-group">
-        <label for="cc">CC</label>
-        <input type="number" v-model="form.cc" id="cc" required />
-      </div>
+ <div class="form-group">
+   <label for="displacement">排氣量</label>
+    <select id="displacement" required>
+    <option option value="" disabled>選擇你要的排氣量</option>
+    <option value="displacement 1">1200cc以下</option>
+    <option value="displacement 2">1201cc-1800cc</option>
+    <option value="displacement 3">1801cc-2400cc</option>
+    <option value="displacement 4">2401cc-3000cc</option>
+    <option value="displacement 5">3001cc-4200cc</option>
+    <option value="displacement 6">4201cc-5400cc</option>
+    <option value="displacement 7">5401cc以上</option>
+  </select> 
+ </div>
 
-      <div class="form-group">
-        <label for="hp">HP</label>
-        <input type="number" v-model="form.hp" id="hp" required />
+ <div class="form-group">
+        <label for="hp">馬力</label>
+        <input type="text"  id="hp" required />
       </div>
+<div class="form-group">
+        <label for="torque">扭力</label>
+        <input type="text"  id="torque" required />
+      </div> 
+<div class="form-group">
+        <label for="preferences_lists">會員喜好清單</label>
+        <input type="text"  id="preferences_lists" required />
+      </div>        
+      
 
-      <div class="form-group">
-        <label for="torque">Torque</label>
-        <input type="number" v-model="form.torque" id="torque" required />
-      </div>
 
-      <button type="submit">Submit</button>
-    </form>
+
+
+
+
+      <button type="submit">查詢</button>
+    </form> 
   </div>
 </template>
   
@@ -111,7 +159,7 @@
   
 </script>
     
-<style scoped>
+<style >
 
 
 </style>
