@@ -1,5 +1,7 @@
 <template>
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+        <div class="row align-items-center">
+                <div class="col-4"></div>
+        <div id="carouselExampleIndicators" class="carousel slide navbarBody imageWidth col-8" data-bs-ride="carousel" data-bs-interval="4000">
                 <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -25,6 +27,7 @@
                         <span class="visually-hidden">Next</span>
                         </button>
                 </div>
+        </div>
         <div class="navbarBody">
                 <select class="form-select" aria-label="Default select example">
                         <option selected>Open this select menu</option>
@@ -33,6 +36,7 @@
                         <option value="3">Three</option>
                 </select>
         </div>
+        
 <h1>Looking for your dream ride?</h1>
 </template>
     
@@ -41,5 +45,7 @@
 </script>
     
 <style>
-    
+    .imageWidth{
+        width:1000px;
+}
 </style>
