@@ -1,9 +1,9 @@
 <template>
-        <h3>Car</h3>
+        <h3>Home</h3>
 </template>
     
-<script setup>
-
+<script setup >
+    
 </script>
     
 <style>

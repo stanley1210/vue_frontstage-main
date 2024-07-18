@@ -1,30 +1,29 @@
 <template>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+       <nav class="navbar navbar-expand-lg navbarBody">
   <div class="container-fluid">
-    <RouterLink class="navbar-brand" to="/">Home</RouterLink>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <RouterLink class="navbar-brand nav-link active" :to="{name:'home'}"><img src="/Kajarta_LOGO_03.svg" class="kajartaLogo"></RouterLink>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
+      <ul class="navbar-nav col-6">
+        <li class="nav-item col">
+          <RouterLink class="nav-link active" :to="{name:'home'}">Home</RouterLink>
         </li>
-        <li class="nav-item">
-          <router-link class="nav-link active" :to="{ name: 'like-link' }">Like</router-link>
+        <li class="nav-item col">
+          <a class="nav-link" href="#">About</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+        <li class="nav-item col">
+          <RouterLink class="nav-link " :to="{name:'pages-shop-car-link'}">Shop</RouterLink>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown link
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
+        <li class="nav-item col">
+          <a class="nav-link" aria-disabled="true">Estimate</a>
+        </li>
+        <li class="nav-item col">
+          <a class="nav-link" aria-disabled="true">News</a>
+        </li>
+        <li class="nav-item col">
+          <a class="nav-link" aria-disabled="true">Login</a>
         </li>
       </ul>
     </div>
@@ -37,5 +36,5 @@
 </script>
     
 <style>
-    
+
 </style>
