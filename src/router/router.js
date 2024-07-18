@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import routerCar from '@/views/Pages/router-car.js'
+import routerPages from '@/views/pages/router-pages.js'
 
 
 const routes = [
-    ...routerCar,
+    ...routerPages,
 ];
 
 const router = createRouter({
