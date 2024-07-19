@@ -1,4 +1,4 @@
-import Like from "./Like.vue";
+import Like from "./shop/Like.vue";
 
 
 export default [
