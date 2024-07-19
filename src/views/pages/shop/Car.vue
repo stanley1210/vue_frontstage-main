@@ -1,5 +1,5 @@
 <template>
-        <!-- 心儀條件 -->
+        <!-- ------------------------------------------心儀條件------------------------------------------ -->
 
         <div class="row align-items-center">
                 <div class="col-4">
@@ -32,31 +32,40 @@
                         </button>
                 </div>
         </div>
-        
-<h1 class="wordBody">Looking for your dream ride?</h1>
-<h1 class="wordBody">Luckily Your've just found it!</h1>
 
-<div class="card" style="width: 30rem;">
-  <img src="../../../../public/supra1.png" class="card-img-top">
-  <div class="card-body navbarBody">
-          <h5 class="card-title">ID????</h5>
-    <p class="card-text">Toyota Supra</p>
-    <div class="d-flex flex-row ">
-        <div class="card-text p-2 flex-grow-1">(里程)13000KM / (年份)2024</div>
-        <div class="card-text p-2">3,000,000 NTD</div>
-</div>
-<a href="#" class="btn btn-primary">我真的需要這個酷東西！！</a>
-</div>
-</div>
-<div class="navbarBody d-flex" style="height:200px;">
-        <div style="padding-top: 50px; padding-left: 50px;">
-                <h1 class="wordBody">Got something on your mind?</h1>
-                <h1 class="wordBody">Click here and let's chat!</h1>
+        <!-- ------------------------------------------字---------------------------------------------------------- -->
+        <div style="margin: 50px;">
+                <h1 class="wordBody">Looking for your dream ride?</h1>
+                <h1 class="wordBody">Luckily Your've just found it!</h1>
         </div>
+        
+        
+        <!-- ------------------------------------------分頁卡---------------------------------------------------------- -->
+        <div style="margin-left: 50px; margin-right: 50px;">
+                <div class="card" style="width: 30rem;">
+                        <img src="../../../../public/supra1.png" class="card-img-top">
+                        <div class="card-body navbarBody">
+                                <h5 class="card-title">ID????</h5>
+                                <p class="card-text">Toyota Supra</p>
+                                <div class="d-flex flex-row ">
+                                        <div class="card-text p-2 flex-grow-1">(里程)13000KM / (年份)2024</div>
+                                        <div class="card-text p-2">3,000,000 NTD</div>
+                                </div>
+                                <a href="#" class="btn btn-primary">我真的需要這個酷東西！！</a>
+                        </div>
+                </div>
+        </div>
+        
+        <!-- ------------------------------------------footer---------------------------------------------------------- -->
+        <div class="navbarBody d-flex" style="height:200px;">
+                <div style="padding-top: 50px; padding-left: 50px;">
+                        <h1 class="wordBody">Got something on your mind?</h1>
+                        <h1 class="wordBody">Click here and let's chat!</h1>
+                </div>
                 <div style="padding-top: 130px; padding-left: 550px;">
                         <h6 class="wordBody">2024 Kajarta. All rights reserved.</h6>
+                </div>
         </div>
-</div>
 </template>
     
 <script setup>
