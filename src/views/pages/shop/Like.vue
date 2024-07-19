@@ -26,7 +26,7 @@
     <br>
 
     <!--Card-->
-    <div class="card-container">
+    <div class="likecard-container">
             <LikeCard v-for="like in likes" :key="like.likeId" :like="like">
             </LikeCard>
     </div>
