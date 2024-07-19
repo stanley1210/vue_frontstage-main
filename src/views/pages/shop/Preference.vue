@@ -1,18 +1,25 @@
 <template>
- <div class="form-container">
-    <form >
+  <div class="form-container">
+    <form @submit.prevent="handleSubmitByName">
       <div class="form-group">
-        <label >車輛名稱搜尋</label>
-        <input type="text" id="selectName" required />
+        <label>車輛名稱搜尋</label>
+        <input type="text" v-model="selectName" required />
         <button type="submit">查詢</button>
       </div>
+    </form>
+  </div>
 
+  <div class="form-container">
+    <form @submit.prevent="handleSubmitByYear">
       <div class="form-group">
-        <label >年分</label>
-        <input type="text"  id="productionYear" required />
+        <label>年分</label>
+        <input type="text" v-model="productionYear" required />
+        <button type="submit">查詢</button>
       </div>
+    </form>
+  </div>
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label >價錢</label>
         <input type="text" id="price" required />
       </div>
@@ -145,10 +152,61 @@
 
       <button type="submit">查詢</button>
     </form> 
-  </div>
+  </div> -->
 </template>
   
 <script setup>
+
+import { ref } from 'vue'
+import axios from 'axios'
+
+
+const selectName = ref('')
+const productionYear = ref('')
+
+
+const handleSearchByName = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/kajarta/preference/search/selectName', {
+      params: {
+        keyword: selectName.value
+      }
+    })
+    console.log('車輛名稱搜尋結果:', response.data)
+  
+  } catch (error) {
+    console.error('查詢失敗:', error)
+  }
+}
+
+
+const handleSearchByYear = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/kajarta/preference/search/productionYear', {
+      params: {
+        keyword: parseInt(productionYear.value, 10) //把Integer轉成整數
+      }
+    })
+    console.log('出產年分查詢結果:', response.data)
+  
+  } catch (error) {
+    console.error('查詢失敗:', error)
+  }
+}
+
+
+const handleSubmitByName = (event) => {
+  event.preventDefault()
+  handleSearchByName()
+}
+
+
+const handleSubmitByYear = (event) => {
+  event.preventDefault()
+  handleSearchByYear()
+}
+
+
 
 
   
