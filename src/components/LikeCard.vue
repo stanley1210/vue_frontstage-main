@@ -2,7 +2,7 @@
 
   <div class="card">
     <img class="card-img-top" :src="`${path}${like.likeId}`" :alt="like.modelName">
-    <div class="card-body">
+    <div class="card-body navbarBody">
       <h5 class="card-title">{{ like.modelName }}</h5>
       <p class="card-text">
         ID: {{ like.likeId }}
@@ -28,26 +28,5 @@ const path = import.meta.env.VITE_PHOTO;
 </script>
 
 <style scoped>
-.card {
-  margin-right: 16px; /* 卡片之間的間距 */
-  flex: 0 0 auto; /* 讓卡片不縮放 */
-  width: 300px; /* 設置卡片的固定寬度 */
-}
 
-.card-body {
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.card-text {
-  font-size: 1rem;
-  color: #555;
-}
 </style>

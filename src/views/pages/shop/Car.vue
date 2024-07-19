@@ -41,7 +41,7 @@
         
         
         <!-- ------------------------------------------分頁卡---------------------------------------------------------- -->
-        <div style="margin-left: 50px; margin-right: 50px;">
+        <div style="margin-left: 50px; margin-right: 50px;">  
                 <div class="card" style="width: 30rem;">
                         <img src="../../../../public/supra1.png" class="card-img-top">
                         <div class="card-body navbarBody">
