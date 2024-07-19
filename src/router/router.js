@@ -2,9 +2,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 //1. 引用元件
-import Home from '@/views/Home.vue';
+import Home from '@/views/Home.vue'
 import NotFound from "@/views/NotFound.vue";
-import routerPages from "@/views/pages/router-pages.js";
+import routerPages from '@/views/pages/router-pages.js'
 
 // 2. 定義網頁路由
 const routes = [
