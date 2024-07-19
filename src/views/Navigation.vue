@@ -17,6 +17,9 @@
           <RouterLink class="nav-link " :to="{name:'pages-shop-car-link'}">Shop</RouterLink>
         </li>
         <li class="nav-item col">
+          <RouterLink class="nav-link " :to="{name:'pages-shop-like-link'}">like</RouterLink>
+        </li>
+        <li class="nav-item col">
           <a class="nav-link" aria-disabled="true">Estimate</a>
         </li>
         <li class="nav-item col">
