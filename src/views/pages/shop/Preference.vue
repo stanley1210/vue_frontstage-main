@@ -19,12 +19,17 @@
     </form>
   </div>
 
-      <!-- <div class="form-group">
-        <label >價錢</label>
-        <input type="text" id="price" required />
-      </div>
-
+  <div class="form-container">
+    <form @submit.prevent="handleSubmitByPrice">
       <div class="form-group">
+        <label>價格</label>
+        <input type="text" v-model="price" required />
+        <button type="submit">查詢</button>
+      </div>
+    </form>
+  </div>
+
+     <!-- <div class="form-group">
         <label >里程數</label>
         <input type="text"  id="milage" required />
       </div>
@@ -152,7 +157,7 @@
 
       <button type="submit">查詢</button>
     </form> 
-  </div> -->
+  </div> --> 
 </template>
   
 <script setup>
@@ -163,6 +168,7 @@ import axios from 'axios'
 
 const selectName = ref('')
 const productionYear = ref('')
+const price = ref('')
 
 
 const handleSearchByName = async () => {
@@ -194,6 +200,19 @@ const handleSearchByYear = async () => {
   }
 }
 
+const handleSearchByPrice = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/kajarta/preference/search/price', {
+      params: {
+        keyword: parseFloat(price.value)
+      }
+    });
+    console.log('價格查詢結果:', response.data);
+  } catch (error) {
+    console.error('查詢失敗:', error);
+  }
+};
+
 
 const handleSubmitByName = (event) => {
   event.preventDefault()
@@ -206,6 +225,12 @@ const handleSubmitByYear = (event) => {
   handleSearchByYear()
 }
 
+const handleSubmitByPrice = (event) => {
+  event.preventDefault();
+  handleSearchByPrice();
+};
+
+
 
 
 
@@ -213,6 +238,5 @@ const handleSubmitByYear = (event) => {
 </script>
     
 <style >
-
 
 </style>
