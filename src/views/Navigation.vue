@@ -14,7 +14,7 @@
           <a class="nav-link" href="#">About</a>
         </li>
         <li class="nav-item col">
-          <RouterLink class="nav-link " :to="{name:'pages-shop-car-link'}">Shop</RouterLink>
+          <RouterLink class="nav-link " :to="{name:'pages-shop-home-link'}">Shop</RouterLink>
         </li>
         <li class="nav-item col">
           <RouterLink class="nav-link " :to="{name:'pages-shop-like-link'}">like</RouterLink>
