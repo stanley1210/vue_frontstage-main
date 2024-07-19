@@ -1,6 +1,8 @@
 <template>
         <div class="row align-items-center">
-                <div class="col-4"></div>
+                <div class="col-4">
+                        <el-button>安安你好</el-button>
+                </div>
         <div id="carouselExampleIndicators" class="carousel slide navbarBody imageWidth col-8" data-bs-ride="carousel" data-bs-interval="4000">
                 <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
