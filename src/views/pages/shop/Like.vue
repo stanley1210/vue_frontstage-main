@@ -26,12 +26,9 @@
     <br>
 
     <!--Card-->
-    <div class="row">
-        <div class="col-3">
-            
+    <div class="card-container">
             <LikeCard v-for="like in likes" :key="like.likeId" :like="like">
             </LikeCard>
-        </div>
     </div>
 </template>
 
@@ -45,7 +42,7 @@ import LikeRows from '@/components/LikeRows.vue';
 
 const rows = ref(4); // 每頁顯示筆數
 const pageNumber = ref(1); // 目前頁碼
-const sortOrder = ref('desc'); // 排序順序
+const sortOrder = ref('asc'); // 排序順序
 const likes = ref([]); // 資料列表
 const total = ref(3); // 總資料筆數
 const pages = ref(1); // 總共頁數
@@ -100,6 +97,7 @@ function callFind(page) {
 
 <style scoped>
 /* 样式可根据需要自定义 */
+
 table {
     width: 100%;
     border-collapse: collapse;

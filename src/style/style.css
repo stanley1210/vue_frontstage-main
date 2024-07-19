@@ -12,13 +12,3 @@
     overflow-x: auto; /* 如果卡片太多，允許橫向滾動 */
   }
   
-  .likecard {
-    margin-right: 16px; /* 卡片之間的間距 */
-    flex: 0 0 auto; /* 讓卡片不縮放 */
-    width: 300px; /* 設置卡片的固定寬度 */
-  }
-  
-  .likecard img {
-    width: 100%; /* 確保圖片適應卡片的寬度 */
-    height: auto;
-  }
