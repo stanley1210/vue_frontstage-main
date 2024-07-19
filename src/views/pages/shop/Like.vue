@@ -18,25 +18,20 @@
     <!--上方分頁欄-->
     <div class="row">
         <div class="col-8" v-show="total != 0">
-            <Paginate 
-          :first-last-button="true"
-          first-button-text="<<"
-          last-button-text=">>"
-          prev-text="<"
-          next-text=">"
-          :page-count="pages"
-          :initial-page="current"
-          v-model="current"
-          :click-handler="callFind">
-</Paginate>
+            <Paginate :first-last-button="true" first-button-text="<<" last-button-text=">>" prev-text="<" next-text=">"
+                :page-count="pages" :initial-page="current" v-model="current" :click-handler="callFind">
+            </Paginate>
         </div>
     </div>
     <br>
 
     <!--Card-->
     <div class="row">
-        <LikeCard v-for="like in likes" :key="like.likeId" :like="like">
-        </LikeCard>
+        <div class="col-3">
+            
+            <LikeCard v-for="like in likes" :key="like.likeId" :like="like">
+            </LikeCard>
+        </div>
     </div>
 </template>
 
@@ -87,7 +82,7 @@ function callFind(page) {
             } else {
                 console.error("Invalid response data structure:", response);
             }
-            
+
             // setTimeout(function () {
             //     Swal.close();
             // }, 500);
@@ -109,10 +104,13 @@ table {
     width: 100%;
     border-collapse: collapse;
 }
-th, td {
+
+th,
+td {
     border: 1px solid #ddd;
     padding: 8px;
 }
+
 th {
     background-color: #f2f2f2;
 }
