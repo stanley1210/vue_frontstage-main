@@ -27,9 +27,9 @@
         </button>
     </div>
     
-    <!-- ------------------------------------------資料行------------------------------------------ -->
-     <div class="d-flex flex-row">
-    <div class="text-center navbarBody p-2 flex-fill">
+    <!-- ------------------------------------------資料行 ------------------------------------------ -->
+    <div class="d-flex flex-row wordBody">
+        <div class="text-center navbarBody p-2 flex-fill">
         <div class="row row-cols-2">
             <div class="col">
                 <img src="../../../../public/supra2.jpeg" class="imageSize" >
@@ -39,37 +39,64 @@
             </div>
             <div class="col d-flex align-items-start flex-column mb-3 wordBody">
                 <p>Id</p>
-                <p>車名</p>
-                <p>年份</p>
-                <p>公里數</p>
+                <p>品牌 </p>
+                <p>車名 </p>
+                <p>售價</p>
+                <p>議價空間</p>
             </div>
             <div class="col">
-                <div class="col d-flex align-items-start flex-column mb-3 wordBody">
-                    <p>尺寸與重量</p>
+                <div class="col d-flex align-items-start flex-column mb-3">
+                    <h2>車輛資訊</h2>
+                    <p>年份</p>
+                    <p>里程數</p>
                     <p>車型：</p>
                     <p>車門數量：</p>
                     <p>乘客數：</p>
-                    <p>車身高度</p>
-                    <p>車身高度</p>
-                    <p>車身高度</p>
+                    <p>驅動方式</p>
+                    <p>引擎燃料</p>
+                    <p>顏色</p>
                 </div>
-
             </div>
-            <div class="col">Column</div>
-            <div class="col">Column</div>
-            <div class="col">Column</div>
-            <div class="col">Column</div>
-            <div class="col">Column</div>
+            <div class="col">
+                <h2>性能</h2>
+                <p>變速系統</p>
+                <p>排氣量</p>
+                <p>馬力</p>
+                <p>扭力</p>
+            </div>
+            <div class="col">
+                <h2>其他資訊</h2>
+                <p>車況評分</p>
+                <p>是否改裝</p>
+                <p>上架日期</p>
+                
+            </div>
+            <div class="col">
+                <h2>訂單狀態</h2>
+                <p>停放分店</p>
+                <p>管理銷售員</p>
+                <p>state狀態</p>
+                
+            </div>
         </div>
     </div>
+    
+    <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
     <div class="p-2 flex-fill">
+
+        <el-icon><Star /></el-icon>
+        <el-icon><StarFilled /></el-icon>
         <p>3,000,000</p>
         <p>NTD</p>
         <el-button color="#626aef"  plain>預約賞車</el-button>
         <el-button color="#626aef"  plain>開啟比較</el-button>
     </div>
 </div>
-
+    <!-- ------------------------------------------字---------------------------------------------------------- -->
+    <div class="wordBody"style="margin: 50px;">
+            <h1>Chech these out,</h1>
+            <h1>You might also find your next favorite ride here!</h1>
+    </div>
 </template>
     
 <script setup>
