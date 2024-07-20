@@ -55,7 +55,7 @@ onMounted(function () {
 });
 
 // 当 rows 改变时重置页码到 1 并调用 callFind
-watch(rows, (newValue, oldValue) => {
+watch(rows, function (newValue, oldValue) {
     if (newValue !== oldValue) {
         current.value = 1;
         callFind();
