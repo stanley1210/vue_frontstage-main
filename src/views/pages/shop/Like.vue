@@ -1,10 +1,10 @@
 <template>
     <h3>Like Table</h3>
     <div class="row">
-        <div class="col-1">
+        <div class="col-2">
             <select v-model="sortOrder" @change="callFind(1)" class="form-select">
-                <option value="asc">升序</option>
-                <option value="desc">降序</option>
+                <option value="asc">最後新增</option>
+                <option value="desc">最近新增</option>
             </select>
         </div>
 
@@ -27,8 +27,8 @@
 
     <!--Card-->
     <div class="likecard-container">
-            <LikeCard v-for="like in likes" :key="like.likeId" :like="like">
-            </LikeCard>
+        <LikeCard v-for="like in likes" :key="like.likeId" :like="like" @card-delete="callRemove">
+        </LikeCard>
     </div>
 </template>
 
@@ -92,6 +92,24 @@ function callFind(page) {
             });
         });
 }
+
+
+function callRemove(id) {
+    if (id) {
+        axios.delete("http://localhost:8080/kajarta/front/like/delete/" + id).then(function (response) {
+            console.log("response", response);
+            if (response.data.success) {
+                callFind(current.value);
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    text: response.data.message,
+                });
+            }
+        })
+    }
+}
+
 
 </script>
 

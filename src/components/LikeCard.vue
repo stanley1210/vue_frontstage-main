@@ -12,7 +12,9 @@
         出廠年份:{{ like.productionYear }} <br />
         里程:{{ like.milage }} <br />
         新增時間: {{ like.createTime }} <br />
+        <img src="/star-icon-614x460.png" class="likeLogo" @click="emit('cardDelete', like.likeId)">
       </p>
+    
     </div>
   </div>
 
@@ -25,8 +27,10 @@ defineProps({
   like: Object
 });
 const path = import.meta.env.VITE_PHOTO;
+const emit = defineEmits(["cardDelete"]);
 </script>
 
 <style scoped>
+
 
 </style>

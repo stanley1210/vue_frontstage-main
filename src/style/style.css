@@ -8,6 +8,10 @@
 .kajartaLogo {
     width: 120px;
 }
+.likeLogo {
+  cursor: pointer;
+  width: 60px;
+}
 
 .likecard-container {
     display: flex;
