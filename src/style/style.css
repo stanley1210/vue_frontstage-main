@@ -15,3 +15,8 @@
     overflow-x: auto; /* 如果卡片太多，允許橫向滾動 */
   }
   
+  .imageSize{
+    width: 200px;
+    height: auto;
+    margin: 10px;
+  }
