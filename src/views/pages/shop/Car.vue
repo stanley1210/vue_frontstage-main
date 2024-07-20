@@ -86,8 +86,6 @@
             });
         });
 
-<script setup lang='ts'>
-import { ref } from 'vue';
 //==========Like=============
 import Like from './Like.vue';
 //==========Like=============
