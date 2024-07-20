@@ -82,7 +82,7 @@
     </div>
     
     <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
-    <div class="p-2 flex-fill">
+    <div class="p-2 flex-fill navbarBody">
 
         <el-icon><Star /></el-icon>
         <el-icon><StarFilled /></el-icon>
