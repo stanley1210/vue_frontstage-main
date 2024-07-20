@@ -12,7 +12,7 @@
         出廠年份:{{ like.productionYear }} <br />
         里程:{{ like.milage }} <br />
         新增時間: {{ like.createTime }} <br />
-        <img src="/star-icon-614x460.png" class="likeLogo" @click="emit('cardDelete', like.likeId)">
+        <el-icon :size="20" class="likeLogo" @click="emit('cardDelete', like.likeId)"><StarFilled /></el-icon>
       </p>
     
     </div>

@@ -84,11 +84,15 @@
     <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
     <div class="p-2 flex-fill">
 
-        <el-icon><Star /></el-icon>
-        <el-icon><StarFilled /></el-icon>
+
+        <Like></Like>
+
         <p>3,000,000</p>
         <p>NTD</p>
-        <el-button color="#626aef"  plain>預約賞車</el-button>
+        <div>
+        <el-button color="#626aef"  plain @click="showViewCar = true" >預約賞車</el-button>
+        <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar"/>
+    </div>
         <el-button color="#626aef"  plain>開啟比較</el-button>
     </div>
 </div>
@@ -98,9 +102,20 @@
             <h1>You might also find your next favorite ride here!</h1>
     </div>
 </template>
-        
+    
 <script setup lang='ts'>
-        
+import { ref } from 'vue';
+//==========Like=============
+import Like from './Like.vue';
+//==========Like=============
+//=========ViewCar========
+import ViewCar from './ViewCar.vue';
+const showViewCar = ref(false);
+function hideViewCar() {
+  showViewCar.value = false;
+}
+//=========ViewCar========
+
 </script>
         
 <style>
