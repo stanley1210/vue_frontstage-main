@@ -1,5 +1,4 @@
 <template>
-    <h3>Like Table</h3>
     <div class="row">
         <div class="col-2">
             <select v-model="sortOrder" @change="callFind(1)" class="form-select">
