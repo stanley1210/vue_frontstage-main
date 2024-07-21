@@ -1,6 +1,6 @@
 <template>
         <!-- ------------------------------------------大圖------------------------------------------ -->
-    <CarImage v-for="image in images" :key="image.id" :image="image"></CarImage>
+    <CarImage :images="images"></CarImage>
     <!-- ------------------------------------------資料行 ------------------------------------------ -->
     <div class="d-flex flex-row wordBody">
         <CarColumnL  v-for="carData in carDatas" :key="carData.id" :carData="carData" class="text-center navbarBody p-2 flex-fill" ></CarColumnL>
@@ -37,7 +37,6 @@
     import CarColumnR from '@/components/CarColumnR.vue';
     import CarImage from '@/components/CarImage.vue';
     
-    const path = import.meta.env.VITE_PHOTO;
     const carDatas = ref([]); // 資料列表
     const images = ref([]); // 資料列表
 
@@ -64,11 +63,11 @@
         });
 
         //搜尋圖片資訊
-        axios.get('http://localhost:8080/kajarta/image/findAll')
+        axios.get('http://localhost:8080/kajarta/image/getCarIdImage/2')
         .then(function (response) {
             if (response && response.data) {
                 console.log("response", response);
-                images.value=response.data.imageList;
+                images.value=response.data.CarIdImageList;
             } else {
                 console.error("Invalid response data structure:", response);
             }
