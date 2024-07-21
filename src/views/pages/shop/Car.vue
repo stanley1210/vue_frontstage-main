@@ -1,32 +1,6 @@
 <template>
         <!-- ------------------------------------------大圖------------------------------------------ -->
-    <div id="carouselExampleIndicators" class="carousel slide navbarBody" data-bs-ride="carousel" data-bs-interval="4000">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="../../../../public/supra1.png" class="d-block w-100" >
-            </div>
-            <div class="carousel-item">
-                <img src="../../../../public/supra2.jpeg" class="d-block w-100" >
-            </div>
-            <div class="carousel-item">
-                <img src="../../../../public/supra3.jpeg" class="d-block w-100" >
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-    
+    <CarImage v-for="image in images" :key="image.id" :image="image"></CarImage>
     <!-- ------------------------------------------資料行 ------------------------------------------ -->
     <div class="d-flex flex-row wordBody">
         <CarColumnL  v-for="carData in carDatas" :key="carData.id" :carData="carData" class="text-center navbarBody p-2 flex-fill" ></CarColumnL>
@@ -61,15 +35,40 @@
     import { ref } from 'vue';
     import CarColumnL from '@/components/CarColumnL.vue';
     import CarColumnR from '@/components/CarColumnR.vue';
-
+    import CarImage from '@/components/CarImage.vue';
+    
+    const path = import.meta.env.VITE_PHOTO;
     const carDatas = ref([]); // 資料列表
+    const images = ref([]); // 資料列表
 
     //搜尋單筆car資訊
         axios.get('http://localhost:8080/kajarta/car/find/1')
         .then(function (response) {
             if (response && response.data) {
                 console.log("response", response);
-                carDatas.value=response.data.carlist;
+                carDatas.value=response.data.list;
+            } else {
+                console.error("Invalid response data structure:", response);
+            }
+
+            // setTimeout(function () {
+            //     Swal.close();
+            // }, 500);
+        })
+        .catch(function (error) {
+            console.error("Error fetching data:", error,response);
+            Swal.fire({
+                text: "查詢失敗：" + error.message,
+                icon: "error"
+            });
+        });
+
+        //搜尋圖片資訊
+        axios.get('http://localhost:8080/kajarta/image/findAll')
+        .then(function (response) {
+            if (response && response.data) {
+                console.log("response", response);
+                images.value=response.data.imageList;
             } else {
                 console.error("Invalid response data structure:", response);
             }
