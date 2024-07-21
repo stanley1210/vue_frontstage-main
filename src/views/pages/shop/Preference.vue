@@ -1,12 +1,11 @@
 <template>
   <div class="form-container">
-    <form @submit.prevent="handleSubmitByName">
       <div class="form-group">
         <label>車輛名稱搜尋</label>
         <input type="text" v-model="selectName" required />
-        <button type="submit">查詢</button>
+          <el-button type="primary" @click="handleSubmitByName">查詢</el-button>
       </div>
-    </form>
+  
   </div>
 
   <div class="form-container">
@@ -29,12 +28,17 @@
     </form>
   </div>
 
-     <!-- <div class="form-group">
-        <label >里程數</label>
-        <input type="text"  id="milage" required />
-      </div>
-
+  <div class="form-container">
+    <form @submit.prevent="handleSubmitByMilage">
       <div class="form-group">
+        <label>里程數</label>
+        <input type="text" v-model="milage" required />
+        <button type="submit">查詢</button>
+      </div>
+    </form>
+  </div>
+
+      <!-- <div class="form-group">
         <label for="score">車況評分</label>
         <input type="text"  id="score" required />
       </div>
@@ -164,11 +168,13 @@
 
 import { ref } from 'vue'
 import axios from 'axios'
+import { Search } from '@element-plus/icons-vue'
 
 
 const selectName = ref('')
 const productionYear = ref('')
 const price = ref('')
+const milage = ref('')
 
 
 const handleSearchByName = async () => {
@@ -213,6 +219,20 @@ const handleSearchByPrice = async () => {
   }
 };
 
+const handleSearchByMilage = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/kajarta/preference/search/milage', {
+      params: {
+        keyword: parseInt(milage.value, 10) //把Integer轉成整數
+      }
+    })
+    console.log('里程數查詢結果:', response.data)
+  
+  } catch (error) {
+    console.error('查詢失敗:', error)
+  }
+}
+
 
 const handleSubmitByName = (event) => {
   event.preventDefault()
@@ -230,13 +250,23 @@ const handleSubmitByPrice = (event) => {
   handleSearchByPrice();
 };
 
+const handleSubmitByMilage = (event) => {
+  event.preventDefault();
+  handleSearchByMilage();
+};
 
-
-
-
-  
 </script>
     
 <style >
+
+.form-container {
+  margin-bottom: 20px; /* 调整每个表单之间的间距 */
+}
+
+.form-group {
+  border-bottom: 1px solid #845b38; /* 添加底部边框 */
+  padding-bottom: 10px; /* 调整内边距 */
+  margin-bottom: 10px; /* 调整间距 */
+}
 
 </style>

@@ -1,10 +1,14 @@
 <template>
     <!-- ------------------------------------------心儀條件------------------------------------------ -->
 
-    <div class="row align-items-center">
-            <div class="col-4">
-                    <el-button>安安你好</el-button>
+    <div class="row align-items-start" style="background-color:#fff5eb;">
+            <div class="col-4" >
+                <br>
+                <h3>選擇您的理想車輛查詢</h3>
+                <br>
+                    <Preference />
             </div>
+           
     <div id="carouselExampleIndicators" class="carousel slide navbarBody imageWidth col-8" data-bs-ride="carousel" data-bs-interval="4000">
             <div class="carousel-indicators">
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -69,11 +73,18 @@
 </template>
 
 <script setup>
+import Preference from './Preference.vue'
+
 
 </script>
 
 <style>
 .imageWidth{
     width:1000px;
+}
+fieldset{
+        width: 500px;
+        margin: 15px
+       
 }
 </style>
