@@ -43,8 +43,8 @@ function handleSubmit() {
   const picker = ref('');
   const value = ref('');
   const options = [
-    { value: 1, label: '10:00:00-12:00:00' },
-    { value: 2, label: '13:00:00-15:00:00' },
+    { value: 1, label: '上午10:00-12:00' },
+    { value: 2, label: '下午13:00:00-15:00:00' },
     { value: 3, label: '15:00:00-17:00:00' },
     { value: 4, label: '17:00:00-19:00:00' },
   ];

@@ -90,7 +90,7 @@
         <p>3,000,000</p>
         <p>NTD</p>
         <div>
-        <el-button color="#626aef"  plain @click="showViewCar = true" >預約賞車</el-button>
+        <el-button color="#626aef"  plain @click="toggleViewCar" >預約賞車</el-button>
         <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar"/>
     </div>
         <el-button color="#626aef"  plain>開啟比較</el-button>
@@ -111,6 +111,9 @@ import Like from './Like.vue';
 //=========ViewCar========
 import ViewCar from './ViewCar.vue';
 const showViewCar = ref(false);
+function toggleViewCar() {
+  showViewCar.value = !showViewCar.value; // 切换 ViewCar 组件的显示状态
+}
 function hideViewCar() {
   showViewCar.value = false;
 }
