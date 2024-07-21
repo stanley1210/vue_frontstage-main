@@ -29,59 +29,11 @@
     
     <!-- ------------------------------------------資料行 ------------------------------------------ -->
     <div class="d-flex flex-row wordBody">
-        <div class="text-center navbarBody p-2 flex-fill">
-        <div class="row row-cols-2">
-            <div class="col">
-                <img src="../../../../public/supra2.jpeg" class="imageSize" >
-                <img src="../../../../public/supra2.jpeg" class="imageSize" >
-                <img src="../../../../public/supra2.jpeg" class="imageSize" >
-                <img src="../../../../public/supra2.jpeg" class="imageSize" >
-            </div>
-            <div class="col d-flex align-items-start flex-column mb-3 wordBody">
-                <p>Id</p>
-                <p>品牌 </p>
-                <p>車名 </p>
-                <p>售價</p>
-                <p>議價空間</p>
-            </div>
-            <div class="col">
-                <div class="col d-flex align-items-start flex-column mb-3">
-                    <h2>車輛資訊</h2>
-                    <p>年份</p>
-                    <p>里程數</p>
-                    <p>車型：</p>
-                    <p>車門數量：</p>
-                    <p>乘客數：</p>
-                    <p>驅動方式</p>
-                    <p>引擎燃料</p>
-                    <p>顏色</p>
-                </div>
-            </div>
-            <div class="col">
-                <h2>性能</h2>
-                <p>變速系統</p>
-                <p>排氣量</p>
-                <p>馬力</p>
-                <p>扭力</p>
-            </div>
-            <div class="col">
-                <h2>其他資訊</h2>
-                <p>車況評分</p>
-                <p>是否改裝</p>
-                <p>上架日期</p>
-                
-            </div>
-            <div class="col">
-                <h2>訂單狀態</h2>
-                <p>停放分店</p>
-                <p>管理銷售員</p>
-                <p>state狀態</p>
-                
-            </div>
-        </div>
-    </div>
-    
+        <CarColumnL  v-for="carData in carDatas" :key="carData.id" :carData="carData" class="text-center navbarBody p-2 flex-fill" ></CarColumnL>
+       
     <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
+        <CarColumnR class="p-2 flex-fill navbarBody"></CarColumnR>
+
     <div class="p-2 flex-fill">
 
 
@@ -103,8 +55,37 @@
     </div>
 </template>
     
-<script setup lang='ts'>
-import { ref } from 'vue';
+<script setup>
+    import axios from 'axios';
+    import Swal from 'sweetalert2';
+    import { ref } from 'vue';
+    import CarColumnL from '@/components/CarColumnL.vue';
+    import CarColumnR from '@/components/CarColumnR.vue';
+
+    const carDatas = ref([]); // 資料列表
+
+    //搜尋單筆car資訊
+        axios.get('http://localhost:8080/kajarta/car/find/1')
+        .then(function (response) {
+            if (response && response.data) {
+                console.log("response", response);
+                carDatas.value=response.data.carlist;
+            } else {
+                console.error("Invalid response data structure:", response);
+            }
+
+            // setTimeout(function () {
+            //     Swal.close();
+            // }, 500);
+        })
+        .catch(function (error) {
+            console.error("Error fetching data:", error,response);
+            Swal.fire({
+                text: "查詢失敗：" + error.message,
+                icon: "error"
+            });
+        });
+
 //==========Like=============
 import Like from './Like.vue';
 //==========Like=============
