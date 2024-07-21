@@ -1,10 +1,9 @@
 <template>
-    <h3>Like Table</h3>
     <div class="row">
-        <div class="col-1">
+        <div class="col-2">
             <select v-model="sortOrder" @change="callFind(1)" class="form-select">
-                <option value="asc">升序</option>
-                <option value="desc">降序</option>
+                <option value="asc">最後新增</option>
+                <option value="desc">最近新增</option>
             </select>
         </div>
 
@@ -15,7 +14,7 @@
     </div>
     <br>
 
-    <!--上方分頁欄-->
+    <!-- 上方分頁欄 -->
     <div class="row">
         <div class="col-8" v-show="total != 0">
             <Paginate :first-last-button="true" first-button-text="<<" last-button-text=">>" prev-text="<" next-text=">"
@@ -25,43 +24,46 @@
     </div>
     <br>
 
-    <!--Card-->
+    <!-- Card -->
     <div class="likecard-container">
-            <LikeCard v-for="like in likes" :key="like.likeId" :like="like">
-            </LikeCard>
+        <LikeCard v-for="like in likes" :key="like.likeId" :like="like" @card-delete="callRemove">
+        </LikeCard>
     </div>
 </template>
 
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import Swal from 'sweetalert2';
 import Paginate from 'vuejs-paginate-next';
 import LikeCard from '@/components/LikeCard.vue';
 import LikeRows from '@/components/LikeRows.vue';
 
-const rows = ref(4); // 每頁顯示筆數
-const pageNumber = ref(1); // 目前頁碼
-const sortOrder = ref('asc'); // 排序順序
-const likes = ref([]); // 資料列表
-const total = ref(3); // 總資料筆數
-const pages = ref(1); // 總共頁數
-const current = ref(1); // 目前頁碼
+// 定义 reactive 状态
+const rows = ref(4); // 每页显示的条目数
+const pageNumber = ref(1); // 目前页码
+const sortOrder = ref('asc'); // 排序顺序
+const likes = ref([]); // 数据列表
+const total = ref(3); // 总数据笔数
+const pages = ref(1); // 总页数
+const current = ref(1); // 当前页码
 
+// 在组件挂载时调用一次 callFind
 onMounted(function () {
     callFind();
 });
 
-function callFind(page) {
-    // Swal.fire({
-    //     text: "處理中.....",
-    //     allowOutsideClick: false,
-    //     showConfirmButton: false
-    // });
-
-    if (page) {
-        current.value = page;
+// 当 rows 改变时重置页码到 1 并调用 callFind
+watch(rows, function (newValue, oldValue) {
+    if (newValue !== oldValue) {
+        current.value = 1;
+        callFind();
     }
+});
+
+function callFind(page = 1) {
+    // 在更改页码之前，将其设置为 1
+    current.value = page;
 
     let request = {
         pageNumber: current.value,
@@ -79,10 +81,6 @@ function callFind(page) {
             } else {
                 console.error("Invalid response data structure:", response);
             }
-
-            // setTimeout(function () {
-            //     Swal.close();
-            // }, 500);
         })
         .catch(function (error) {
             console.error("Error fetching data:", error);
@@ -93,22 +91,33 @@ function callFind(page) {
         });
 }
 
+function callRemove(id) {
+    if (id) {
+        axios.delete("http://localhost:8080/kajarta/front/like/delete/" + id).then(function (response) {
+            console.log("response", response);
+            if (response.data.success) {
+                callFind(current.value);
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    text: response.data.message,
+                });
+            }
+        })
+    }
+}
 </script>
 
 <style scoped>
 /* 样式可根据需要自定义 */
-
 table {
     width: 100%;
     border-collapse: collapse;
 }
-
-th,
-td {
+th, td {
     border: 1px solid #ddd;
     padding: 8px;
 }
-
 th {
     background-color: #f2f2f2;
 }

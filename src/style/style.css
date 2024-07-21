@@ -8,6 +8,9 @@
 .kajartaLogo {
     width: 120px;
 }
+.likeLogo {
+  cursor: pointer;
+}
 
 .likecard-container {
     display: flex;
@@ -15,6 +18,12 @@
     overflow-x: auto; /* 如果卡片太多，允許橫向滾動 */
   }
   
+  .imageSize{
+    width: 200px;
+    height: auto;
+    margin: 10px;
+  }
+
   .card {
     margin-right: 16px; /* 卡片之間的間距 */
     flex: 0 0 auto; /* 讓卡片不縮放 */

@@ -46,33 +46,96 @@
     
     <!-- ------------------------------------------分頁卡---------------------------------------------------------- -->
     <div style="margin-left: 50px; margin-right: 50px;">
-            <div class="card" style="width: 30rem;">
-                    <img src="../../../../public/supra1.png" class="card-img-top">
-                    <div class="card-body navbarBody">
-                            <h5 class="card-title">ID????</h5>
-                            <p class="card-text">Toyota Supra</p>
-                            <div class="d-flex flex-row ">
-                                    <div class="card-text p-2 flex-grow-1">(里程)13000KM / (年份)2024</div>
-                                    <div class="card-text p-2">3,000,000 NTD</div>
-                            </div>
-                            <a href="#" class="btn btn-primary">我真的需要這個酷東西！！</a>
-                    </div>
-            </div>
+        <div class="row">
+        <div class="col-1">
+            <select v-model="sortOrder" @change="callFind(1)" class="form-select">
+                <option value="asc">升序</option>
+                <option value="desc">降序</option>
+            </select>
+        </div>
+
+        <div class="col-4">
+            <LikeRows :total="total" :options="[2, 3, 4, 5, 10]" v-model="rows" @rows-change="callFind">
+            </LikeRows>
+        </div>
     </div>
-    
-    <!-- ------------------------------------------footer---------------------------------------------------------- -->
-    <div class="navbarBody d-flex" style="height:200px;">
-            <div style="padding-top: 50px; padding-left: 50px;">
-                    <h1 class="wordBody">Got something on your mind?</h1>
-                    <h1 class="wordBody">Click here and let's chat!</h1>
-            </div>
-            <div style="padding-top: 130px; padding-left: 550px;">
-                    <h6 class="wordBody">2024 Kajarta. All rights reserved.</h6>
-            </div>
+    <br>
+
+    <!--上方分頁欄-->
+    <div class="row">
+        <div class="col-8" v-show="total != 0">
+            <Paginate :first-last-button="true" first-button-text="<<" last-button-text=">>" prev-text="<" next-text=">"
+                :page-count="pages" :initial-page="current" v-model="current" :click-handler="callFind">
+            </Paginate>
+        </div>
     </div>
+    <br>
+
+    <!--Card-->
+    <div class="likecard-container">
+        <ShopHomeCard v-for="shopHomeCard in shopHomeCards" :key="shopHomeCard.id" :shopHomeCard="shopHomeCard"></ShopHomeCard>
+    </div>
+    </div>
+
 </template>
 
 <script setup>
+        import ShopHomeCard from "@/components/ShopHomeCard.vue"
+        import LikeRows from '@/components/LikeRows.vue';
+        import Paginate from 'vuejs-paginate-next';
+        import axios from 'axios';
+        import Swal from 'sweetalert2';
+        import { ref,onMounted } from 'vue';
+
+        const kajartaUrl=import.meta.env.VITE_API_URL;
+const shopHomeCards = ref([]);
+const rows = ref(4); // 每頁顯示筆數
+const pageNumber = ref(1); // 目前頁碼
+const sortOrder = ref('asc'); // 排序順序
+const total = ref(3); // 總資料筆數
+const pages = ref(1); // 總共頁數
+const current = ref(1); // 目前頁碼
+
+onMounted(function () {
+        callFind();
+});
+
+function callFind(page){
+        if(page){
+                current.value=page;
+        }
+
+
+let request = {
+        pageNumber: current.value,
+        sortOrder: sortOrder.value,
+        max: rows.value
+    };
+
+    //搜尋單筆car資訊
+    axios.get(`${kajartaUrl}/car/findAll`,{params:request})
+        .then(function (response) {
+            if (response && response.data) {
+                console.log("response", response);
+                shopHomeCards.value=response.data.list;
+                total.value=response.data.totalElements;
+                pages.value=response.data.totalPages;
+            } else {
+                console.error("Invalid response data structure:", response);
+            }
+
+            // setTimeout(function () {
+            //     Swal.close();
+            // }, 500);
+        })
+        .catch(function (error) {
+            console.error("Error fetching data:", error,response);
+            Swal.fire({
+                text: "查詢失敗：" + error.message,
+                icon: "error"
+            });
+        });
+}
 import Preference from './Preference.vue'
 
 
