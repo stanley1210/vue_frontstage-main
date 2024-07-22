@@ -1,112 +1,132 @@
 <template>
-    <div>
-      <div class="container text-center">
-        <div class="row align-items-start">
-          <div class="demo-date-picker col-2">
-            <el-date-picker v-model="picker" type="date" placeholder="Pick a date" :disabled-date="disabledDate" @change="emitDateChange" />
+  <div class="container">
+    <!-- 包裹选择器和按钮的框 -->
+    <div class="form-wrapper">
+      <!-- 日期和时间选择器并排显示 -->
+      <div class="row align-items-start">
+        <!-- 日期选择器 -->
+        <div class="col-md-6 mb-2 mb-md-0">
+          <div class="demo-date-picker">
+            <el-date-picker
+              v-model="picker"
+              type="date"
+              placeholder="Pick a Date"
+              format="YYYY/MM/DD"
+              value-format="YYYY-MM-DD"
+               :disabled-date="disabledDate"
+            />
           </div>
-  
-          <div class="col-2">
-            <el-select v-model="value" placeholder="Time Slot" style="width: 240px" @change="emitTimeSlotChange">
+        </div>
+
+        <!-- 时间选择器 -->
+        <div class="col-md-6 mb-2">
+          <div class="demo-time-picker">
+            <el-select v-model="value" placeholder="Time Slot" style="width: 100%">
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </div>
         </div>
       </div>
-  
-      <div class="mb-4">
-        <el-button type="warning" @click="handleSubmit">submit</el-button>
+
+      <!-- 提交按钮 -->
+      <div class="text-left mt-2">
+        <el-button type="warning" @click="handleSubmit">Submit</el-button>
       </div>
     </div>
-  </template>
-  
-  <script setup lang="ts">
-  import { ref,defineEmits,defineProps } from 'vue';
-  import axios from 'axios';
+  </div>
+</template>
 
-const emit = defineEmits<{
-  (event: 'hide-view-car'): void;
-}>();
+<script setup lang="ts">
+import { ref, defineProps, defineEmits } from 'vue';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const props = defineProps<{
   carId: number;
 }>();
 
-  // 当前日期
-  const today = new Date();
-  
-  // 禁用今天之前的日期
-  function disabledDate(date) {
-    if (!date) return false;
-    return date < today;
-  }
-  
-  const picker = ref('');
-  const value = ref('');
-  const options = [
-    { value: 1, label: '上午10:00-12:00' },
-    { value: 2, label: '下午13:00-15:00' },
-    { value: 3, label: '下午15:00-17:00' },
-    { value: 4, label: '下午17:00-19:00' },
-  ];
-  
-  const selectedDate = ref('');
-  const selectedTimeSlot = ref('');
+const emit = defineEmits<{
+  (event: 'hide-view-car'): void;
+}>();
 
-  // 触发日期变化事件
-  function emitDateChange() {
-    selectedDate.value = picker.value;
-  }
-  
-  // 触发时段变化事件
-  function emitTimeSlotChange() {
-    selectedTimeSlot.value = value.value;
-  }
 
-  function handleSubmit() {
- const requestData = {
-    viewTimeSection: selectedTimeSlot.value,
-    carId: props.carId,
-    viewCarDate: selectedDate.value,
-    customerId:5,
-    
-};
-axios.post('http://localhost:8080/kajarta/front/viewCar/create', requestData)
+// 当前日期
+const today = new Date();
+
+// 禁用今天之前的日期
+function disabledDate(date) {
+  if (!date) return false;
+  return date < today;
+}
+
+const picker = ref('');
+const value = ref('');
+const options = [
+  { value: 1, label: '上午10:00-12:00' },
+  { value: 2, label: '下午13:00-15:00' },
+  { value: 3, label: '下午15:00-17:00' },
+  { value: 4, label: '下午17:00-19:00' },
+];
+
+function handleSubmit() {
+  const payload = {
+    viewTimeSection: value.value,
+    carId: 1, // 使用传递的 carId
+    viewCarDate: picker.value,
+    customerId: 1
+  };
+  console.log(payload)
+  axios.post('http://localhost:8080/kajarta/front/viewCar/create', payload)
     .then(response => {
-      console.log('Reservation success:', response.data);
+      console.log("提交成功", response);
       emit('hide-view-car');
     })
     .catch(error => {
-      console.error('Reservation failed:', error);
+      console.error("Error fetching data:", error);
+      Swal.fire({
+        text: "查詢失敗：" + error.message,
+        icon: "error"
+      });
     });
 }
 
-  </script>
-  
-  <style>
-  .demo-date-picker {
-    display: flex;
-    width: 100%;
-    padding: 0;
-    flex-wrap: wrap;
-  }
-  
-  .demo-date-picker .block {
-    padding: 30px 0;
-    text-align: center;
-    border-right: solid 1px var(--el-border-color);
-    flex: 1;
-  }
-  
-  .demo-date-picker .block:last-child {
-    border-right: none;
-  }
-  
-  .demo-date-picker .demonstration {
-    display: block;
-    color: var(--el-text-color-secondary);
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-  </style>
-  
+
+</script>
+
+<style>
+.container {
+  padding: 20px;
+}
+
+.form-wrapper {
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #f9f9f9;
+}
+
+.demo-date-picker,
+.demo-time-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 对齐到左侧 */
+  width: 100%;
+}
+
+.demo-date-picker .el-date-picker,
+.demo-time-picker .el-select {
+  width: 100%;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+</style>

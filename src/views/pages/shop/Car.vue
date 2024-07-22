@@ -38,18 +38,16 @@
         <CarColumnL v-for="carData in carDatas" :key="carData.id" :carData="carData"
             class="text-center navbarBody p-2 flex-fill"></CarColumnL>
 
-        <!-- ------------------------------------------心儀按鈕 ------------------------------------------ -->
+        <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
         <CarColumnR class="p-2 flex-fill navbarBody"></CarColumnR>
         <el-icon ><Star /></el-icon>
         <div class="p-2 flex-fill">
             <p>3,000,000</p>
             <p>NTD</p>
-      <!-- ------------------------------------------預約 ------------------------------------------ -->
             <div>
-                <el-button color="#626aef" plain @click="toggleViewCar(carData.id)">預約賞車</el-button>
-                <ViewCar v-if="showViewCar && currentCarId === carData.id" :carId="currentCarId" @hide-view-car="hideViewCar" />
+                <el-button color="#626aef" plain @click="toggleViewCar">預約賞車</el-button>
+                <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar" :carId="selectedCarId"/>
             </div>
-      <!-- ------------------------------------------比較 ------------------------------------------ -->
             <el-button color="#626aef" plain>開啟比較</el-button>
         </div>
     </div>
@@ -66,10 +64,9 @@ import Swal from 'sweetalert2';
 import { ref } from 'vue';
 import CarColumnL from '@/components/CarColumnL.vue';
 import CarColumnR from '@/components/CarColumnR.vue';
-import ViewCar from './ViewCar.vue';
 
 const carDatas = ref([]); // 資料列表
-const currentCarId = ref(null);
+const selectedCarId = ref(null); // 当前选择的汽车 ID
 
 //搜尋單筆car資訊
 axios.get('http://localhost:8080/kajarta/car/find/1')
@@ -77,6 +74,10 @@ axios.get('http://localhost:8080/kajarta/car/find/1')
         if (response && response.data) {
             console.log("response", response);
             carDatas.value = response.data.carlist;
+            if (carDatas.value.length > 0) {
+                selectedCarId.value = carDatas.value[0].id; // 假设你选择了第一个汽车
+                console.log(selectedCarId)
+            }
         } else {
             console.error("Invalid response data structure:", response);
         }
@@ -94,18 +95,16 @@ axios.get('http://localhost:8080/kajarta/car/find/1')
     });
 
 //==========Like=============
-
+import Like from './Like.vue';
 //==========Like=============
 //=========ViewCar========
-
+import ViewCar from './ViewCar.vue';
 const showViewCar = ref(false);
-function toggleViewCar(carId) {
-    currentCarId.value = carId;
+function toggleViewCar() {
     showViewCar.value = !showViewCar.value; // 切换 ViewCar 组件的显示状态
 }
 function hideViewCar() {
     showViewCar.value = false;
-    currentCarId.value = null;
 }
 //=========ViewCar========
 
