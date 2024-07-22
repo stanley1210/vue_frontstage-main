@@ -3,32 +3,29 @@
     <CarImage :images="images"></CarImage>
     <!-- ------------------------------------------資料行 ------------------------------------------ -->
     <div class="d-flex flex-row wordBody">
-        <CarColumnL  v-for="carData in carDatas" :key="carData.id" :carData="carData" class="text-center navbarBody p-2 flex-fill" ></CarColumnL>
-       
-    <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
+        <CarColumnL v-for="carData in carDatas" :key="carData.id" :carData="carData"
+            class="text-center navbarBody p-2 flex-fill"></CarColumnL>
+
+        <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
         <CarColumnR class="p-2 flex-fill navbarBody"></CarColumnR>
-
-    <div class="p-2 flex-fill">
-
-
-        <Like></Like>
-
-        <p>3,000,000</p>
-        <p>NTD</p>
-        <div>
-        <el-button color="#626aef"  plain @click="toggleViewCar" >預約賞車</el-button>
-        <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar"/>
+        <el-icon ><Star /></el-icon>
+        <div class="p-2 flex-fill">
+            <p>3,000,000</p>
+            <p>NTD</p>
+            <div>
+                <el-button color="#626aef" plain @click="toggleViewCar">預約賞車</el-button>
+                <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar" />
+            </div>
+            <el-button color="#626aef" plain>開啟比較</el-button>
+        </div>
     </div>
-        <el-button color="#626aef"  plain>開啟比較</el-button>
-    </div>
-</div>
     <!-- ------------------------------------------字---------------------------------------------------------- -->
-    <div class="wordBody"style="margin: 50px;">
-            <h1>Chech these out,</h1>
-            <h1>You might also find your next favorite ride here!</h1>
+    <div class="wordBody" style="margin: 50px;">
+        <h1>Chech these out,</h1>
+        <h1>You might also find your next favorite ride here!</h1>
     </div>
 </template>
-    
+
 <script setup>
     import axios from 'axios';
     import Swal from 'sweetalert2';
@@ -72,17 +69,17 @@
                 console.error("Invalid response data structure:", response);
             }
 
-            // setTimeout(function () {
-            //     Swal.close();
-            // }, 500);
-        })
-        .catch(function (error) {
-            console.error("Error fetching data:", error,response);
-            Swal.fire({
-                text: "查詢失敗：" + error.message,
-                icon: "error"
-            });
+        // setTimeout(function () {
+        //     Swal.close();
+        // }, 500);
+    })
+    .catch(function (error) {
+        console.error("Error fetching data:", error, response);
+        Swal.fire({
+            text: "查詢失敗：" + error.message,
+            icon: "error"
         });
+    });
 
 //==========Like=============
 import Like from './Like.vue';
@@ -91,15 +88,13 @@ import Like from './Like.vue';
 import ViewCar from './ViewCar.vue';
 const showViewCar = ref(false);
 function toggleViewCar() {
-  showViewCar.value = !showViewCar.value; // 切换 ViewCar 组件的显示状态
+    showViewCar.value = !showViewCar.value; // 切换 ViewCar 组件的显示状态
 }
 function hideViewCar() {
-  showViewCar.value = false;
+    showViewCar.value = false;
 }
 //=========ViewCar========
 
 </script>
-        
-<style>
-        
-</style>
+
+<style></style>
