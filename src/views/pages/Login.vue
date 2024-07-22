@@ -15,6 +15,7 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+const kajartaUrl = import.meta.env.VITE_API_URL;
 
 const username = ref('');
 const password = ref('');
@@ -25,7 +26,7 @@ const handleSubmit = () => {
         password: password.value
     };
 
-    axios.post('/login', request)
+    axios.post(`${kajartaUrl}/login`, request)
     .then(response => {
         if (response.status === 200) {
             // 登入成功處理
