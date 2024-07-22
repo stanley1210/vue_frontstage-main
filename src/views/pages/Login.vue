@@ -30,7 +30,14 @@ const handleSubmit = () => {
     console.log('Request:', request);  // 打印request确认数据
 
     // axios.post(`${kajartaUrl}/login`, request)
-    axiosapi.post(`/login`, request)
+    // axiosapi.post(`/login`, request)
+    axiosapi.post(`/login`, request, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+                // 'Cookie': 'JSESSIONID=96B1405F9552690261D66FCBC6B6E7B4' // 如果需要设置 Cookie，可以这样添加
+            },
+            withCredentials: true // 允许跨域请求带上 Cookie
+        })
     .then(response => {
         if (response.status === 200) {
             // 登入成功處理
