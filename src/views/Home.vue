@@ -7,8 +7,24 @@
                 </div>
 
                 <div class="homepagebuttonpart">
-
+                        駕 馭 未 來 ， 擁 抱 旅 程
                 </div>
+
+                <div class="homepageSlogan">
+                        Drive the Future,<br>
+                        Embrace the Journey
+                </div>
+
+                <div class="homepageManu">
+                        <div class="homepageBTMBox"><a href="" class="homepageBTM" >Home</a></div>
+                        <div class="homepageBTMBox"><a href="" class="homepageBTM">About</a></div>
+                        <div class="homepageBTMBox"><a href="" class="homepageBTM">Shop</a></div>
+                        <div class="homepageBTMBox"><a href="" class="homepageBTM">Estimate</a></div>
+                        <div class="homepageBTMBox"><a href="" class="homepageBTM">News</a></div>
+                        <div class="homepageBTMBox"><a href="" class="homepageBTM">Log in</a></div>
+                </div>
+
+                
         </div>
 </template>
 
@@ -17,6 +33,50 @@
 </script>
 
 <style scoped>
+.homepageBTMBox:hover{
+        border-bottom: #a33238 1px solid;
+        margin: 8px 0;
+ }
+
+.homepageBTMBox{
+        margin: 8px 0;
+        border-bottom: #fff5eb 1px solid;
+ }
+
+.homepageBTM{
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        color:#a332389c;
+        font-size: 23px;
+}
+.homepageBTM:hover{
+        text-decoration: none;
+        color:#a33238;
+        font-size: 23px;
+}
+
+.homepageManu{
+        position: absolute;
+        width: 26%;
+        height: 27.5%;
+        margin: 29.5% 4%;
+        font-weight: 900;
+        color: #a33238;
+}
+
+.homepageSlogan{
+        position: absolute;
+        width: 50%;
+        height: 18%;
+        margin: 15% 4%;
+        font-size: 65px;
+        font-weight: 900;
+        color: #a33238;
+        line-height: 70px;
+
+}
+
 .homebackground {
 
         height: 100vb;
@@ -33,7 +93,9 @@
         float: left;
         width: 22%;
         height: 30px;
-        background-color: red;
-        margin: 4% 4%;
+        margin: 12% 4%;
+        font-weight: 900;
+        color: #a33238;
+        font-size: 25px;
 }
 </style>
