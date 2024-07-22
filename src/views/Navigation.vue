@@ -35,7 +35,7 @@
           <a class="nav-link" aria-disabled="true">News</a>
         </li>
         <li class="nav-item col">
-          <a class="nav-link" aria-disabled="true">Login</a>
+          <RouterLink class="nav-link " :to="{name:'login'}">Login</RouterLink>
         </li>
       </ul>
     </div>
