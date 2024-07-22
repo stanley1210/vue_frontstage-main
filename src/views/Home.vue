@@ -31,7 +31,7 @@
 
 .homepagebuttonpart {
         float: left;
-        width: 500px;
+        width: 22%;
         height: 30px;
         background-color: red;
         margin: 4% 4%;
