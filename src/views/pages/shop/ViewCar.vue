@@ -75,7 +75,8 @@ function handleSubmit() {
     viewCarDate: picker.value,
     customerId: 1
   };
-  console.log(payload)
+  console.log(payload);
+
   axios.post('http://localhost:8080/kajarta/front/viewCar/create', payload)
     .then(response => {
       console.log("提交成功", response);

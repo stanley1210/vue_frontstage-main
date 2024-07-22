@@ -45,7 +45,7 @@
             <p>3,000,000</p>
             <p>NTD</p>
             <div>
-                <el-button color="#626aef" plain @click="toggleViewCar">預約賞車</el-button>
+                <el-button color="#626aef" plain @click="toggleViewCar(selectedCarId)">預約賞車</el-button>
                 <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar" :carId="selectedCarId"/>
             </div>
             <el-button color="#626aef" plain>開啟比較</el-button>
@@ -55,6 +55,9 @@
     <div class="wordBody" style="margin: 50px;">
         <h1>Chech these out,</h1>
         <h1>You might also find your next favorite ride here!</h1>
+    </div>
+    <div>
+        <p>Selected Car ID: {{ selectedCarId }}</p>
     </div>
 </template>
 
@@ -73,10 +76,10 @@ axios.get('http://localhost:8080/kajarta/car/find/1')
     .then(function (response) {
         if (response && response.data) {
             console.log("response", response);
-            carDatas.value = response.data.carlist;
+            carDatas.value = response.data.list;
             if (carDatas.value.length > 0) {
                 selectedCarId.value = carDatas.value[0].id; // 假设你选择了第一个汽车
-                console.log(selectedCarId)
+                console.log("Selected Car ID:", selectedCarId.value); // Debug output
             }
         } else {
             console.error("Invalid response data structure:", response);
@@ -100,8 +103,10 @@ import Like from './Like.vue';
 //=========ViewCar========
 import ViewCar from './ViewCar.vue';
 const showViewCar = ref(false);
-function toggleViewCar() {
+function toggleViewCar(carId) {
+    selectedCarId.value = carId;
     showViewCar.value = !showViewCar.value; // 切换 ViewCar 组件的显示状态
+    console.log("Toggled Car ID:", selectedCarId.value);
 }
 function hideViewCar() {
     showViewCar.value = false;
