@@ -1,8 +1,6 @@
 <template>
-    <h3>MemberArea</h3>
     <ViewCarCard></ViewCarCard>
     <Like></Like>
-
 </template>
 
 <script setup>
