@@ -51,8 +51,7 @@ function handleSubmit() {
   
   const selectedDate = ref('');
   const selectedTimeSlot = ref('');
-  const showViewCar = ref(true);
-  
+
   // 触发日期变化事件
   function emitDateChange() {
     selectedDate.value = picker.value;
