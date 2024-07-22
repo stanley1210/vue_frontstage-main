@@ -21,16 +21,17 @@
   </template>
   
   <script setup lang="ts">
-  import { ref } from 'vue';
-  import { defineEmits } from 'vue';
+  import { ref,defineEmits,defineProps } from 'vue';
+  import axios from 'axios';
 
 const emit = defineEmits<{
   (event: 'hide-view-car'): void;
 }>();
 
-function handleSubmit() {
-  emit('hide-view-car');
-}
+const props = defineProps<{
+  carId: number;
+}>();
+
   // 当前日期
   const today = new Date();
   
@@ -61,7 +62,24 @@ function handleSubmit() {
   function emitTimeSlotChange() {
     selectedTimeSlot.value = value.value;
   }
-  
+
+  function handleSubmit() {
+ const requestData = {
+    viewTimeSection: selectedTimeSlot.value,
+    carId: props.carId,
+    viewCarDate: selectedDate.value,
+    customerId:5,
+    
+};
+axios.post('http://localhost:8080/kajarta/front/viewCar/create', requestData)
+    .then(response => {
+      console.log('Reservation success:', response.data);
+      emit('hide-view-car');
+    })
+    .catch(error => {
+      console.error('Reservation failed:', error);
+    });
+}
 
   </script>
   

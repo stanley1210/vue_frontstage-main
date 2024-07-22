@@ -46,8 +46,8 @@
             <p>NTD</p>
       <!-- ------------------------------------------預約 ------------------------------------------ -->
             <div>
-                <el-button color="#626aef" plain @click="toggleViewCar">預約賞車</el-button>
-                <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar" />
+                <el-button color="#626aef" plain @click="toggleViewCar(carData.id)">預約賞車</el-button>
+                <ViewCar v-if="showViewCar && currentCarId === carData.id" :carId="currentCarId" @hide-view-car="hideViewCar" />
             </div>
       <!-- ------------------------------------------比較 ------------------------------------------ -->
             <el-button color="#626aef" plain>開啟比較</el-button>
@@ -66,8 +66,10 @@ import Swal from 'sweetalert2';
 import { ref } from 'vue';
 import CarColumnL from '@/components/CarColumnL.vue';
 import CarColumnR from '@/components/CarColumnR.vue';
+import ViewCar from './ViewCar.vue';
 
 const carDatas = ref([]); // 資料列表
+const currentCarId = ref(null);
 
 //搜尋單筆car資訊
 axios.get('http://localhost:8080/kajarta/car/find/1')
@@ -92,16 +94,18 @@ axios.get('http://localhost:8080/kajarta/car/find/1')
     });
 
 //==========Like=============
-import Like from './Like.vue';
+
 //==========Like=============
 //=========ViewCar========
-import ViewCar from './ViewCar.vue';
+
 const showViewCar = ref(false);
-function toggleViewCar() {
+function toggleViewCar(carId) {
+    currentCarId.value = carId;
     showViewCar.value = !showViewCar.value; // 切换 ViewCar 组件的显示状态
 }
 function hideViewCar() {
     showViewCar.value = false;
+    currentCarId.value = null;
 }
 //=========ViewCar========
 
