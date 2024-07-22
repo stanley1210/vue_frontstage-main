@@ -63,7 +63,7 @@
         });
 
         //搜尋圖片資訊
-        axios.get('http://localhost:8080/kajarta/image/getCarIdImage/2')
+        axios.get('http://localhost:8080/kajarta/image/getCarIdImage/1')
         .then(function (response) {
             if (response && response.data) {
                 console.log("response", response);
