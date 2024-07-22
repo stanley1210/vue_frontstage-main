@@ -38,16 +38,18 @@
         <CarColumnL v-for="carData in carDatas" :key="carData.id" :carData="carData"
             class="text-center navbarBody p-2 flex-fill"></CarColumnL>
 
-        <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
+        <!-- ------------------------------------------心儀按鈕 ------------------------------------------ -->
         <CarColumnR class="p-2 flex-fill navbarBody"></CarColumnR>
         <el-icon ><Star /></el-icon>
         <div class="p-2 flex-fill">
             <p>3,000,000</p>
             <p>NTD</p>
+      <!-- ------------------------------------------預約 ------------------------------------------ -->
             <div>
                 <el-button color="#626aef" plain @click="toggleViewCar">預約賞車</el-button>
                 <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar" />
             </div>
+      <!-- ------------------------------------------比較 ------------------------------------------ -->
             <el-button color="#626aef" plain>開啟比較</el-button>
         </div>
     </div>

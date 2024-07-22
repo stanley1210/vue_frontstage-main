@@ -63,10 +63,7 @@ function handleSubmit() {
     selectedTimeSlot.value = value.value;
   }
   
-  function callcreate() {
-    // 隐藏 ViewCarDate 组件
-    showViewCar.value = false;
-  }
+
   </script>
   
   <style>
