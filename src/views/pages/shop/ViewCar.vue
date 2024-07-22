@@ -71,7 +71,7 @@ const options = [
 function handleSubmit() {
   const payload = {
     viewTimeSection: value.value,
-    carId: 1, // 使用传递的 carId
+    carId: props.carId, // 使用传递的 carId
     viewCarDate: picker.value,
     customerId: 1
   };
