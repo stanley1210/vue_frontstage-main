@@ -5,7 +5,6 @@
 <el-icon><StarFilled /></el-icon>
 <p>3,000,000</p>
 <p>NTD</p>
-<el-button color="#626aef"  plain>預約賞車</el-button>
 <el-button color="#626aef"  plain>開啟比較</el-button>
 </div>
 </template>
