@@ -2,13 +2,23 @@
 	<Navigation></Navigation>
 	<div class="card-wrapper">
 	  <el-card class="card">
-		<template #header>Register</template>
+		<template #header></template>
 		<div class="card-content">
 		  <img src="/jeep.jpg" alt="Register" class="card-image" />
 		  <div class="card-form">
-			<p>Don’t Miss the Ride<br>Sign Up Now and<br>Drive Away with Us</p>
+			<h1>Register</h1><br><br>
+			<hr>
+			<h3>Don’t Miss the Ride<br>Sign Up Now and<br>Drive Away with Deals！</h3><br>
+			<div>
 			<el-form>
-			  <el-form-item label="帳號">
+				<el-form-item label="">
+      <el-radio-group >
+        <el-radio label="regular">一般會員</el-radio>
+        <el-radio label="seller">賣家</el-radio>
+      </el-radio-group>
+    </el-form-item>
+				
+			  <el-form-item label="帳號　：">
 				<el-input placeholder="請輸入帳號"></el-input>
 			  </el-form-item>
 			  <el-form-item label="密碼">
@@ -27,6 +37,7 @@
 				<el-button type="primary">註冊</el-button>
 			  </el-form-item>
 			</el-form>
+		</div>
 		  </div>
 		</div>
 	  </el-card>
@@ -34,6 +45,11 @@
   </template>
   
   <style scoped>
+  hr {
+    border: none;
+    border-top: 1px solid #a33238; /* 红色线条 */
+    margin: 10px 5px 10px 5px; /* 上下间距 */
+  }
   .card-wrapper {
 	display: flex;
 	justify-content: center; /* 水平居中 */
@@ -79,7 +95,7 @@
   }
   
   .el-input {
-	width: 100%;
+	width: 80%;
 	font-size: 1.1em; /* 增大输入框字体大小 */
   }
   
