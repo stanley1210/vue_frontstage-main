@@ -1,28 +1,44 @@
 <template>
   <div>
-    <!-- 显示分页数据 -->
-    <div v-for="viewCar in viewCars" :key="viewCar.id" class="card mb-3" style="max-width: 540px;">
-      <img :src="`${path}${viewCar.car}`" class="card-img-top" alt="Car Image">
-      <div class="card-body">
-        <h5 class="card-title">Car ID: {{ viewCar.car }}</h5>
-        <h5 class="card-title">ID.00{{ viewCar.id }}</h5>
-        <h5 class="card-title"> {{ viewCar.modelName }}</h5>
-        <h5 class="card-title"> {{ viewCar.viewCarDate }}</h5>
-        <h5 class="card-title"> {{ viewCar.viewTimeSection }}</h5>
-        <p class="card-text">預約狀態: {{ getViewCarStatusText(viewCar.viewCarStatus) }}</p>
-        <p class="card-text">賞車客戶: {{ viewCar.customerName }}先生/小姐</p>
-        <p class="card-text">客戶電話: {{ viewCar.tel }}</p>
-        <p class="card-text">試車分店: {{ getViewCarBranchText(viewCar.branch) }}</p>
-
-
-        <div class="mb-4">
-          <el-button round @click="toggleViewCar(selectedCarId)">Round</el-button>
+    <div v-for="viewCar in viewCars" :key="viewCar.id" class="custom-card mb-3">
+      <div class="row g-0">
+        <div class="col-md-7">
+          <img :src="`${path}${viewCar.car}`" class="img-fluid rounded-start" alt="Car Image">
         </div>
+        <div class="col-md-5 position-relative">
+          <div class="card-body d-flex flex-column justify-content-between h-100 p-3">
+            <div class="text-end">
+              <h5 class="card-title">Car ID: {{ viewCar.car }}</h5>
+              <h5 class="card-title">ID.00{{ viewCar.id }}</h5>
+              <h5 class="card-title">{{ viewCar.modelName }}</h5>
+              <div class="d-flex flex-row-reverse">
+                <div class="p-2">
+                  <h6 class="card-title">{{ viewCar.viewCarDate }}</h6>
+                </div>
+                <div class="p-2">
+                  <h6 class="card-title">{{ viewCar.viewTimeSection }}</h6>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end">
+                <el-button round @click="toggleViewCar(selectedCarId)" size="small">賞車評價</el-button>
+                <el-button round @click="toggleViewCar(selectedCarId)" size="small">取消賞車</el-button>
+                <el-button round @click="toggleCar(selectedCarId)" size="small">詳細資料</el-button>
+              </div>
+            </div>
 
+            <div class="custom-text-group">
+              <p class="card-text">預約狀態: {{ getViewCarStatusText(viewCar.viewCarStatus) }}</p>
+              <p class="card-text">賞車客戶: {{ viewCar.customerName }}先生/小姐</p>
+              <p class="card-text">客戶電話: {{ viewCar.tel }}</p>
+              <p class="card-text">試車分店: {{ getViewCarBranchText(viewCar.branch) }}</p>
+            </div>
 
-        <!-- 根据需要显示更多字段 -->
-        <el-pagination size="small" layout="prev, pager, next" :total="totalElements" :current-page="currentPage"
-          :page-size="1" @current-change="handlePageChange" />
+            <div class="text-end">
+              <el-pagination size="small" layout="prev, pager, next" :total="totalElements" :current-page="currentPage"
+                :page-size="1" @current-change="handlePageChange" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -31,7 +47,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-
 
 const path = import.meta.env.VITE_PHOTO;
 const viewCars = ref([]);
@@ -83,9 +98,40 @@ onMounted(() => {
 </script>
 
 <style>
-.card-img-top {
-  height: 200px;
+.custom-card {
+  max-width: 900px;
+  /* 调整卡片的最大宽度 */
+  word-wrap: break-word;
+  /* 防止文字溢出 */
+}
+
+.img-fluid {
+  height: 100%;
+  /* 确保图片高度填满容器 */
   object-fit: cover;
   /* 确保图片填满容器并保持比例 */
+}
+
+.card-body {
+  overflow: hidden;
+  /* 防止内容溢出 */
+}
+
+.text-end {
+  text-align: right;
+  /* 右对齐 */
+}
+
+.position-relative {
+  position: relative;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.custom-text-group p {
+  margin-bottom: 0.25rem;
+  /* 调整每个文本段之间的间距 */
 }
 </style>
