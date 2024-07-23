@@ -8,7 +8,6 @@
         <div class="col-md-5 position-relative">
           <div class="card-body d-flex flex-column justify-content-between h-100 p-3">
             <div class="text-end">
-              <h5 class="card-title">Car ID: {{ viewCar.car }}</h5>
               <h5 class="card-title">ID.00{{ viewCar.id }}</h5>
               <h5 class="card-title">{{ viewCar.modelName }}</h5>
               <div class="d-flex flex-row-reverse">
@@ -21,7 +20,7 @@
               </div>
               <div class="d-flex justify-content-end">
                 <el-button round @click="toggleViewCar(selectedCarId)" size="small">賞車評價</el-button>
-                <el-button round @click="toggleViewCar(selectedCarId)" size="small">取消賞車</el-button>
+                <el-button round @click="confirmRemove(viewCar.id)" size="small">取消賞車</el-button>
                 <el-button round @click="toggleCar(selectedCarId)" size="small">詳細資料</el-button>
               </div>
             </div>
@@ -42,32 +41,30 @@
       </div>
     </div>
   </div>
-  <div>
-</div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
+import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from 'vuex';
-let customerInfo = ref({});
+
 const store = useStore();
+let customerInfo = ref({});
 onMounted(() => {
-        const username = localStorage.getItem('username');
-        if (username) {
-                store.dispatch('fetchCustomerInfo', username);
-        }
+  const username = localStorage.getItem('username');
+  if (username) {
+    store.dispatch('fetchCustomerInfo', username);
+  }
 });
 customerInfo = computed(() => store.state.customerInfo.data || {});
 console.log('===>test Customer info:', customerInfo);
-
-
 
 const path = import.meta.env.VITE_PHOTO;
 const viewCars = ref([]);
 const totalElements = ref(0);
 const currentPage = ref(1);
-const sortOrder = ref('asc');
+
 const viewCarStatusMap = {
   0: '預約中',
   1: '時間確定',
@@ -84,7 +81,6 @@ const branchMap = {
 const getViewCarStatusText = (status) => viewCarStatusMap[status] || '未知状态';
 const getViewCarBranchText = (branch) => branchMap[branch] || '未知状态';
 
-// 获取分页数据的函数
 const fetchViewCars = async (pageNumber) => {
   try {
     const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/selectAll', {
@@ -100,41 +96,82 @@ const fetchViewCars = async (pageNumber) => {
   }
 };
 
-// 当前页数改变时的处理函数
 const handlePageChange = (page) => {
   currentPage.value = page;
   fetchViewCars(page);
 };
 
-// 初始化页面数据
 onMounted(() => {
   fetchViewCars(currentPage.value);
 });
+
+function confirmRemove(id) {
+  ElMessageBox.confirm(
+    '確定要取消賞車嗎?',
+    {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      type: 'warning',
+      draggable: true,
+    }
+  )
+    .then(() => {
+      callRemove(id);
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Delete canceled',
+      });
+    });
+}
+
+function callRemove(id) {
+  if (id) {
+    axios.delete(`http://localhost:8080/kajarta/front/viewCar/delete/${id}`)
+      .then(function (response) {
+        console.log("response", response);
+        if (response.data.success) {
+          fetchViewCars(currentPage.value); 
+          ElMessage({
+            type: 'success',
+            message: 'Delete completed',
+          });
+        } else {
+          ElMessage({
+            type: 'warning',
+            message: response.data.message,
+          });
+        }
+      })
+      .catch(function (error) {
+        console.error("Error deleting data:", error);
+        ElMessage({
+          type: 'error',
+          message: 'Delete failed: ' + error.message,
+        });
+      });
+  }
+}
 </script>
 
 <style>
 .custom-card {
   max-width: 900px;
-  /* 调整卡片的最大宽度 */
   word-wrap: break-word;
-  /* 防止文字溢出 */
 }
 
 .img-fluid {
   height: 100%;
-  /* 确保图片高度填满容器 */
   object-fit: cover;
-  /* 确保图片填满容器并保持比例 */
 }
 
 .card-body {
   overflow: hidden;
-  /* 防止内容溢出 */
 }
 
 .text-end {
   text-align: right;
-  /* 右对齐 */
 }
 
 .position-relative {
@@ -147,6 +184,5 @@ onMounted(() => {
 
 .custom-text-group p {
   margin-bottom: 0.25rem;
-  /* 调整每个文本段之间的间距 */
 }
 </style>
