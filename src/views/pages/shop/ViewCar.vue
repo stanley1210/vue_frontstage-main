@@ -7,14 +7,8 @@
         <!-- 日期选择器 -->
         <div class="col-md-6 mb-2 mb-md-0">
           <div class="demo-date-picker">
-            <el-date-picker
-              v-model="picker"
-              type="date"
-              placeholder="Pick a Date"
-              format="YYYY/MM/DD"
-              value-format="YYYY-MM-DD"
-               :disabled-date="disabledDate"
-            />
+            <el-date-picker v-model="picker" type="date" placeholder="Pick a Date" format="YYYY/MM/DD"
+              value-format="YYYY-MM-DD" :disabled-date="disabledDate" />
           </div>
         </div>
 
@@ -34,6 +28,9 @@
       </div>
     </div>
   </div>
+  <div>
+
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -42,7 +39,9 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const props = defineProps<{
+
   carId: number;
+  customerId: number;
 }>();
 
 const emit = defineEmits<{
@@ -73,7 +72,7 @@ function handleSubmit() {
     viewTimeSection: value.value,
     carId: props.carId, // 使用传递的 carId
     viewCarDate: picker.value,
-    customerId: 1
+    customerId: props.customerId
   };
   console.log(payload);
 
@@ -110,7 +109,8 @@ function handleSubmit() {
 .demo-time-picker {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 对齐到左侧 */
+  align-items: flex-start;
+  /* 对齐到左侧 */
   width: 100%;
 }
 

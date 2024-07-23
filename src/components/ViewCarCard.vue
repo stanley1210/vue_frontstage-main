@@ -42,11 +42,26 @@
       </div>
     </div>
   </div>
+  <div>
+</div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import axios from 'axios';
+import { useStore } from 'vuex';
+let customerInfo = ref({});
+const store = useStore();
+onMounted(() => {
+        const username = localStorage.getItem('username');
+        if (username) {
+                store.dispatch('fetchCustomerInfo', username);
+        }
+});
+customerInfo = computed(() => store.state.customerInfo.data || {});
+console.log('===>test Customer info:', customerInfo);
+
+
 
 const path = import.meta.env.VITE_PHOTO;
 const viewCars = ref([]);

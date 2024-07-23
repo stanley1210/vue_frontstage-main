@@ -1,4 +1,5 @@
 <template>
+    <Navigation></Navigation>
     <!-- ------------------------------------------大圖------------------------------------------ -->
     <div id="carouselExampleIndicators" class="carousel slide navbarBody" data-bs-ride="carousel"
         data-bs-interval="4000">
@@ -40,33 +41,53 @@
 
         <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
         <CarColumnR class="p-2 flex-fill navbarBody"></CarColumnR>
-        <el-icon ><Star /></el-icon>
+        <el-icon>
+            <Star />
+        </el-icon>
         <div class="p-2 flex-fill">
             <p>3,000,000</p>
             <p>NTD</p>
             <div>
-                <el-button color="#626aef" plain @click="toggleViewCar(selectedCarId)">預約賞車</el-button>
-                <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar" :carId="selectedCarId"/>
+                <el-button color="#626aef" plain @click="toggleViewCar(selectedCarId, customerInfo.id)">預約賞車</el-button>
+                <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar" :carId="selectedCarId"
+                    :customerId="customerInfo.id" />
             </div>
             <el-button color="#626aef" plain>開啟比較</el-button>
         </div>
     </div>
     <!-- ------------------------------------------字---------------------------------------------------------- -->
-    <div class="wordBody" style="margin: 50px;">
-        <h1>Chech these out,</h1>
-        <h1>You might also find your next favorite ride here!</h1>
-    </div>
     <div>
-        <p>Selected Car ID: {{ selectedCarId }}</p>
+        ~ {{ customerInfo.name || '用户名' }}
+        ~ {{ customerInfo.id || '用户ID' }}
+        ~ {{ customerInfo.account || '帳號' }}
     </div>
+    <Footer></Footer>
 </template>
 
 <script setup>
+import Navigation from '@/views/Navigation.vue';
+import Footer from "@/views/Footer.vue"
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { ref } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import CarColumnL from '@/components/CarColumnL.vue';
 import CarColumnR from '@/components/CarColumnR.vue';
+
+// 串接登入會員,這邊下面的import一定要加
+import { useStore } from 'vuex';
+let customerInfo = ref({});
+const store = useStore();
+onMounted(() => {
+    const username = localStorage.getItem('username');
+    if (username) {
+        store.dispatch('fetchCustomerInfo', username);
+    }
+});
+customerInfo = computed(() => store.state.customerInfo.data || {});
+console.log('===>test Customer info:', customerInfo);
+
+
+
 
 const carDatas = ref([]); // 資料列表
 const selectedCarId = ref(null); // 当前选择的汽车 ID
@@ -103,10 +124,10 @@ import Like from './Like.vue';
 //=========ViewCar========
 import ViewCar from './ViewCar.vue';
 const showViewCar = ref(false);
-function toggleViewCar(carId) {
+function toggleViewCar(carId, customerId) {
     selectedCarId.value = carId;
     showViewCar.value = !showViewCar.value; // 切换 ViewCar 组件的显示状态
-    console.log("Toggled Car ID:", selectedCarId.value);
+    console.log("Toggled Car ID:", selectedCarId.value, "Customer ID:", customerId);
 }
 function hideViewCar() {
     showViewCar.value = false;

@@ -22,12 +22,7 @@
         <li class="nav-item col">
           <RouterLink class="nav-link " :to="{name:'pages-shop-memberArea-link'}">MemberArea</RouterLink>
         </li>
-        <li class="nav-item col">
-          <RouterLink class="nav-link " :to="{name:'pages-shop-like-link'}">like</RouterLink>
-        </li>
-        <li class="nav-item col">
-          <RouterLink class="nav-link " :to="{name:'pages-shop-viewCar-link'}">ViewCar</RouterLink>
-        </li>
+
         <li class="nav-item col">
           <a class="nav-link" aria-disabled="true">Estimate</a>
         </li>
