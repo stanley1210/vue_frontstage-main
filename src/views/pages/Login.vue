@@ -18,25 +18,34 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'; 
-import Swal from 'sweetalert2'; 
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import Swal from 'sweetalert2';
 import axiosapi from '@/plugins/axios';
 
 const username = ref('');
 const password = ref('');
-const loginMessage = ref(''); 
+const loginMessage = ref('');
+const router = useRouter();
+const store = useStore();
 
-const router = useRouter(); 
 
 const handleSubmit = () => {
-	let request = {
-		username: username.value,
-		password: password.value
-	};
+	// let request = {
+	// 	username: username.value,
+	// 	password: password.value
+	// };
 
-	console.log('Request:', request); // 打印 request 確認數據
+	// console.log('Request:', request); // 打印 request 確認數據
 
-	axiosapi.post(`/login`, request, {
+	// 创建 FormData 对象
+	const formData = new FormData();
+	formData.append('username', username.value);
+	formData.append('password', password.value);
+
+	console.log('FormData:', formData); // 打印 FormData 确认数据
+
+	axiosapi.post(`/login`, formData, {
 		headers: {
 			'Content-Type': 'multipart/form-data'
 		},
@@ -44,20 +53,27 @@ const handleSubmit = () => {
 	})
 		.then(response => {
 			const data = response.data;
-			console.log('Response data:', data); 
+			console.log('Response data:', data);
 
 			if (data.success && data.code === 200) {
-				// 登入成功处理
+				// 登入成功處理
 				console.log('Login successful', data);
 				Swal.fire({
 					icon: 'success',
 					title: '登入成功',
 					text: '您已成功登入！'
-				}).then(() => {
-					router.push({ name: 'home-link' }); // 跳轉到 Home 頁面
+				}).then(async () => {
+					const username = data.data.username;
+					console.log('=====>username', username);
+
+					localStorage.setItem('username', username);
+					// 发起请求获取员工信息
+					await getCustomerInfo(username);
+					// 跳轉到 Home 頁面
+					router.push({ name: 'home-link' });
 				});
 			} else {
-				// 处理非200状态码或 success 为 false 的情况
+				// 處理非200狀態碼或 success 為 false 的情况
 				console.error('Login failed with response:', response);
 				Swal.fire({
 					icon: 'error',
@@ -67,7 +83,7 @@ const handleSubmit = () => {
 			}
 		})
 		.catch(error => {
-			// 处理错误
+			// 處理其他错误
 			console.error('Login failed', error);
 			Swal.fire({
 				icon: 'error',
@@ -76,6 +92,34 @@ const handleSubmit = () => {
 			});
 		});
 };
+
+// 使用 async/await 文法主要有以下幾個好處：
+// 1.程式碼可讀性：async/await 語法使非同步程式碼看起來更像同步程式碼，從而提高程式碼的可讀性和可維護性。相較於 .then() 鍊式調用，async/await 更加直觀，減少了回調地獄的問題。
+// 2.錯誤處理：async/await 語法可以使用標準的 try/catch 區塊來處理錯誤，使得錯誤處理更加簡潔一致。在 .then() 鍊式呼叫中，你通常需要在鏈的末端使用 .catch() 來處理錯誤。
+// 3.調試方便：調試使用 async/await 的程式碼比 .then() 鍊式呼叫更方便，因為堆疊追蹤資訊更加清晰。你可以更輕鬆地查看程式碼執行的順序和變數的狀態。
+// 获取员工信息
+const getCustomerInfo = async (username) => {
+	try {
+		const response = await axiosapi.get(`/customer/info/username/${username}`);
+		const data = response.data;
+		console.log('Customer info:', data);
+		// 假设我们使用 Vuex 来存储员工信息
+		store.commit('setCustomerInfo', data);
+	} catch (error) {
+		console.error('Failed to get customer info:', error);
+	}
+};
+// 使用.then
+// const getCustomerInfo = (username) => {
+//     axiosapi.get(`/customer/info/${username}`)
+//     .then(response => {
+//         const data = response.data;
+//         console.log('Customer info:', data);
+//     })
+//     .catch(error => {
+//         console.error('Failed to get customer info:', error);
+//     });
+// };
 </script>
 
 <style scoped>
