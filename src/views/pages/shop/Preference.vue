@@ -111,7 +111,7 @@
     <br>
     <div class="form-group">
       <label>車輛名稱搜尋</label>
-      <input type="text" v-model="selectName" placeholder="輸入車輛名稱" />
+      <input type="text" v-model="modelName" placeholder="輸入車輛名稱" />
     </div>
     
     <div class="form-group">
@@ -131,7 +131,7 @@
 
     <div class="form-group">
       <label>車況評分</label>
-      <input type="text" v-model="score" placeholder="輸入車況評分" />
+      <input type="text" v-model="conditionScore" placeholder="輸入車況評分" />
     </div>
 
     <div class="form-group">
@@ -160,7 +160,7 @@ const drawer = ref(false)
 import { Search} from '@element-plus/icons-vue'
 
 
-const selectName = ref('')
+const modelName = ref('')
 const productionYear = ref('')
 const price = ref('')
 const milage = ref('')
@@ -183,13 +183,12 @@ const handleSubmit = async () => {
 
 const handleSearchByNoMemSearch = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/kajarta/preference/nomemsearch', {
+    const response = await axios.get('http://localhost:8080/kajarta/preference/searchMore', {
       params: {
-        selectName: selectName.value || null,
+        modelName: modelName.value || null,
         productionYear: productionYear.value ? parseInt(productionYear.value, 10) : null,
         price: price.value ? parseFloat(price.value) : null,
         milage: milage.value ? parseInt(milage.value, 10) : null,
-        score: score.value ? parseInt(score.value, 10) : null,
         hp: hp.value ? parseInt(hp.value, 10) : null,
         torque: torque.value ? parseFloat(torque.value) : null
       }
