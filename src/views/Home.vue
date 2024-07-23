@@ -1,6 +1,5 @@
 <template>
-        <h3>Home</h3>
-</template>
+        
 <div class="homebackground" >
         <!-- <h3>Home</h3> -->
         <img src="/public/Kajarta_LOGO_ 1.svg" style="width: 4%;margin: 4% 4%;float: left;" />
@@ -24,14 +23,15 @@
                 <div class="homepageBTMBox"><a href="" class="homepageBTM">Estimate</a></div>
                 <div class="homepageBTMBox"><a href="" class="homepageBTM">News</a></div>
                 <div class="homepageBTMBox"><a href="/pages/login" class="homepageBTM">Log in</a></div>
-        </div>
-
-        
+        </div>     
 </div>
 <!--獲取用戶的資料-->
+<div>
 ~ {{ customerInfo.name || '用户名' }}
 ~ {{ customerInfo.id || '用户ID' }}
 ~ {{ customerInfo.account || '帳號' }}
+</div>
+</template>
 <script setup >
 // 串接登入會員,這邊下面的import一定要加
 import { computed, onMounted, ref, watch } from 'vue';
