@@ -1,15 +1,17 @@
 <template>
+	<br><br><br>
+	<p class="p-text">Welcome,<br>Your next great find is wating</p><br>
 	<form @submit.prevent="handleSubmit">
-		<div class="mb-3">
-			<label for="exampleInputEmail1" class="form-label">帳號</label>
-			<input type="text" class="form-control" id="exampleInputEmail1" v-model="username"
-				aria-describedby="emailHelp" required>
+		<div class="form-group">
+			<label for="username">帳號:</label>
+			<input type="text" id="username" v-model="username" class="input-field" required>
 		</div>
-		<div class="mb-3">
-			<label for="exampleInputPassword1" class="form-label">密碼</label>
-			<input type="password" class="form-control" id="exampleInputPassword1" v-model="password" required>
+		<div class="form-group">
+			<label for="password">密碼:</label>
+			<input type="password" id="password" v-model="password" class="input-field" required>
 		</div>
-		<button type="submit" class="btn btn-primary">登入</button>
+		<button type="submit" class="submit-button">登入</button>
+		<router-link to="/" class="register-link">註冊</router-link>
 		<div v-if="loginMessage" class="alert alert-success mt-3">
 			{{ loginMessage }}
 		</div>
@@ -18,25 +20,26 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'; 
-import Swal from 'sweetalert2'; 
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import Swal from 'sweetalert2';
 import axiosapi from '@/plugins/axios';
 
 const username = ref('');
 const password = ref('');
-const loginMessage = ref(''); 
-
-const router = useRouter(); 
+const loginMessage = ref('');
+const router = useRouter();
+const store = useStore();
 
 const handleSubmit = () => {
-	let request = {
-		username: username.value,
-		password: password.value
-	};
+	// 创建 FormData 对象
+	const formData = new FormData();
+	formData.append('username', username.value);
+	formData.append('password', password.value);
 
-	console.log('Request:', request); // 打印 request 確認數據
+	console.log('FormData:', formData); // 打印 FormData 确认数据
 
-	axiosapi.post(`/login`, request, {
+	axiosapi.post(`/login`, formData, {
 		headers: {
 			'Content-Type': 'multipart/form-data'
 		},
@@ -44,21 +47,27 @@ const handleSubmit = () => {
 	})
 		.then(response => {
 			const data = response.data;
-			console.log('Response data:', data); 
+			console.log('Response data:', data);
 
 			if (data.success && data.code === 200) {
-				// 登入成功处理
+				// 登入成功處理
 				console.log('Login successful', data);
 				Swal.fire({
 					icon: 'success',
 					title: '登入成功',
 					text: '您已成功登入！'
-				}).then(() => {
-					router.push({ name: 'home-link' }); // 跳轉到 Home 頁面
+				}).then(async () => {
+					const username = data.data.username;
+					console.log('=====>username', username);
+
+					localStorage.setItem('username', username);
+					// 发起请求获取员工信息
+					await getCustomerInfo(username);
+					// 跳轉到 Home 頁面
+					router.push('/pages/about');
 				});
 			} else {
-				// 处理非200状态码或 success 为 false 的情况
-				console.error('Login failed with response:', response);
+				// 處理非200狀態碼或 success 為 false 的情况
 				Swal.fire({
 					icon: 'error',
 					title: '登入失败',
@@ -67,8 +76,7 @@ const handleSubmit = () => {
 			}
 		})
 		.catch(error => {
-			// 处理错误
-			console.error('Login failed', error);
+			// 處理其他错误
 			Swal.fire({
 				icon: 'error',
 				title: '登入失败',
@@ -76,22 +84,123 @@ const handleSubmit = () => {
 			});
 		});
 };
+
+// 获取员工信息
+const getCustomerInfo = async (username) => {
+	try {
+		const response = await axiosapi.get(`/customer/info/username/${username}`);
+		const data = response.data;
+		// 假设我们使用 Vuex 来存储员工信息
+		store.commit('setCustomerInfo', data);
+	} catch (error) {
+		console.error('Failed to get customer info:', error);
+	}
+};
 </script>
 
 <style scoped>
-form {
+.p-text {
+	width: 90%; /* 调整底线的长度 */
+	color: #a33238;
+	font-size: 30px;
+}
+.header-container {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.logo {
+	all: unset;
+	margin-right: 30px;
+	display: flex;
+	justify-content: center;
+}
+
+.logo-icon {
+	width: 30px;
+}
+
+.header-text {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #a33238;
+}
+
+.card {
+	max-width: 800px;
+	margin: auto;
+	padding: 20px;
+	background-color: #fff5eb;
+}
+
+.card-content {
+	display: flex;
+	align-items: flex-start;
+	background-color: white;
+	font-weight: bold;
+	color: #a33238;
+}
+
+.card-image {
+	width: 50%;
+	margin-right: 20px;
+}
+
+.form-container {
+	flex: 1;
 	display: flex;
 	flex-direction: column;
-	max-width: 300px;
-	margin: auto;
+	justify-content: center;
 }
 
-div {
+.form {
+	width: 100%;
+	max-width: 400px;
+}
+
+.form-group {
 	margin-bottom: 15px;
+	color: #a33238;
 }
 
-button {
+.form-group label {
+	margin-right: 10px;
+}
+
+.input-field {
+	width: calc(100% - 100px); /* 当前设置宽度减去标签的宽度 */
+	padding: 8px;
+	border: none;
+	background-color: transparent; /* 背景透明 */
+}
+
+.submit-button {
+	width: 100%;
+	max-width: 550px; /* 设定一个更窄的最大宽度 */
 	padding: 10px;
+	border: none;
+	border-radius: 4px;
+	background-color: #a33238;
+	color: white;
+	cursor: pointer;
+}
+
+.submit-button:hover {
+	background-color: #66b1ff;
+}
+
+.register-link {
+	display: block;
+	margin-top: 10px;
+	color: #a33238;
+	text-align: center;
+	text-decoration: none;
+	font-size: 14px;
+}
+
+.register-link:hover {
+	text-decoration: underline;
 }
 
 .alert {

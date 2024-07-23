@@ -1,4 +1,5 @@
 <template>
+        <Navigation></Navigation>
     <!-- ------------------------------------------心儀條件------------------------------------------ -->
 
     <div class="row align-items-start" style="background-color:#fff5eb;">
@@ -83,10 +84,12 @@
                 @likeCreate="callLikeCreate"></ShopHomeCard>
         </div>
     </div>
-
+    <Footer></Footer>
 </template>
 
 <script setup>
+import Navigation from '@/views/Navigation.vue';
+import Footer from "@/views/Footer.vue"
 import ShopHomeCard from "@/components/ShopHomeCard.vue"
 import LikeRows from '@/components/LikeRows.vue';
 import Paginate from 'vuejs-paginate-next';
