@@ -35,9 +35,6 @@
           <a class="nav-link" aria-disabled="true">News</a>
         </li>
         <li class="nav-item col">
-          <RouterLink class="nav-link " :to="{name:'login'}">Login</RouterLink>
-        </li>
-        <li class="nav-item col">
             <div class="logout-container">
               <el-button round @click="logout" plain>Logout</el-button>
             </div>
