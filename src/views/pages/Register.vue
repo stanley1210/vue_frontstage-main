@@ -21,34 +21,34 @@
 							</div>
 
 							<div class="form-item">
-								<label for="username">帳號　：</label>
+								<label for="username">帳號：</label>
 								<input id="username" type="text" class="custom-input" />
 							</div>
 							<div class="form-item">
-								<label for="password">密碼　：</label>
+								<label for="password">密碼：</label>
 								<input id="password" type="password" class="custom-input" />
 							</div>
 							<div class="form-item">
-								<label for="name">姓名　：</label>
+								<label for="name">姓名：</label>
 								<input id="name" type="text" class="custom-input" />
 							</div>
 							<div class="form-item">
-								<label for="idNumber">身分證號　：</label>
+								<label for="idNumber">身分證號：</label>
 								<input id="idNumber" type="text" class="custom-input" />
 							</div>
 							<div class="form-item">
-								<label for="gender">性別　：</label>
+								<label for="gender">性別：</label>
 								<select id="gender" class="custom-input">
 									<option value="F">F</option>
 									<option value="M">M</option>
 								</select>
 							</div>
 							<div class="form-item">
-								<label for="phone">電話　：</label>
+								<label for="phone">電話：</label>
 								<input id="phone" type="text" class="custom-input" />
 							</div>
 							<div class="form-item">
-								<label for="email">Email　：</label>
+								<label for="email">Email：</label>
 								<input id="email" type="email" class="custom-input" />
 							</div>
 							<div class="form-item">
@@ -61,7 +61,7 @@
 								</select>
 							</div>
 							<div class="form-item">
-								<label for="address">地址　：</label>
+								<label for="address">地址：</label>
 								<input id="address" type="text" class="custom-input" />
 							</div>
 							<div class="form-item">
@@ -74,6 +74,7 @@
 		</el-card>
 	</div>
 </template>
+
 
 <script setup>
 import Navigation from '../Navigation.vue';
@@ -143,22 +144,31 @@ form {
 }
 
 .form-item {
+	margin-right: 60px;
 	margin-bottom: 25px;
 	/* 增大表单项之间的间距 */
+	display: flex;
+	align-items: center;
+	/* 垂直居中对齐 */
 }
 
-.radio-group label {
-	margin-right: 20px;
+.form-item label {
+	width: 25%;
+	/* 标签宽度为列宽的1/4 */
+	text-align: right;
+	/* 标签右对齐 */
+	margin-right: 10px;
 }
 
 .custom-input {
-	width: 75%;
+	width: 120%;
 	font-size: 1.1em;
 	border: none;
 	border-bottom: 2px solid #a33238;
 	/* 红色底线 */
 	border-radius: 0;
 	padding: 4px;
+	margin-right: 60px;
 }
 
 .custom-input:focus,
@@ -172,6 +182,7 @@ form {
 	width: 100%;
 	max-width: 500px;
 	max-height: 60px;
+	margin-left: 45px;
 	/* 增大按钮的最大宽度 */
 	padding: 12px;
 	border: none;
