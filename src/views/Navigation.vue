@@ -30,6 +30,9 @@
           <li class="nav-item col">
             <a class="nav-link" aria-disabled="true">News</a>
           </li>
+          <li class="nav-item col" v-if="!isAuthenticated">
+            <RouterLink class="nav-link" :to="{ name: 'register' }">register</RouterLink>
+          </li>
           <li class="nav-item col" v-if="isAuthenticated">
             <button class="btn btn-link nav-link" @click="logout">Logout</button>
           </li>
