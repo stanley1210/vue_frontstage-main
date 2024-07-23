@@ -1,6 +1,6 @@
 <template>
         <h3>Home</h3>
-        <!--獲取用戶的資料-->>
+        <!--獲取用戶的資料-->
         ~ {{ customerInfo.name || '用户名' }}
         ~ {{ customerInfo.id || '用户ID' }}
         ~ {{ customerInfo.account || '帳號' }}
