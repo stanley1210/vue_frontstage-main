@@ -1,7 +1,7 @@
 <template>
   <!-- <Navigation></Navigation> -->
   <RouterView></RouterView>
-  <Footer></Footer>
+  <!-- <Footer></Footer> -->
   <!-- <Preference></Preference> -->
 
 

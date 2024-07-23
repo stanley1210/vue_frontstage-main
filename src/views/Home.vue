@@ -1,5 +1,5 @@
 <template>
-        <div class="homebackground">
+        <div class="homebackground" >
                 <!-- <h3>Home</h3> -->
                 <img src="/public/Kajarta_LOGO_ 1.svg" style="width: 4%;margin: 4% 4%;float: left;" />
                 <div class="homepagebanner">
@@ -17,11 +17,11 @@
 
                 <div class="homepageManu">
                         <div class="homepageBTMBox"><a href="" class="homepageBTM" >Home</a></div>
-                        <div class="homepageBTMBox"><a href="" class="homepageBTM">About</a></div>
-                        <div class="homepageBTMBox"><a href="" class="homepageBTM">Shop</a></div>
+                        <div class="homepageBTMBox"><a href="/pages/about" class="homepageBTM">About</a></div>
+                        <div class="homepageBTMBox"><a href="/pages/shop/home" class="homepageBTM">Shop</a></div>
                         <div class="homepageBTMBox"><a href="" class="homepageBTM">Estimate</a></div>
                         <div class="homepageBTMBox"><a href="" class="homepageBTM">News</a></div>
-                        <div class="homepageBTMBox"><a href="" class="homepageBTM">Log in</a></div>
+                        <div class="homepageBTMBox"><a href="/pages/login" class="homepageBTM">Log in</a></div>
                 </div>
 
                 
