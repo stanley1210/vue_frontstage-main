@@ -7,21 +7,22 @@
         <h5 class="card-title">Car ID: {{ viewCar.car }}</h5>
         <h5 class="card-title">ID.00{{ viewCar.id }}</h5>
         <h5 class="card-title"> {{ viewCar.modelName }}</h5>
+        <h5 class="card-title"> {{ viewCar.viewCarDate }}</h5>
+        <h5 class="card-title"> {{ viewCar.viewTimeSection }}</h5>
         <p class="card-text">預約狀態: {{ getViewCarStatusText(viewCar.viewCarStatus) }}</p>
-        <p class="card-text">賞車客戶: {{ getViewCarStatusText(viewCar.viewCarStatus) }}</p>
+        <p class="card-text">賞車客戶: {{ viewCar.customerName }}先生/小姐</p>
+        <p class="card-text">客戶電話: {{ viewCar.tel }}</p>
+        <p class="card-text">試車分店: {{ getViewCarBranchText(viewCar.branch) }}</p>
 
 
-        <p class="card-text">View Car Date: {{ viewCar.viewCarDate }}</p>
-        <p class="card-text">Sales Score: {{ viewCar.salesScore }}</p>
+        <div class="mb-4">
+          <el-button round @click="toggleViewCar(selectedCarId)">Round</el-button>
+        </div>
+
+
         <!-- 根据需要显示更多字段 -->
-        <el-pagination
-          size="small"
-          layout="prev, pager, next"
-          :total="totalElements"
-          :current-page="currentPage"
-          :page-size="1"
-          @current-change="handlePageChange"
-        />
+        <el-pagination size="small" layout="prev, pager, next" :total="totalElements" :current-page="currentPage"
+          :page-size="1" @current-change="handlePageChange" />
       </div>
     </div>
   </div>
@@ -30,6 +31,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+
 
 const path = import.meta.env.VITE_PHOTO;
 const viewCars = ref([]);
@@ -43,7 +45,14 @@ const viewCarStatusMap = {
   3: '註銷'
 };
 
+const branchMap = {
+  1: '台北市大吉祥分店',
+  2: '台中市大滿貫分店',
+  3: '高雄市大巨蛋分店'
+};
+
 const getViewCarStatusText = (status) => viewCarStatusMap[status] || '未知状态';
+const getViewCarBranchText = (branch) => branchMap[branch] || '未知状态';
 
 // 获取分页数据的函数
 const fetchViewCars = async (pageNumber) => {
@@ -76,6 +85,7 @@ onMounted(() => {
 <style>
 .card-img-top {
   height: 200px;
-  object-fit: cover; /* 确保图片填满容器并保持比例 */
+  object-fit: cover;
+  /* 确保图片填满容器并保持比例 */
 }
 </style>
