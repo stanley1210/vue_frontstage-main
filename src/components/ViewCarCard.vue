@@ -19,8 +19,17 @@
                 </div>
               </div>
               <div class="d-flex justify-content-end">
-                <el-button round @click="toggleViewCar(selectedCarId)" size="small">賞車評價</el-button>
+                <ViewCarDrawer 
+                :date="viewCar.viewCarDate" 
+                :timeSection="viewCar.viewTimeSection"
+                :customerId="customerInfo.id"
+                :carId="viewCar.car"
+                :viewCarId="viewCar.id">
+                </ViewCarDrawer>
                 <el-button round @click="confirmRemove(viewCar.id)" size="small">取消賞車</el-button>
+                &nbsp;
+                &nbsp;
+                &nbsp;
                 <el-button round @click="toggleCar(selectedCarId)" size="small">詳細資料</el-button>
               </div>
             </div>
@@ -48,6 +57,8 @@ import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from 'vuex';
+import ViewCarDrawer from './ViewCarDrawer.vue';
+
 
 const store = useStore();
 let customerInfo = ref({});
@@ -132,7 +143,7 @@ function callRemove(id) {
       .then(function (response) {
         console.log("response", response);
         if (response.data.success) {
-          fetchViewCars(currentPage.value); 
+          fetchViewCars(currentPage.value);
           ElMessage({
             type: 'success',
             message: 'Delete completed',
