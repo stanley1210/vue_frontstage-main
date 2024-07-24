@@ -41,7 +41,6 @@ import LikeRows from '@/components/LikeRows.vue';
 
 // 定义 reactive 状态
 const rows = ref(4); // 每页显示的条目数
-const pageNumber = ref(1); // 目前页码
 const sortOrder = ref('asc'); // 排序顺序
 const likes = ref([]); // 数据列表
 const total = ref(3); // 总数据笔数
