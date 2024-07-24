@@ -1,36 +1,30 @@
 <template>
-  <el-button round @click="dialog = true" size="small">
-    賞車評價
-  </el-button>
-  <el-drawer v-model="dialog" title="留下您寶貴的評分吧!" :before-close="handleClose" direction="rtl" class="demo-drawer">
+    <el-button round @click="dialog = true" size="small" class="custom-button">
+      賞車評價
+    </el-button>
+    <el-drawer v-model="dialog" title="留下您寶貴的評分吧!" :before-close="handleClose" direction="rtl" class="demo-drawer">
 
-    <div class="demo-drawer__content">
-      <h6>給銷售員評價吧!</h6>
-      <h6>賞車ID{{ props.viewCarId }}</h6>
-      <h6>客戶ID{{ props.customerId }}</h6>
-      <h6> 車子ID{{ props.carId }}</h6>
-      <h6> Deal{{ viewCarStatus }}</h6>
-      <h6>時段{{ getViewCarStatusText(props.timeSection) }}</h6>
-      <div class="slider-demo-block">
-        <el-slider v-model="employeeScore" show-input />
+      <div class="demo-drawer__content">
+        <h6>給銷售員評價吧!</h6>
+        <div class="slider-demo-block">
+          <el-slider v-model="employeeScore" show-input />
+        </div>
+        <h6>給車行評價吧!</h6>
+        <div class="slider-demo-block">
+          <el-slider v-model="branchScore" show-input />
+        </div>
+        <h6>給車子評價吧!</h6>
+        <div class="slider-demo-block">
+          <el-slider v-model="carScore" show-input />
+        </div>
+        <div class="demo-drawer__footer">
+          <el-button @click="cancelForm">取消</el-button>
+          <el-button type="primary" :loading="loading" @click="onClick">
+            {{ loading ? '提交中 ...' : '提交' }}
+          </el-button>
+        </div>
       </div>
-      <h6>給車行評價吧!</h6>
-      <div class="slider-demo-block">
-        <el-slider v-model="branchScore" show-input />
-      </div>
-      <h6>給車子評價吧!</h6>
-      <div class="slider-demo-block">
-        <el-slider v-model="carScore" show-input />
-      </div>
-      <div class="demo-drawer__footer">
-        <el-button @click="cancelForm">取消</el-button>
-        <el-button type="primary" :loading="loading" @click="onClick">
-          {{ loading ? '提交中 ...' : '提交' }}
-        </el-button>
-      </div>
-    </div>
-  </el-drawer>
-
+    </el-drawer>
 </template>
 
 <script lang="ts" setup>
@@ -74,7 +68,7 @@ const callFindById = async (id) => {
     const data = response.data.list[0]; // Extracting the first item from the list
     deal.value = data.deal || 0;
     viewCarStatus.value = data.viewCarStatus || 0;
-    customerId.value=data.customer || 0;
+    customerId.value = data.customer || 0;
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -99,8 +93,8 @@ const onClick = async () => {
       customerId: customerId.value,
       viewCarDate: props.date,
       viewTimeSection: getViewCarStatusText(props.timeSection),
-      deal:deal.value,
-      viewCarStatus:viewCarStatus.value,
+      deal: deal.value,
+      viewCarStatus: viewCarStatus.value,
       salesScore: employeeScore.value,
       factoryScore: branchScore.value,
       carScore: carScore.value

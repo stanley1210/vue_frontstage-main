@@ -1,4 +1,8 @@
 <template>
+  <br>
+  <div class="homepageSlogan">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reservation info</div>
+  <p>__________________________________________________________________________________________________________________</p>
+  <br>
   <div>
     <div v-for="viewCar in viewCars" :key="viewCar.id" class="custom-card mb-3">
       <div class="row g-0">
@@ -6,43 +10,39 @@
           <img :src="`${path}${viewCar.car}`" class="img-fluid rounded-start" alt="Car Image">
         </div>
         <div class="col-md-5 position-relative">
-          <div class="card-body d-flex flex-column justify-content-between h-100 p-3">
+          <div class="card-body d-flex flex-column justify-content-between h-100 p-3 viewcarnavbarBody ">
             <div class="text-end">
-              <h5 class="card-title">ID.00{{ viewCar.id }}</h5>
-              <h5 class="card-title">{{ viewCar.modelName }}</h5>
+              <h5 class="custom-title-color">ID.00{{ viewCar.id }}</h5>
+              <h5 class="custom-title-color">{{ viewCar.modelName }}</h5>
               <div class="d-flex flex-row-reverse">
                 <div class="p-2">
-                  <h6 class="card-title">{{ viewCar.viewCarDate }}</h6>
+                  <h6 class="custom-title-color">{{ viewCar.viewCarDate }}</h6>
                 </div>
                 <div class="p-2">
-                  <h6 class="card-title">{{ viewCar.viewTimeSection }}</h6>
+                  <h6 class="custom-title-color">{{ viewCar.viewTimeSection }}</h6>
                 </div>
               </div>
               <div class="d-flex justify-content-end">
-                <ViewCarDrawer 
-                :date="viewCar.viewCarDate" 
-                :timeSection="viewCar.viewTimeSection"
-                :customerId="customerInfo.id"
-                :carId="viewCar.car"
-                :viewCarId="viewCar.id">
+                <ViewCarDrawer :date="viewCar.viewCarDate" :timeSection="viewCar.viewTimeSection"
+                  :customerId="customerInfo.id" :carId="viewCar.car" :viewCarId="viewCar.id">
                 </ViewCarDrawer>
-                <el-button round @click="confirmRemove(viewCar.id)" size="small">取消賞車</el-button>
+                <el-button round @click="confirmRemove(viewCar.id)" size="small" class="custom-button">取消賞車</el-button>
                 &nbsp;
                 &nbsp;
                 &nbsp;
-                <el-button round @click="toggleCar(selectedCarId)" size="small">詳細資料</el-button>
+                <el-button round @click="toggleCar(selectedCarId)" size="small" class="custom-button">詳細資料</el-button>
               </div>
             </div>
-
-            <div class="custom-text-group">
-              <p class="card-text">預約狀態: {{ getViewCarStatusText(viewCar.viewCarStatus) }}</p>
-              <p class="card-text">賞車客戶: {{ viewCar.customerName }}先生/小姐</p>
-              <p class="card-text">客戶電話: {{ viewCar.tel }}</p>
-              <p class="card-text">試車分店: {{ getViewCarBranchText(viewCar.branch) }}</p>
+            <br>
+            <div class="custom-text-color">
+              <p>預約狀態: {{ getViewCarStatusText(viewCar.viewCarStatus) }}</p>
+              <p>賞車客戶: {{ viewCar.customerName }}先生/小姐</p>
+              <p>客戶電話: {{ viewCar.tel }}</p>
+              <p>試車分店: {{ getViewCarBranchText(viewCar.branch) }}</p>
             </div>
 
             <div class="text-end">
-              <el-pagination size="small" layout="prev, pager, next" :total="totalElements" :current-page="currentPage"
+              <el-pagination size="small" background layout="prev, pager, next" :total="totalElements" :current-page="currentPage"
                 :page-size="1" @current-change="handlePageChange" />
             </div>
           </div>
@@ -58,7 +58,6 @@ import axios from 'axios';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from 'vuex';
 import ViewCarDrawer from './ViewCarDrawer.vue';
-
 
 const store = useStore();
 let customerInfo = ref({});
@@ -166,7 +165,7 @@ function callRemove(id) {
 }
 </script>
 
-<style>
+<style scoped>
 .custom-card {
   max-width: 900px;
   word-wrap: break-word;
@@ -195,5 +194,23 @@ function callRemove(id) {
 
 .custom-text-group p {
   margin-bottom: 0.25rem;
+}
+
+.custom-title-color {
+  color: #ffecdc;
+  line-height: 12px;
+}
+
+.custom-text-color {
+  color: #ffecdc;
+  font-size: 14px;
+  line-height: 6px;
+}
+
+.homepageSlogan {
+        font-size: 30px;
+        color: #a33238;
+        font-weight: 500;
+        line-height: 6px;
 }
 </style>
