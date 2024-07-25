@@ -42,6 +42,7 @@
       </ul>
     </div>
   </div>
+  <div><Notices></Notices></div>
   </nav>
 </template>
 
