@@ -77,9 +77,19 @@
 
 
 <script setup>
-import Navigation from '../Navigation.vue';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useStore } from 'vuex';
+import MemberInfo from '@/components/MemberInfo.vue';
+let customerInfo = ref({});
+const store = useStore();
+onMounted(() => {
+	const username = localStorage.getItem('username');
+	if (username) {
+		store.dispatch('fetchCustomerInfo', username);
+	}
+});
+customerInfo = computed(() => store.state.customerInfo.data || {});
+console.log('===>test Customer info:', customerInfo);
 </script>
 
 <style scoped>
