@@ -172,8 +172,9 @@ function callRemove(id) {
 }
 
 .img-fluid {
-  height: 100%;
-  object-fit: cover;
+  height: 350px; /* 设定固定高度 */
+  width: 100%; /* 设定宽度为容器的 100% */
+  object-fit: cover; /* 确保图片覆盖整个容器，保持比例 */
 }
 
 .card-body {

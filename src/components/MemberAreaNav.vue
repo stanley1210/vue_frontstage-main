@@ -2,13 +2,17 @@
     <div class="container-fluid navbarBody">
       <span class="navbar-text">
         <br>
-      <p class="homepageSlogan">Hey,Stanley</p>
+      <p class="homepageSlogan">Hey,{{name}}</p>
       <p class="homepageSlogan">Found your dream ride yet?</p>
       </span>
       <br><br>
     </div>
 </template>
-<script>
+<script lang="ts" setup>
+const props = defineProps({
+  name: String,
+});
+
 
 </script>
 
