@@ -5,7 +5,7 @@
     <div class="row align-items-start" style="background-color:#fff5eb;">
             <div class="col-4" >
                 <br>
-                <h3 style="color: #845b38;">選擇您的理想車輛查詢</h3>
+                <h3 style="color: #a33238;">選擇您的理想車輛查詢</h3>
                 <br>
                     <Preference />
             </div>
