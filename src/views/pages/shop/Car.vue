@@ -114,7 +114,8 @@ function hideViewCar() {
     showViewCar.value = false;
 }
 //=========ViewCar========
-
+        }
+    }
 </script>
 
 <style></style>
