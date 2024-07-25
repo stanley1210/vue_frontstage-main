@@ -42,9 +42,6 @@
         </ul>
       </div>
     </div>
-    <div>
-    <div><Notices></Notices></div>
-  </div>
   </nav>
 </template>
 
