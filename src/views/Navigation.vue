@@ -39,9 +39,10 @@
               <el-button round @click="logout" plain>Logout</el-button>
             </div>
           </li>
-        </ul>
-      </div>
+      </ul>
     </div>
+  </div>
+  <div><Notices></Notices></div>
   </nav>
 </template>
 
@@ -55,11 +56,12 @@ import Notices from './pages/shop/Notices.vue';
 
 const router = useRouter();
 const store = useStore();
-console.log('before Attempting to logout');
+
+const isAuthenticated = computed(() => store.state.isAuthenticated);
+
 const logout = async () => {
   try {
     console.log('Attempting to logout');
-    // console.log('Store:', store); // 添加调试信息
     const response = await axiosapi.post('/logout', {}, {
       withCredentials: true
     });
@@ -67,32 +69,20 @@ const logout = async () => {
     if (response.status === 200) {
       console.log('Logout successful');
       localStorage.removeItem('username');
-      store.dispatch('logout'); // 调用 store 的 logout action
-      router.push('/pages/login');
+      await store.dispatch('logout'); // 调用 store 的 logout action
+      router.push({ name: 'home-link' });
     }
   } catch (error) {
     console.error('Logout failed:', error);
   }
 };
 
-const customerInfo = ref({});
 onMounted(async () => {
   const username = localStorage.getItem('username');
   if (username) {
     await store.dispatch('fetchCustomerInfo', username);
   }
 });
-customerInfo.value = computed(() => store.state.customerInfo.data || {});
-
-const isCollapse = ref(false);
-const value5 = ref(true);
-
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
 </script>
 
 <style>

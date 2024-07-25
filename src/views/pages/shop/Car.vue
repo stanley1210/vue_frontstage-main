@@ -117,7 +117,7 @@ axios.get('http://localhost:8080/kajarta/car/find/1')
             icon: "error"
         });
     });
-
+ 
 //==========Like=============
 import Like from './Like.vue';
 //==========Like=============

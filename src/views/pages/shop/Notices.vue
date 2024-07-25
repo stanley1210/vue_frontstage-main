@@ -1,6 +1,6 @@
 <template>
 
-    <el-icon :size="20" @click="visible = true"><Bell /></el-icon>
+    <el-icon :size="20" @click="visible = true" class="noticeButton"><Bell /></el-icon>
     <el-drawer v-model="visible" :show-close="false">
       <template #header="{ close, titleId, titleClass }">
         <h4 :id="titleId" :class="titleClass">This is a custom header!</h4>
@@ -20,5 +20,8 @@
   
   const visible = ref(false)
   </script>
-  <style>
+  <style scoped>
+  .noticeButton{
+    cursor: pointer;
+  }
 </style>
