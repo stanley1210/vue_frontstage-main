@@ -11,7 +11,7 @@
 			<input type="password" id="password" v-model="password" class="input-field" required>
 		</div>
 		<button type="submit" class="submit-button">登入</button>
-		<router-link to="/" class="register-link">註冊</router-link>
+		<a href="/pages/register" class="register-link">註冊</a>
 		<div v-if="loginMessage" class="alert alert-success mt-3">
 			{{ loginMessage }}
 		</div>
@@ -100,10 +100,12 @@ const getCustomerInfo = async (username) => {
 
 <style scoped>
 .p-text {
-	width: 90%; /* 调整底线的长度 */
+	width: 90%;
+	/* 调整底线的长度 */
 	color: #a33238;
 	font-size: 30px;
 }
+
 .header-container {
 	display: flex;
 	align-items: center;
@@ -169,15 +171,18 @@ const getCustomerInfo = async (username) => {
 }
 
 .input-field {
-	width: calc(100% - 100px); /* 当前设置宽度减去标签的宽度 */
+	width: calc(100% - 100px);
+	/* 当前设置宽度减去标签的宽度 */
 	padding: 8px;
 	border: none;
-	background-color: transparent; /* 背景透明 */
+	background-color: transparent;
+	/* 背景透明 */
 }
 
 .submit-button {
 	width: 100%;
-	max-width: 550px; /* 设定一个更窄的最大宽度 */
+	max-width: 550px;
+	/* 设定一个更窄的最大宽度 */
 	padding: 10px;
 	border: none;
 	border-radius: 4px;

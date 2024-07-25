@@ -1,11 +1,11 @@
 <template>
-         <div class="text-center navbarBody p-2 flex-fill">
+    <div class="text-center navbarBody p-2 flex-fill">
         <div class="row row-cols-2">
             <div class="col">
-                <img src="../../../../public/supra2.jpeg" class="imageSize" >
-                <img src="../../../../public/supra2.jpeg" class="imageSize" >
-                <img src="../../../../public/supra2.jpeg" class="imageSize" >
-                <img src="../../../../public/supra2.jpeg" class="imageSize" >
+                <img src="../../../../public/supra2.jpeg" class="imageSize">
+                <img src="../../../../public/supra2.jpeg" class="imageSize">
+                <img src="../../../../public/supra2.jpeg" class="imageSize">
+                <img src="../../../../public/supra2.jpeg" class="imageSize">
             </div>
             <div class="col d-flex align-items-start flex-column mb-3 wordBody">
                 <p>ID.{{ carData.id }}</p>
@@ -39,26 +39,24 @@
                 <p>車況評分：{{ carData.conditionScore }}</p>
                 <p>是否改裝：{{ carData.remark }}</p>
                 <p>上架日期：{{ carData.launchDate }}</p>
-                
+
             </div>
             <div class="col">
                 <h2>訂單狀態：{{ carData.state }}</h2>
                 <p>停放分店：{{ carData.branch }}</p>
                 <p>管理銷售員：{{ carData.employeeId }}</p>
                 <p>state狀態：{{ carData.state }}</p>
-                
+
             </div>
         </div>
     </div>
 </template>
-    
+
 <script setup>
 
-    const props=defineProps(["carData"]);
-    const emit = defineEmits([]);
+const props = defineProps(["carData"]);
+const emit = defineEmits([]);
 
 </script>
-    
-<style>
-    
-</style>
+
+<style></style>
