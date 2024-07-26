@@ -79,7 +79,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
-import MemberInfo from '@/components/MemberInfo.vue';
+import Navigation from '@/views/Navigation.vue';
 let customerInfo = ref({});
 const store = useStore();
 onMounted(() => {

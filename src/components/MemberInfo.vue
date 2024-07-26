@@ -1,204 +1,146 @@
 <template>
-    <Navigation></Navigation>
-    <div class="card-wrapper">
-        <el-card class="card">
-            <template #header></template>
-            <div class="card-content">
-                <img src="/jeep.jpg" alt="Register" class="card-image" />
-                <div class="card-form">
-                    <h2>Register</h2><br>
-                    <hr>
-                    <h4>Don’t Miss the Ride Sign Up Now and<br> Drive Away with Deals！</h4><br>
-                    <div>
-                        <form>
-                            <div class="form-item radio-group">
-                                <label>
-                                    <input type="radio" name="userType" value="regular"> 一般會員
-                                </label>
-                                <label>
-                                    <input type="radio" name="userType" value="seller"> 賣家
-                                </label>
-                            </div>
-
-                            <div class="form-item">
-                                <label for="username">帳號：</label>
-                                <input id="username" type="text" class="custom-input" />
-                            </div>
-                            <div class="form-item">
-                                <label for="password">密碼：</label>
-                                <input id="password" type="password" class="custom-input" />
-                            </div>
-                            <div class="form-item">
-                                <label for="name">姓名：</label>
-                                <input id="name" type="text" class="custom-input" />
-                            </div>
-                            <div class="form-item">
-                                <label for="idNumber">身分證號：</label>
-                                <input id="idNumber" type="text" class="custom-input" />
-                            </div>
-                            <div class="form-item">
-                                <label for="gender">性別：</label>
-                                <select id="gender" class="custom-input">
-                                    <option value="F">F</option>
-                                    <option value="M">M</option>
-                                </select>
-                            </div>
-                            <div class="form-item">
-                                <label for="phone">電話：</label>
-                                <input id="phone" type="text" class="custom-input" />
-                            </div>
-                            <div class="form-item">
-                                <label for="email">Email：</label>
-                                <input id="email" type="email" class="custom-input" />
-                            </div>
-                            <div class="form-item">
-                                <label for="city">縣市：</label>
-                                <select id="city" class="custom-input">
-                                    <option value="台北市">台北市</option>
-                                    <option value="新北市">新北市</option>
-                                    <option value="桃園市">桃園市</option>
-                                    <option value="台中市">台中市</option>
-                                </select>
-                            </div>
-                            <div class="form-item">
-                                <label for="address">地址：</label>
-                                <input id="address" type="text" class="custom-input" />
-                            </div>
-                            <div class="form-item">
-                                <button type="submit" class="submit-button">註冊</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+  <div class="card-wrapper">
+    <el-card class="card">
+      <div class="card-content">
+        <img src="/happyDriver.png" alt="Register" class="card-image" />
+        <div class="card-form">
+          <h2>Member Information</h2>
+          <form>
+            <div class="form-item">
+              <label for="name">姓名：</label>
+              <span>{{ customerInfo.name }}</span>
             </div>
-        </el-card>
-    </div>
+            <div class="form-item">
+              <label for="idNumber">身分證號：</label>
+              <span>{{ customerInfo.idNumber }}</span>
+            </div>
+            <div class="form-item">
+              <label for="gender">性別：</label>
+              <span>{{ customerInfo.sex }}</span>
+            </div>
+            <div class="form-item">
+              <label for="phone">電話：</label>
+              <span>{{ customerInfo.phone }}</span>
+            </div>
+            <div class="form-item">
+              <label for="email">Email：</label>
+              <span>{{ customerInfo.email }}</span>
+            </div>
+            <div class="form-item">
+              <label for="city">縣市：</label>
+              <span>{{ customerInfo.city }}</span>
+            </div>
+            <div class="form-item">
+              <label for="address">地址：</label>
+              <span>{{ customerInfo.address }}</span>
+            </div>
+            <div class="button-row">
+        <button>Information Revise</button>
+      </div>
+          </form>
+        </div>
+      </div>
+    </el-card>
+  </div>
 </template>
 
-
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, onMounted } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+const customerInfo = computed(() => store.state.customerInfo.data || {});
+
+onMounted(() => {
+  const username = localStorage.getItem("username");
+  if (username) {
+    store.dispatch("fetchCustomerInfo", username);
+  }
+});
 </script>
 
 <style scoped>
-hr {
-    border: none;
-    border-top: 1px solid #a33238;
-    /* 红色线条 */
-    margin: 5px 5px 5px 5px;
-    /* 上下间距 */
+.button-row {
+  margin-top: 20px;
 }
 
+.button-row button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  background-color: #b03a48;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+
 .card-wrapper {
-    display: flex;
-    justify-content: center;
-    /* 水平居中 */
-    align-items: center;
-    /* 垂直居中 */
-    min-height: 120vh;
-    /* 确保容器占满整个视口高度 */
-    background-color: #fff5eb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  width: 120%;
+  max-width: 1300px;
+  padding: 20px;
+  box-sizing: border-box;
+  margin: 0 auto; /* 确保在父容器中水平居中 */
 }
 
 .card {
-    max-width: 1400px;
-    /* 增大卡片的最大宽度 */
-    width: 100%;
-    /* 卡片宽度占满容器宽度 */
-    padding: 10px;
-    background-color: #fff5eb;
+  max-width: 1450px;
+  width: 100%;
+  padding: 10px;
+  background-color: #fff5eb;
 }
 
 .card-content {
-    display: flex;
-    align-items: stretch;
-    /* 使子元素的高度一致 */
-    background-color: white;
-    font-weight: bold;
-    color: #a33238;
-    width: 100%;
-    font-size: 17px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px; /* 减小图片和表单之间的间距 */
 }
-
 .card-image {
-    width: 50%;
-    /* 调整图片宽度 */
-    height: 100%;
-    /* 使图片的高度与父容器一致 */
-    object-fit: cover;
-    /* 保持图片的宽高比，并覆盖容器 */
-    margin-right: 30px;
+  width: 55%; /* 调整图片的宽度 */
+  height: auto;
+  object-fit: cover;
 }
 
 .card-form {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-right: 0; /* 去除右边距 */
+}
+
+h2 {
+  font-size: 28px;
+  color: #a33238;
+  margin: 0 0 20px 65px; /* 调整标题的左边距 */
 }
 
 form {
-    width: 100%;
+  width: 150%;
 }
 
 .form-item {
-    margin-right: 60px;
-    margin-bottom: 25px;
-    /* 增大表单项之间的间距 */
-    display: flex;
-    align-items: center;
-    /* 垂直居中对齐 */
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .form-item label {
-    width: 25%;
-    /* 标签宽度为列宽的1/4 */
-    text-align: right;
-    /* 标签右对齐 */
-    margin-right: 10px;
+  width: 20%;
+  text-align: right;
+  margin-right: 10px;
+  font-weight: bold;
+  color: #a33238;
 }
-
-.custom-input {
-    width: 120%;
-    font-size: 1.1em;
-    border: none;
-    border-bottom: 2px solid #a33238;
-    /* 红色底线 */
-    border-radius: 0;
-    padding: 4px;
-    margin-right: 60px;
-}
-
-.custom-input:focus,
-.custom-input:hover {
-    border-bottom: 2px solid #a33238;
-    /* 保持红色底线 */
-    box-shadow: none;
-}
-
-.submit-button {
-    width: 100%;
-    max-width: 500px;
-    max-height: 60px;
-    margin-left: 45px;
-    /* 增大按钮的最大宽度 */
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    background-color: #a33238;
-    color: white;
-    cursor: pointer;
-    font-size: 1.1em;
-    /* 增大按钮字体大小 */
-}
-
-.submit-button:hover {
-    background-color: #66b1ff;
-}
-
-.alert {
-    margin-top: 20px;
-    /* 增大警告消息的上边距 */
+span {
+  display: inline-block;
+  border-bottom: 2px solid #a33238;
+  width: 40%; /* 或指定具体的宽度，如 200px */
+  box-sizing: border-box; /* 包括边框在内的总宽度 */
 }
 </style>

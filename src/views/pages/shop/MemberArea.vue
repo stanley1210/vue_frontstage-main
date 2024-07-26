@@ -1,6 +1,5 @@
 <template>
         <Navigation></Navigation>
-        <MemberInfo></MemberInfo>
         <MemberAreaNav :name="customerInfo.name"></MemberAreaNav>
         <br><br>
         <ViewCarCard></ViewCarCard>
@@ -12,6 +11,7 @@
         </p>
         <br>
         <Like></Like>
+        <MemberInfo></MemberInfo>
         <Footer></Footer>
 </template>
 
