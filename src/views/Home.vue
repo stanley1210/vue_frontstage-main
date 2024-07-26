@@ -65,7 +65,7 @@
   </div>
   <!-- Display user information -->
   <div>
-    ~ {{ customerInfo.name || "用户名" }} ~ {{ customerInfo.id || "用户ID" }} ~
+    ~ {{ customerInfo.name || "用戶名" }} ~ {{ customerInfo.id || "用戶ID" }} ~
     {{ customerInfo.account || "帳號" }}
   </div>
 </template>

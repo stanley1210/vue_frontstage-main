@@ -63,7 +63,7 @@ const handleSubmit = () => {
 					localStorage.setItem('username', username);
 					// 发起请求获取员工信息
 					await getCustomerInfo(username);
-					// 跳轉到 Home 頁面
+					// 跳轉到 about 頁面
 					router.push('/pages/about');
 				});
 			} else {
