@@ -19,7 +19,6 @@
 									<input type="radio" name="userType" value="seller"> 賣家
 								</label>
 							</div>
-
 							<div class="form-item">
 								<label for="username">帳號：</label>
 								<input id="username" type="text" class="custom-input" />

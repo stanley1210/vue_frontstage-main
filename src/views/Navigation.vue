@@ -22,7 +22,7 @@
           <li class="nav-item col">
             <RouterLink class="nav-link" :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink>
           </li>
-          <li class="nav-item col">
+          <li class="nav-item col" v-if="isAuthenticated">
             <RouterLink class="nav-link" :to="{ name: 'pages-shop-memberArea-link' }">MemberArea</RouterLink>
           </li>
           <li class="nav-item col">
