@@ -58,8 +58,6 @@ const store = useStore();
 const isAuthenticated = computed(() => store.state.isAuthenticated);
 
 
-const isAuthenticated = computed(() => store.state.isAuthenticated);
-
 const logout = async () => {
   try {
     console.log('Attempting to logout');
