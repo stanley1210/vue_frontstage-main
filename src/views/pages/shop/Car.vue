@@ -75,24 +75,24 @@ axios.get('http://localhost:8080/kajarta/car/find/1')
                 selectedCarId.value = carDatas.value[0].id; // 假设你选择了第一个汽车
                 console.log("Selected Car ID:", selectedCarId.value); // Debug output
             }
-       
 
-        //搜尋圖片資訊
-        axios.get('http://localhost:8080/kajarta/image/getCarIdImage/1')
-        .then(function (response) {
-            if (response && response.data) {
-                console.log("response", response);
-                images.value=response.data.CarIdImageList;
-            } else {
-                console.error("Invalid response data structure:", response);
-            }
-
-        // setTimeout(function () {
-        //     Swal.close();
-        // }, 500);
+            // 搜索图片信息
+            return axios.get('http://localhost:8080/kajarta/image/getCarIdImage/1');
+        } else {
+            console.error("Invalid response data structure:", response);
+            throw new Error("Invalid car data response");
+        }
+    })
+    .then(function (response) {
+        if (response && response.data) {
+            console.log("response", response);
+            images.value = response.data.CarIdImageList;
+        } else {
+            console.error("Invalid response data structure:", response);
+        }
     })
     .catch(function (error) {
-        console.error("Error fetching data:", error, response);
+        console.error("Error fetching data:", error);
         Swal.fire({
             text: "查詢失敗：" + error.message,
             icon: "error"
@@ -114,8 +114,7 @@ function hideViewCar() {
     showViewCar.value = false;
 }
 //=========ViewCar========
-        }
-    }
+
 </script>
 
 <style></style>
