@@ -57,7 +57,9 @@ const router = useRouter();
 const store = useStore();
 
 const isAuthenticated = computed(() => store.state.isAuthenticated);
-
+const customerInfo = computed(() => store.state.customerInfo.data || {});
+const viewCars = ref<any[]>([]);
+const filteredViewCars = ref<any[]>([]);
 
 const logout = async () => {
   try {
@@ -79,10 +81,45 @@ const logout = async () => {
   }
 };
 
+//=======================ViewCar==========================
+const fetchViewCars = async () => {
+  if (customerInfo.value.id) {
+    try {
+      const response = await axiosapi.get(`http://localhost:8080/kajarta/front/viewCar/findByCustomer/${customerInfo.value.id}`);
+      const data = response.data;
+      viewCars.value = data.list;
+
+      // 获取当前时间和未来 10 天的日期
+      const today = new Date();
+      const futureDate = new Date();
+      futureDate.setDate(today.getDate() + 10);
+
+      console.log('Today:', today.toISOString().split('T')[0]);
+      console.log('Future Date (10 days later):', futureDate.toISOString().split('T')[0]);
+
+      // 筛选出 viewCarDate 在未来 10 天内的记录
+      filteredViewCars.value = viewCars.value.filter((viewCar: any) => {
+        const viewCarDate = new Date(viewCar.viewCarDate);
+        console.log(`ViewCarDate: ${viewCar.viewCarDate}, Parsed Date: ${viewCarDate.toISOString().split('T')[0]}`);
+        return viewCarDate >= today && viewCarDate <= futureDate;
+      });
+
+      console.log('Filtered view cars (within next 10 days):', filteredViewCars.value);
+    } catch (error) {
+      console.error('Failed to fetch view cars:', error);
+    }
+  }
+};
+//=======================ViewCar==========================
+
+
+
+
 onMounted(async () => {
   const username = localStorage.getItem('username');
   if (username) {
     await store.dispatch('fetchCustomerInfo', username);
+    await fetchViewCars();
   }
 });
 </script>
