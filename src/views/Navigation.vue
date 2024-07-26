@@ -1,6 +1,6 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbarBody">
-    <div class="container-fluid">
+  <nav class="navbar navbar-expand-lg navbarBody ">
+    <div class="container-fluid navbar-margin">
       <RouterLink class="navbar-brand nav-link active" :to="{ name: 'home-link' }">
         <img src="/Kajarta_LOGO_03.svg" class="kajartaLogo" />
       </RouterLink>
@@ -38,9 +38,10 @@
             <button class="btn btn-link nav-link" @click="logout">Logout</button>
           </li>
       </ul>
+      <div><Notices></Notices></div>
     </div>
   </div>
-  <div><Notices></Notices></div>
+
   </nav>
 </template>
 

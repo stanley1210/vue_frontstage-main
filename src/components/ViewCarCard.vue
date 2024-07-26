@@ -94,7 +94,7 @@ const getViewCarBranchText = (branch) => branchMap[branch] || '未知状态';
 const fetchViewCars = async (pageNumber) => {
   try {
     const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/selectAll', {
-      params: { pageNumber }
+      params: { pageNumber, max: 1 }
     });
 
     const data = response.data;

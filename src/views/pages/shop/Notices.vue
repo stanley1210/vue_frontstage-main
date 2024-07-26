@@ -1,11 +1,12 @@
 <template>
-
   <el-icon :size="20" @click="visible = true" class="noticeButton">
     <Bell />
   </el-icon>
-  <el-drawer v-model="visible" :show-close="false">
+  <el-drawer v-model="visible" :show-close="false"> <!-- 修改处：添加 class -->
     <template #header="{ close, titleId, titleClass }">
-      <h4 :id="titleId" :class="titleClass">This is a custom header!</h4>
+      <div>
+        <h3 class="custom-title-color" :id="titleId">Hello，{{ customerInfo.name }}!</h3>
+      </div>
       <el-button type="danger" @click="close">
         <el-icon class="el-icon--left">
           <CircleCloseFilled />
@@ -14,10 +15,6 @@
       </el-button>
     </template>
     This is drawer content.
-    <div>
-      ~ {{ customerInfo.name || "用户名" }} ~ {{ customerInfo.id || "用户ID" }} ~
-      {{ customerInfo.account || "帳號" }}
-    </div>
   </el-drawer>
 </template>
 
@@ -45,8 +42,16 @@ onMounted(() => {
 
 const visible = ref(false)
 </script>
+
 <style scoped>
 .noticeButton {
   cursor: pointer;
 }
+
+.custom-title-color {
+  color: #a33238;
+  line-height: 12px;
+  margin-top: 16px;
+}
+
 </style>
