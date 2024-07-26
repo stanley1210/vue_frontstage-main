@@ -28,7 +28,7 @@
             </div>
             <div class="form-item">
               <label for="city">縣市：</label>
-              <span>{{ customerInfo.city }}</span>
+              <span>{{ customerInfo.cityName }}</span>
             </div>
             <div class="form-item">
               <label for="address">地址：</label>
@@ -60,21 +60,17 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.button-row {
-  margin-top: 20px;
-}
 
 .button-row button {
   margin-right: 10px;
-  padding: 10px 20px;
+  margin-left: 167px; /* 添加左侧间距 */
+  padding: 7px 93px;
   background-color: #b03a48;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
-
-
 
 
 .card-wrapper {
@@ -117,7 +113,7 @@ onMounted(() => {
 h2 {
   font-size: 28px;
   color: #a33238;
-  margin: 0 0 20px 65px; /* 调整标题的左边距 */
+  margin: 0 0 20px 75px; /* 调整标题的左边距 */
 }
 
 form {
