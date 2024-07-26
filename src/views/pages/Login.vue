@@ -55,7 +55,9 @@ const handleSubmit = () => {
 				Swal.fire({
 					icon: 'success',
 					title: '登入成功',
-					text: '您已成功登入！'
+					showConfirmButton: false, // 隐藏确认按钮
+					timer: 1000, 
+					
 				}).then(async () => {
 					const username = data.data.username;
 					console.log('=====>username', username);
