@@ -1,5 +1,5 @@
 <template>
-  <div class="card-wrapper">
+  <div class="card-wrapper" v-if="customerInfo">
     <el-card class="card">
       <div class="card-content">
         <img src="/happyDriver.png" alt="Register" class="card-image" />
