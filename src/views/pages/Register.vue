@@ -1,205 +1,299 @@
 <template>
-	<Navigation></Navigation>
-	<div class="card-wrapper">
-		<el-card class="card">
-			<template #header></template>
-			<div class="card-content">
-				<img src="/jeep.jpg" alt="Register" class="card-image" />
-				<div class="card-form">
-					<h2>Register</h2><br>
-					<hr>
-					<h4>Don’t Miss the Ride Sign Up Now and<br> Drive Away with Deals！</h4><br>
-					<div>
-						<form>
-							<div class="form-item radio-group">
-								<label>
-									<input type="radio" name="userType" value="regular"> 一般會員
-								</label>
-								<label>
-									<input type="radio" name="userType" value="seller"> 賣家
-								</label>
-							</div>
-
-							<div class="form-item">
-								<label for="username">帳號：</label>
-								<input id="username" type="text" class="custom-input" />
-							</div>
-							<div class="form-item">
-								<label for="password">密碼：</label>
-								<input id="password" type="password" class="custom-input" />
-							</div>
-							<div class="form-item">
-								<label for="name">姓名：</label>
-								<input id="name" type="text" class="custom-input" />
-							</div>
-							<div class="form-item">
-								<label for="idNumber">身分證號：</label>
-								<input id="idNumber" type="text" class="custom-input" />
-							</div>
-							<div class="form-item">
-								<label for="gender">性別：</label>
-								<select id="gender" class="custom-input">
-									<option value="F">F</option>
-									<option value="M">M</option>
-								</select>
-							</div>
-							<div class="form-item">
-								<label for="phone">電話：</label>
-								<input id="phone" type="text" class="custom-input" />
-							</div>
-							<div class="form-item">
-								<label for="email">Email：</label>
-								<input id="email" type="email" class="custom-input" />
-							</div>
-							<div class="form-item">
-								<label for="city">縣市：</label>
-								<select id="city" class="custom-input">
-									<option value="台北市">台北市</option>
-									<option value="新北市">新北市</option>
-									<option value="桃園市">桃園市</option>
-									<option value="台中市">台中市</option>
-								</select>
-							</div>
-							<div class="form-item">
-								<label for="address">地址：</label>
-								<input id="address" type="text" class="custom-input" />
-							</div>
-							<div class="form-item">
-								<button type="submit" class="submit-button">註冊</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</el-card>
-	</div>
+  <Navigation></Navigation>
+  <div class="card-wrapper">
+    <el-card class="card">
+      <template #header></template>
+      <div class="card-content">
+        <img src="/jeep.jpg" alt="Register" class="card-image" />
+        <div class="card-form">
+          <h2>Register</h2>
+          <br />
+          <hr />
+          <h4>
+            Don’t Miss the Ride Sign Up Now and<br />
+            Drive Away with Deals！
+          </h4>
+          <br />
+          <div>
+            <form>
+              <div class="form-item radio-group">
+                <label>
+                  <input type="radio" v-model="form.accountType" value="1" /> 一般會員
+                </label>
+                <label>
+                  <input type="radio" v-model="form.accountType" value="2" /> 賣家
+                </label>
+              </div>
+              <div class="form-item">
+                <label for="account">帳號：</label>
+                <input
+                  id="account"
+                  type="text"
+                  v-model="form.account"
+                  class="custom-input"
+                />
+              </div>
+              <div class="form-item">
+                <label for="password">密碼：</label>
+                <input
+                  id="password"
+                  type="password"
+                  v-model="form.password"
+                  class="custom-input"
+                />
+              </div>
+              <div class="form-item">
+                <label for="name">姓名：</label>
+                <input id="name" type="text" v-model="form.name" class="custom-input" />
+              </div>
+              <div class="form-item">
+                <label for="idNumber">身分證號：</label>
+                <input
+                  id="idNumber"
+                  type="text"
+                  v-model="form.idNumber"
+                  class="custom-input"
+                />
+              </div>
+              <div class="form-item">
+                <label for="sex">性別：</label>
+                <select id="sex" v-model="form.sex" class="custom-input">
+                  <option value="F">F</option>
+                  <option value="M">M</option>
+                </select>
+              </div>
+              <div class="form-item">
+                <label for="phone">電話：</label>
+                <input id="phone" type="text" v-model="form.phone" class="custom-input" />
+              </div>
+              <div class="form-item">
+                <label for="email">Email：</label>
+                <input
+                  id="email"
+                  type="email"
+                  v-model="form.email"
+                  class="custom-input"
+                />
+              </div>
+              <div class="form-item">
+                <label for="city">縣市：</label>
+                <select id="city" v-model="form.city" class="custom-input">
+                  <option v-for="(city, value) in cities" :key="value" :value="value">
+                    {{ city }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-item">
+                <label for="address">地址：</label>
+                <input
+                  id="address"
+                  type="text"
+                  v-model="form.address"
+                  class="custom-input"
+                />
+              </div>
+              <div class="form-item">
+                <button type="button" @click="callCreate" class="submit-button">
+                  註冊
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </el-card>
+  </div>
 </template>
 
-
 <script setup>
-import Navigation from '../Navigation.vue';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from "vue";
+import axiosapi from "@/plugins/axios.js";
+import { useStore } from "vuex";
+import Swal from "sweetalert2";
+import Navigation from "@/views/Navigation.vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+//城市
+const cities = ref({
+  1: "台北市",
+  2: "新北市",
+  3: "桃園市",
+  4: "台中市",
+  5: "台南市",
+  6: "高雄市",
+  7: "基隆市",
+  8: "新竹市",
+  9: "新竹縣",
+  10: "嘉義市",
+  11: "嘉義縣",
+  12: "苗栗縣",
+  13: "彰化縣",
+  14: "南投縣",
+  15: "雲林縣",
+  16: "屏東縣",
+  17: "宜蘭縣",
+  18: "花蓮縣",
+  19: "台東縣",
+});
+
+const store = useStore();
+const form = ref({
+  accountType: "", // This should be 'accountType' to match with the radio button v-model
+  account: "",
+  password: "",
+  name: "",
+  idNumber: "",
+  sex: "",
+  phone: "",
+  email: "",
+  city: "", // 确保这里存储的是城市的编号
+  address: "",
+});
+
+const callCreate = async () => {
+  const request = {
+    accountType: form.value.accountType,
+    account: form.value.account,
+    password: form.value.password,
+    name: form.value.name,
+    idNumber: form.value.idNumber,
+    sex: form.value.sex,
+    phone: form.value.phone,
+    email: form.value.email,
+    city: form.value.city,
+    address: form.value.address,
+  };
+
+  try {
+    const response = await axiosapi.post("/customer/add", request);
+    console.log("API Response:", response.data); // 添加此行查看响应内容
+    if (response.data.success) {
+      Swal.fire({
+        icon: "success",
+        title: "註冊成功",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+      router.push("/");
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "註冊失敗",
+        text: response.data.msg,
+      });
+    }
+  } catch (error) {
+    console.error("Error during registration:", error);
+    Swal.fire({
+      icon: "error",
+      title: "註冊失敗",
+      text: "請稍後再試",
+    });
+  }
+};
+
+const customerInfo = ref({});
+onMounted(() => {
+  const username = localStorage.getItem("username");
+  if (username) {
+    store.dispatch("fetchCustomerInfo", username);
+  }
+});
+customerInfo.value = store.state.customerInfo.data || {};
+console.log("===>test Customer info:", customerInfo.value);
 </script>
 
 <style scoped>
 hr {
-	border: none;
-	border-top: 1px solid #a33238;
-	/* 红色线条 */
-	margin: 5px 5px 5px 5px;
-	/* 上下间距 */
+  border: none;
+  border-top: 1px solid #a33238;
+  margin: 5px 5px 5px 5px;
 }
 
 .card-wrapper {
-	display: flex;
-	justify-content: center;
-	/* 水平居中 */
-	align-items: center;
-	/* 垂直居中 */
-	min-height: 120vh;
-	/* 确保容器占满整个视口高度 */
-	background-color: #fff5eb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 120vh;
+  background-color: #fff5eb;
 }
 
 .card {
-	max-width: 1400px;
-	/* 增大卡片的最大宽度 */
-	width: 100%;
-	/* 卡片宽度占满容器宽度 */
-	padding: 10px;
-	background-color: #fff5eb;
+  max-width: 1400px;
+  width: 100%;
+  padding: 10px;
+  background-color: #fff5eb;
 }
 
 .card-content {
-	display: flex;
-	align-items: stretch;
-	/* 使子元素的高度一致 */
-	background-color: white;
-	font-weight: bold;
-	color: #a33238;
-	width: 100%;
-	font-size: 17px;
+  display: flex;
+  align-items: stretch;
+  background-color: white;
+  font-weight: bold;
+  color: #a33238;
+  width: 100%;
+  font-size: 17px;
 }
 
 .card-image {
-	width: 50%;
-	/* 调整图片宽度 */
-	height: 100%;
-	/* 使图片的高度与父容器一致 */
-	object-fit: cover;
-	/* 保持图片的宽高比，并覆盖容器 */
-	margin-right: 30px;
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+  margin-right: 30px;
 }
 
 .card-form {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}
-
-form {
-	width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .form-item {
-	margin-right: 60px;
-	margin-bottom: 25px;
-	/* 增大表单项之间的间距 */
-	display: flex;
-	align-items: center;
-	/* 垂直居中对齐 */
+  margin-right: 60px;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
 }
 
 .form-item label {
-	width: 25%;
-	/* 标签宽度为列宽的1/4 */
-	text-align: right;
-	/* 标签右对齐 */
-	margin-right: 10px;
+  width: 25%;
+  text-align: right;
+  margin-right: 10px;
 }
 
 .custom-input {
-	width: 120%;
-	font-size: 1.1em;
-	border: none;
-	border-bottom: 2px solid #a33238;
-	/* 红色底线 */
-	border-radius: 0;
-	padding: 4px;
-	margin-right: 60px;
+  width: 120%;
+  font-size: 1.1em;
+  border: none;
+  border-bottom: 2px solid #a33238;
+  border-radius: 0;
+  padding: 4px;
+  margin-right: 60px;
 }
 
 .custom-input:focus,
 .custom-input:hover {
-	border-bottom: 2px solid #a33238;
-	/* 保持红色底线 */
-	box-shadow: none;
+  border-bottom: 2px solid #a33238;
+  box-shadow: none;
 }
 
 .submit-button {
-	width: 100%;
-	max-width: 500px;
-	max-height: 60px;
-	margin-left: 45px;
-	/* 增大按钮的最大宽度 */
-	padding: 12px;
-	border: none;
-	border-radius: 6px;
-	background-color: #a33238;
-	color: white;
-	cursor: pointer;
-	font-size: 1.1em;
-	/* 增大按钮字体大小 */
+  width: 100%;
+  max-width: 500px;
+  max-height: 60px;
+  margin-left: 45px;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #a33238;
+  color: white;
+  cursor: pointer;
+  font-size: 1.1em;
 }
 
 .submit-button:hover {
-	background-color: #66b1ff;
-}
-
-.alert {
-	margin-top: 20px;
-	/* 增大警告消息的上边距 */
+  background-color: #66b1ff;
 }
 </style>

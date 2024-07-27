@@ -55,7 +55,9 @@ const handleSubmit = () => {
 				Swal.fire({
 					icon: 'success',
 					title: '登入成功',
-					text: '您已成功登入！'
+					showConfirmButton: false, // 隐藏确认按钮
+					timer: 1000, 
+					
 				}).then(async () => {
 					const username = data.data.username;
 					console.log('=====>username', username);
@@ -63,7 +65,7 @@ const handleSubmit = () => {
 					localStorage.setItem('username', username);
 					// 发起请求获取员工信息
 					await getCustomerInfo(username);
-					// 跳轉到 Home 頁面
+					// 跳轉到 about 頁面
 					router.push('/pages/about');
 				});
 			} else {

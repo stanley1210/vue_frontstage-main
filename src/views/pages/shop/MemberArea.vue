@@ -1,14 +1,18 @@
 <template>
-    <Navigation></Navigation>
-    <MemberAreaNav :name="customerInfo.name"></MemberAreaNav>
-    <br><br>
-    <ViewCarCard></ViewCarCard>
-    <br> <br> <br>
-  <div class="homepageSlogan">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sparkling List</div>
-  <p>__________________________________________________________________________________________________________________</p>
-  <br>
-    <Like></Like>
-    <Footer></Footer>
+        <Navigation></Navigation>
+        <MemberAreaNav :name="customerInfo.name"></MemberAreaNav>
+        <br><br>
+        <ViewCarCard></ViewCarCard>
+        <br> <br> <br>
+        <div class="homepageSlogan">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sparkling
+                List</div>
+        <p>__________________________________________________________________________________________________________________
+        </p>
+        <br>
+        <Like></Like>
+        <MemberInfo></MemberInfo>
+        <Footer></Footer>
 </template>
 
 <script setup>
@@ -19,6 +23,7 @@ import ViewCarCard from '@/components/ViewCarCard.vue';
 import MemberAreaNav from '@/components/MemberAreaNav.vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
+import MemberInfo from '@/components/MemberInfo.vue';
 let customerInfo = ref({});
 const store = useStore();
 onMounted(() => {
