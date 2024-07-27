@@ -4,7 +4,7 @@
   <h3 style="color: #a33238;">顯示搜尋車輛結果</h3>
   <div class="card-container">
     <div class="card" v-for="data in results" :key="data.id" :data="data">
-    <img class="card-img-top" :src="`${imageBasePath}${data.image}`" :alt="data.modelName"> 
+    <img class="card-img-top" :src="`${path}${data.id}`" :alt="data.modelName"> 
       <div class="card-body navbarBody">
         <h5 class="card-title">{{ data.modelName }}</h5>
         <p class="card-text">
@@ -36,6 +36,7 @@ import { useRoute,useRouter  } from 'vue-router';
 import Navigation from '@/views/Navigation.vue';
 import axios from 'axios';
 
+const path =import.meta.env.VITE_PHOTO;
 const route = useRoute();
 const router = useRouter();
 const query = route.query;
@@ -55,7 +56,7 @@ const milage = ref('');
 const score = ref('');
 const hp = ref('');
 const torque = ref('');
-const imageBasePath = 'http://localhost:8080/kajarta/image/getImage/';
+
 
 const handleSearchByNoMemSearch = async () => {
   try {
@@ -86,6 +87,7 @@ const handleSearchByNoMemSearch = async () => {
   }
 };
 
+
 const goBack = () => {
   router.push({
     name: 'pages-shop-home-link'
@@ -105,15 +107,6 @@ onMounted(() => {
   overflow-x: auto;
 }
 
-/* .card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  flex: 0 0 auto;
-  width: 300px;
-  box-sizing: border-box;
-} */
 
 .card-body {
   display: flex;

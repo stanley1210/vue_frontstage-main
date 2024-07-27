@@ -215,7 +215,7 @@ const milage = ref('')
 const score = ref('')
 const hp = ref('')
 const torque = ref('')
-// 存储查询结果
+//儲存查詢結果
 const results = ref([])
 
 // 提交查询
@@ -331,83 +331,6 @@ const resetForm = () => {
   torque.value = ''
 }
 
-
-// const handleSearchByName = async () => {
-//   try {
-//     const response = await axios.get('http://localhost:8080/kajarta/preference/search/selectName', {
-//       params: { keyword: selectName.value }
-//     })
-//     console.log('車輛名稱搜尋結果:', response.data)
-//   } catch (error) {
-//     console.error('車輛名稱查詢失敗:', error)
-//   }
-// }
-
-// const handleSearchByYear = async () => {
-//   try {
-//     const response = await axios.get('http://localhost:8080/kajarta/preference/search/productionYear', {
-//       params: { keyword: parseInt(productionYear.value, 10) }
-//     })
-//     console.log('年分查詢結果:', response.data)
-//   } catch (error) {
-//     console.error('年分查詢失敗:', error)
-//   }
-// }
-
-// const handleSearchByPrice = async () => {
-//   try {
-//     const response = await axios.get('http://localhost:8080/kajarta/preference/search/price', {
-//       params: { keyword: parseFloat(price.value) }
-//     })
-//     console.log('價格查詢結果:', response.data)
-//   } catch (error) {
-//     console.error('價格查詢失敗:', error)
-//   }
-// }
-
-// const handleSearchByMilage = async () => {
-//   try {
-//     const response = await axios.get('http://localhost:8080/kajarta/preference/search/milage', {
-//       params: { keyword: parseInt(milage.value, 10) }
-//     })
-//     console.log('里程數查詢結果:', response.data)
-//   } catch (error) {
-//     console.error('里程數查詢失敗:', error)
-//   }
-// }
-
-// const handleSearchByScore = async () => {
-//   try {
-//     const response = await axios.get('http://localhost:8080/kajarta/preference/search/score', {
-//       params: { keyword: parseInt(score.value, 10) }
-//     })
-//     console.log('評分查詢結果:', response.data)
-//   } catch (error) {
-//     console.error('評分查詢失敗:', error)
-//   }
-// }
-
-// const handleSearchByHp = async () => {
-//   try {
-//     const response = await axios.get('http://localhost:8080/kajarta/preference/search/hp', {
-//       params: { keyword: parseInt(hp.value, 10) }
-//     })
-//     console.log('馬力查詢結果:', response.data)
-//   } catch (error) {
-//     console.error('馬力查詢失敗:', error)
-//   }
-// }
-
-// const handleSearchByTorque = async () => {
-//   try {
-//     const response = await axios.get('http://localhost:8080/kajarta/preference/search/torque', {
-//       params: { keyword: parseFloat(torque.value) }
-//     })
-//     console.log('扭力查詢結果:', response.data)
-//   } catch (error) {
-//     console.error('扭力查詢失敗:', error)
-//   }
-// }
 
 </script>
     
