@@ -1,46 +1,133 @@
 <template>
-    <Navigation></Navigation>
-
-    <br>
-        <div class="card-body navbarBody">
-            <p class="card-text">
-                車輛名稱：{{ results.modelName }}<br>
-                年分: {{ results.productionYear }}<br>
-                價格: {{ results.price }} <br />
-                里程數:{{ results.milage }} <br />
-                車況評分:{{ results.score }} <br />
-                馬力:{{ results.hp }} <br />
-                扭力: {{ results.torque }} <br />
-                品牌: {{ results.brand }} <br />
-                車型: {{ results.suspension }} <br />
-                車門數: {{ results.door }} <br />
-                乘客數: {{ results.passenger }} <br />
-                驅動方式: {{ results.rearWheel }} <br />
-                引擎燃料: {{ results.gasoline }} <br />
-                變速系統: {{ results.transmission }} <br />
-                排氣量: {{ results.cc }} <br />
-            </p>
-        </div>
+  <Navigation></Navigation>
+  <br />
+  <h3 style="color: #a33238;">顯示搜尋車輛結果</h3>
+  <div class="card-container">
+    <div class="card" v-for="data in results" :key="data.id" :data="data">
+    <img class="card-img-top" :src="`${imageBasePath}${data.image}`" :alt="data.modelName"> 
+      <div class="card-body navbarBody">
+        <h5 class="card-title">{{ data.modelName }}</h5>
+        <p class="card-text">
+          年分: {{ data.productionYear }}<br />
+          價格: {{ data.price }} <br />
+          里程數: {{ data.milage }} <br />
+          車況評分: {{ data.conditionScore }} <br />
+          馬力: {{ data.hp }} <br />
+          扭力: {{ data.torque }} <br />
+          品牌: {{ data.brand }} <br />
+          車型: {{ data.suspension }} <br />
+          車門數: {{ data.door }} <br />
+          乘客數: {{ data.passenger }} <br />
+          驅動方式: {{ data.rearWheel }} <br />
+          引擎燃料: {{ data.gasoline }} <br />
+          變速系統: {{ data.transmission }} <br />
+          排氣量: {{ data.cc }} <br />
+        </p>
+      </div>
+    </div>
+  </div>
+  <br>
+  <el-button @click="goBack" type="default" color="#a33238">返回查詢</el-button>
 </template>
+
 <script setup>
-import { ref} from 'vue';
-import { useRoute } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import { useRoute,useRouter  } from 'vue-router';
 import Navigation from '@/views/Navigation.vue';
-import { defineProps } from 'vue';
+import axios from 'axios';
 
-// 使用 useRoute 来获取路由中的查询参数
 const route = useRoute();
-const results = ref({});
+const router = useRouter();
+const query = route.query;
+const results = ref([]);
+const brand = ref('');
+const suspension = ref('');
+const door = ref('');
+const passenger = ref('');
+const rearWheel = ref('');
+const gasoline = ref('');
+const transmission = ref('');
+const cc = ref('');
+const modelName = ref('');
+const productionYear = ref('');
+const price = ref('');
+const milage = ref('');
+const score = ref('');
+const hp = ref('');
+const torque = ref('');
+const imageBasePath = 'http://localhost:8080/kajarta/image/getImage/';
 
-const props = defineProps({
-  results: {
-    type: Object,
-    default: () => ({})
+const handleSearchByNoMemSearch = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/kajarta/preference/searchMore', {
+      params: {
+        brand: brand.value,
+        suspension: suspension.value,
+        door: door.value,
+        passenger: passenger.value,
+        rearWheel: rearWheel.value,
+        gasoline: gasoline.value,
+        transmission: transmission.value,
+        cc: cc.value,
+        score: score.value,
+        modelName: query.modelName || null,
+        productionYear: query.productionYear ? parseInt(productionYear.value, 10) : null,
+        price: query.price ? parseFloat(price.value) : null,
+        milage: query.milage ? parseInt(milage.value, 10) : null,
+        hp: query.hp ? parseInt(hp.value, 10) : null,
+        torque: query.torque ? parseFloat(torque.value) : null,
+      },
+    });
+    results.value = response.data.preferenceCarList;
+    
+    console.log('查詢結果:', response.data);
+  } catch (error) {
+    console.error('查詢失敗:', error);
   }
+};
+
+const goBack = () => {
+  router.push({
+    name: 'pages-shop-home-link'
+})};
+
+onMounted(() => {
+  handleSearchByNoMemSearch();
+  console.log('query=' + query);
 });
-
 </script>
+
 <style>
+.card-container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+  overflow-x: auto;
+}
 
+/* .card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 0 0 auto;
+  width: 300px;
+  box-sizing: border-box;
+} */
 
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  font-size: 1rem;
+  line-height: 1.5;
+}
 </style>

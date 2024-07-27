@@ -20,6 +20,6 @@ export default [
     { name: "pages-shop-notices-link", path: "/pages/shop/notices", component: Notices },
     { name: "login", path: "/pages/login", component: Login },
     { name: "about", path: "/pages/about", component: About },
-    { name: "register", path: "/pages/register", component: Register }
+    { name: "register", path: "/pages/register", component: Register },
     { name: "pages-shop-PreferenceSearch-link", path: "/pages/shop/PreferenceSearch", component: PreferenceSearch }
 ];

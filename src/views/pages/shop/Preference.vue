@@ -2,6 +2,7 @@
 <el-button type="primary" color="#a33238" :icon="Search" @click="drawer = true">
   會員進階查詢
   </el-button>
+  <el-button color="#a33238" @click="goToRegister" :dark="isDark">註冊會員</el-button>
   <el-drawer v-model="drawer" title="進階搜尋功能" :with-header="false" style="background-color:#fff5eb" >
     <span style="color: #a33238;">選擇你想要的車輛條件</span>
     <div class="form-container" >
@@ -140,7 +141,7 @@
           </select>
         </div>
         <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">進階搜尋</el-button>
-        <el-button type="danger" @click="resetForm">重置查詢</el-button>
+        <el-button type="warning" @click="resetForm">重置查詢</el-button>
       </div>
     </el-drawer>
 
@@ -182,7 +183,7 @@
     </div>
 
     <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">查詢</el-button>
-    <el-button type="danger"  @click="resetForm">重置查詢</el-button>
+    <el-button type="warning"  @click="resetForm">重置查詢</el-button>
   </div>
 
 <!-- <div class="form-group">
@@ -194,10 +195,10 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
-const drawer = ref(false)
 import { Search} from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 
+const drawer = ref(false)
 const router = useRouter()
 const brand = ref('')
 const suspension = ref('')
@@ -255,31 +256,34 @@ const results = ref([])
 //   }
 // }
 
-const handleSubmit = async () => {
-  try {
-    // 调用动态查询
-    await handleSearchByNoMemSearch();
-    // 跳转到结果页面
-    router.push({ name: 'pages-shop-PreferenceSearch-link', 
-    query: { brand: results.brand, 
-      suspension: results.suspension, 
-      door: results.door, 
-      passenger: results.passenger, 
-      rearWheel: results.rearWheel, 
-      gasoline: results.gasoline, 
-      transmission: results.transmission, 
-      cc: results.cc, 
-      score: results.score, 
-      modelName: results.modelName, 
-      productionYear: results.productionYear, 
-      price: results.price, 
-      milage: results.milage, 
-      hp: results.hp, 
-      torque: results.torque}})
-  } catch (error) {
-    console.error('查詢失敗:', error);
-  }
-}
+const handleSubmit = () => {
+
+  router.push({
+    name: 'pages-shop-PreferenceSearch-link',
+    query: {
+      modelName: modelName.value,
+      productionYear: productionYear.value,
+      price: price.value,
+      milage: milage.value,
+      score: score.value,
+      hp: hp.value,
+      torque: torque.value,
+      brand: brand.value,
+      suspension: suspension.value,
+      door: door.value,
+      passenger: passenger.value,
+      rearWheel: rearWheel.value,
+      gasoline: gasoline.value,
+      transmission: transmission.value,
+      cc: cc.value,
+    },
+  });
+
+};
+
+const goToRegister = () => {
+  router.push({ name: 'register' });
+};
 
 const handleSearchByNoMemSearch = async () => {
   try {
@@ -322,7 +326,7 @@ const resetForm = () => {
   productionYear.value = ''
   price.value = ''
   milage.value = ''
-  conditionScore.value = ''
+  score.value = ''
   hp.value = ''
   torque.value = ''
 }
