@@ -48,15 +48,6 @@ const viewCarStatus = ref(0)
 const customerId = ref(0)
 
 
-
-const timeSectionMap = {
-  "10:00:00-12:00:00": 1,
-  "13:00:00-15:00:00": 2,
-  "15:00:00-17:00:00": 3,
-  "17:00:00-19:00:00": 4,
-};
-const getViewCarStatusText = (status) => timeSectionMap[status] || '未知状态';
-
 let timer;
 const dialog = ref(false);
 const loading = ref(false);
@@ -92,7 +83,7 @@ const onClick = async () => {
       carId: props.carId,
       customerId: customerId.value,
       viewCarDate: props.date,
-      viewTimeSection: getViewCarStatusText(props.timeSection),
+      viewTimeSection: props.timeSection,
       deal: deal.value,
       viewCarStatus: viewCarStatus.value,
       salesScore: employeeScore.value,

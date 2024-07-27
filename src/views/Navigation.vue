@@ -38,7 +38,7 @@
             <button class="btn btn-link nav-link" @click="logout">Logout</button>
           </li>
       </ul>
-      <div><Notices></Notices></div>
+      <div><Notices :filteredViewCars="filteredViewCars" @clear-notices="clearNotices"></Notices></div>
     </div>
   </div>
 
@@ -91,24 +91,27 @@ const fetchViewCars = async () => {
 
       // 获取当前时间和未来 10 天的日期
       const today = new Date();
-      const futureDate = new Date();
+      today.setHours(0, 0, 0, 0); // 确保时间为 00:00:00
+      const futureDate = new Date(today);
       futureDate.setDate(today.getDate() + 10);
 
-      console.log('Today:', today.toISOString().split('T')[0]);
-      console.log('Future Date (10 days later):', futureDate.toISOString().split('T')[0]);
-
-      // 筛选出 viewCarDate 在未来 10 天内的记录
+      // 筛选出 viewCarDate 在今天及未来 10 天内的记录
       filteredViewCars.value = viewCars.value.filter((viewCar: any) => {
         const viewCarDate = new Date(viewCar.viewCarDate);
-        console.log(`ViewCarDate: ${viewCar.viewCarDate}, Parsed Date: ${viewCarDate.toISOString().split('T')[0]}`);
+        viewCarDate.setHours(0, 0, 0, 0); // 确保时间为 00:00:00
         return viewCarDate >= today && viewCarDate <= futureDate;
       });
 
-      console.log('Filtered view cars (within next 10 days):', filteredViewCars.value);
+      console.log('Filtered view cars (today and within next 10 days):', filteredViewCars.value);
     } catch (error) {
       console.error('Failed to fetch view cars:', error);
     }
   }
+};
+
+// 修改处：定义清空通知的方法
+const clearNotices = () => {
+  filteredViewCars.value = [];
 };
 //=======================ViewCar==========================
 
@@ -161,4 +164,6 @@ onMounted(async () => {
 .navbar-margin {
   margin-right: 30px;
 }
+
+
 </style>

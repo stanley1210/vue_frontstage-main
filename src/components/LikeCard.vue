@@ -1,7 +1,7 @@
 <template>
 
   <div class="card">
-    <img class="card-img-top" :src="`${path}${like.likeId}`" :alt="like.modelName">
+    <img class="card-img-top" :src="`${path}${like.carId}`" :alt="like.modelName">
     <div class="card-body navbarBody">
       <h5 class="card-title">{{ like.modelName }}</h5>
       <p class="card-text">
@@ -14,7 +14,6 @@
         新增時間: {{ like.createTime }} <br />
         <el-icon :size="20" class="likeLogo" @click="emit('cardDelete', like.likeId)"><StarFilled /></el-icon>
       </p>
-    
     </div>
   </div>
 
