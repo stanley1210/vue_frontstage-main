@@ -40,7 +40,7 @@
             class="text-center navbarBody p-2 flex-fill"></CarColumnL>
 
         <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
-        <div class="p2 flex-fill navbarBody">
+        <div class="p-2 flex-fill navbarBody">
             <div>
                 <el-button color="#626aef" plain @click="toggleViewCar(selectedCarId, customerInfo.id)">預約賞車</el-button>
                 <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar" :carId="selectedCarId"
@@ -67,9 +67,14 @@ import { ref, computed, onMounted, watch } from 'vue';
 import CarColumnL from '@/components/CarColumnL.vue';
 import CarColumnR from '@/components/CarColumnR.vue';
 
-// 接收 props
-const props = defineProps(['id']); // 新增: 定義 props 接收 id
-console.log("Received carId in Car.vue:", props.id);
+import { useRoute,useRouter } from 'vue-router'; // 新增导入 useRoute
+const route = useRoute(); // 新增 useRoute 实例
+const carId = ref(route.params.id); // 新增获取路由参数
+const router =useRouter();
+const paramsData=route.params;
+console.log("route.params.id"+paramsData.id)
+console.log("carId.value"+carId.value)
+
 // 串接登入會員,這邊下面的import一定要加
 import { useStore } from 'vuex';
 let customerInfo = ref({});
@@ -83,33 +88,34 @@ onMounted(() => {
 customerInfo = computed(() => store.state.customerInfo.data || {});
 console.log('===>test Customer info:', customerInfo);
 
+
+
+
 const carDatas = ref([]); // 資料列表
 const selectedCarId = ref(null); // 当前选择的汽车 ID
 
-// 使用 props.id 獲取單筆車資訊
-onMounted(() => {
-    axios.get(`http://localhost:8080/kajarta/car/find/${props.id}`)
-        .then(function (response) {
-            if (response && response.data) {
-                console.log("response", response);
-                carDatas.value = response.data.list;
-                if (carDatas.value.length > 0) {
-                    selectedCarId.value = carDatas.value[0].id; // 假设你选择了第一个汽车
-                    console.log("Selected Car ID:", selectedCarId.value); // Debug output
-                }
-            } else {
-                console.error("Invalid response data structure:", response);
+//搜尋單筆car資訊
+axios.get(`http://localhost:8080/kajarta/car/find/${paramsData.value}`)
+    .then(function (response) {
+        console.log("API Response:", response); // 输出 API 返回的数据
+        if (response && response.data) {
+            carDatas.value = response.data.list;
+            if (carDatas.value.length > 0) {
+                selectedCarId.value = carDatas.value[0].id; // 假设你选择了第一个汽车
+                console.log("Selected Car ID:", selectedCarId.value); // Debug output
             }
-        })
-        .catch(function (error) {
-            console.error("Error fetching data:", error, response);
-            Swal.fire({
-                text: "查詢失敗：" + error.message,
-                icon: "error"
-            });
+        } else {
+            console.error("Invalid response data structure:", response);
+        }
+    })
+    .catch(function (error) {
+        console.error("Error fetching data:", error);
+        Swal.fire({
+            text: "查詢失敗：" + error.message,
+            icon: "error"
         });
-});
-
+    });
+ 
 //==========Like=============
 import Like from './Like.vue';
 //==========Like=============
