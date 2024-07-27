@@ -61,7 +61,7 @@
           <Login></Login>
         </div>
       </div>
-    </div>
+    </div>s
   </div>
   <!-- Display user information -->
   <div>

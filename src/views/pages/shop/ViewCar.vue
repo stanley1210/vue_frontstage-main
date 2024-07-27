@@ -2,10 +2,10 @@
   <div class="container">
     <!-- 包裹选择器和按钮的框 -->
     <div class="form-wrapper">
-      <!-- 日期和时间选择器并排显示 -->
+      <!-- 日期和时间选择器上下排列 -->
       <div class="row align-items-start">
         <!-- 日期选择器 -->
-        <div class="col-md-6 mb-2 mb-md-0">
+        <div class="col-12 mb-2">
           <div class="demo-date-picker">
             <el-date-picker v-model="picker" type="date" placeholder="Pick a Date" format="YYYY/MM/DD"
               value-format="YYYY-MM-DD" :disabled-date="disabledDate" />
@@ -13,7 +13,7 @@
         </div>
 
         <!-- 时间选择器 -->
-        <div class="col-md-6 mb-2">
+        <div class="col-12 mb-2">
           <div class="demo-time-picker">
             <el-select v-model="value" placeholder="Time Slot" style="width: 100%">
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
@@ -28,9 +28,6 @@
       </div>
     </div>
   </div>
-  <div>
-
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -39,7 +36,6 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const props = defineProps<{
-
   carId: number;
   customerId: number;
 }>();
@@ -48,11 +44,10 @@ const emit = defineEmits<{
   (event: 'hide-view-car'): void;
 }>();
 
-
 // 当前日期
 const today = new Date();
 
-// 禁用今天之前的日期
+//禁用今天之前的日期
 function disabledDate(date) {
   if (!date) return false;
   return date < today;
@@ -89,8 +84,6 @@ function handleSubmit() {
       });
     });
 }
-
-
 </script>
 
 <style>
@@ -110,13 +103,15 @@ function handleSubmit() {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* 对齐到左侧 */
   width: 100%;
 }
 
 .demo-date-picker .el-date-picker,
 .demo-time-picker .el-select {
   width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  height: 50px;
 }
 
 .text-left {

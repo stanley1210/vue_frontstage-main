@@ -1,6 +1,6 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbarBody">
-    <div class="container-fluid">
+  <nav class="navbar navbar-expand-lg navbarBody ">
+    <div class="container-fluid navbar-margin">
       <RouterLink class="navbar-brand nav-link active" :to="{ name: 'home-link' }">
         <img src="/Kajarta_LOGO_03.svg" class="kajartaLogo" />
       </RouterLink>
@@ -37,12 +37,11 @@
           <li class="nav-item col" v-if="isAuthenticated">
             <button class="btn btn-link nav-link" @click="logout">Logout</button>
           </li>
-        </ul>
-      </div>
+      </ul>
+      <div><Notices :filteredViewCars="filteredViewCars" @clear-notices="clearNotices"></Notices></div>
     </div>
-    <div>
-      <Notices></Notices>
-    </div>
+  </div>
+
   </nav>
 </template>
 
@@ -58,6 +57,9 @@ const router = useRouter();
 const store = useStore();
 
 const isAuthenticated = computed(() => store.state.isAuthenticated);
+const customerInfo = computed(() => store.state.customerInfo.data || {});
+const viewCars = ref<any[]>([]);
+const filteredViewCars = ref<any[]>([]);
 
 const logout = async () => {
   try {
@@ -71,16 +73,56 @@ const logout = async () => {
       localStorage.removeItem('username');
       await store.dispatch('logout'); // 调用 store 的 logout action
       router.push({ name: 'home-link' });
+      await store.dispatch('logout'); // 调用 store 的 logout action
+      router.push({ name: 'home-link' });
     }
   } catch (error) {
     console.error('Logout failed:', error);
   }
 };
 
+//=======================ViewCar==========================
+const fetchViewCars = async () => {
+  if (customerInfo.value.id) {
+    try {
+      const response = await axiosapi.get(`http://localhost:8080/kajarta/front/viewCar/findByCustomer/${customerInfo.value.id}`);
+      const data = response.data;
+      viewCars.value = data.list;
+
+      // 获取当前时间和未来 10 天的日期
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // 确保时间为 00:00:00
+      const futureDate = new Date(today);
+      futureDate.setDate(today.getDate() + 10);
+
+      // 筛选出 viewCarDate 在今天及未来 10 天内的记录
+      filteredViewCars.value = viewCars.value.filter((viewCar: any) => {
+        const viewCarDate = new Date(viewCar.viewCarDate);
+        viewCarDate.setHours(0, 0, 0, 0); // 确保时间为 00:00:00
+        return viewCarDate >= today && viewCarDate <= futureDate;
+      });
+
+      console.log('Filtered view cars (today and within next 10 days):', filteredViewCars.value);
+    } catch (error) {
+      console.error('Failed to fetch view cars:', error);
+    }
+  }
+};
+
+// 修改处：定义清空通知的方法
+const clearNotices = () => {
+  filteredViewCars.value = [];
+};
+//=======================ViewCar==========================
+
+
+
+
 onMounted(async () => {
   const username = localStorage.getItem('username');
   if (username) {
     await store.dispatch('fetchCustomerInfo', username);
+    await fetchViewCars();
   }
 });
 </script>
@@ -122,4 +164,6 @@ onMounted(async () => {
 .navbar-margin {
   margin-right: 30px;
 }
+
+
 </style>
