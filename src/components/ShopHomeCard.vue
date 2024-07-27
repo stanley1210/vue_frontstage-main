@@ -12,7 +12,7 @@
                                     shopHomeCard.productionYear }}</div>
                             <div class="card-text p-2">{{ shopHomeCard.price }} NTD</div>
                     </div>
-                    <a href="#" class="btn btn-primary">我真的需要這個酷東西！！</a>
+                    <el-button type="primary">我真的需要這個酷東西！！</el-button>
             </div>
     </div>
 </template>
@@ -27,6 +27,7 @@ const emit = defineEmits(["likeCreate"]);
 function handleLikeCreate() {
 emit('likeCreate', props.shopHomeCard.id);
 }
+
 </script>
 
 <style></style>
