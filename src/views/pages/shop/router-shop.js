@@ -10,7 +10,7 @@ import About from "../About.vue"
 import Register from "../Register.vue"
 
 export default [
-    { name: "pages-shop-car-link", path: "/pages/shop/car", component: Car },
+    { name: "pages-shop-car-link", path: "/pages/shop/car/", component: Car },
     { name: "pages-shop-like-link", path: "/pages/shop/like", component: Like },
     { name: "pages-shop-viewCar-link", path: "/pages/shop/viewCar", component: ViewCar },
     { name: "pages-shop-memberArea-link", path: "/pages/shop/memberArea", component: MemberArea },
