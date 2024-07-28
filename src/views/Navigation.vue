@@ -63,13 +63,13 @@ const filteredViewCars = ref<any[]>([]);
 
 const logout = async () => {
   try {
-    console.log('Attempting to logout');
+    // console.log('Attempting to logout');
     const response = await axiosapi.post('/logout', {}, {
       withCredentials: true
     });
 
     if (response.status === 200) {
-      console.log('Logout successful');
+      // console.log('Logout successful');
       localStorage.removeItem('username');
       await store.dispatch('logout'); // 调用 store 的 logout action
       router.push({ name: 'home-link' });
@@ -77,7 +77,7 @@ const logout = async () => {
       router.push({ name: 'home-link' });
     }
   } catch (error) {
-    console.error('Logout failed:', error);
+    // console.error('Logout failed:', error);
   }
 };
 

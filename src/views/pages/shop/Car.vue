@@ -66,7 +66,10 @@ import Swal from 'sweetalert2';
 import { ref, computed, onMounted, watch } from 'vue';
 import CarColumnL from '@/components/CarColumnL.vue';
 import CarColumnR from '@/components/CarColumnR.vue';
-
+import { useRoute } from 'vue-router';
+const route = useRoute();
+const carId = Number(route.query.carId);  // 获取传递过来的carId参数
+console.log("carId================="+carId)
 // 串接登入會員,這邊下面的import一定要加
 import { useStore } from 'vuex';
 let customerInfo = ref({});
@@ -78,16 +81,14 @@ onMounted(() => {
     }
 });
 customerInfo = computed(() => store.state.customerInfo.data || {});
-console.log('===>test Customer info:', customerInfo);
-
-
+// console.log('===>test Customer info:', customerInfo);
 
 
 const carDatas = ref([]); // 資料列表
 const selectedCarId = ref(null); // 当前选择的汽车 ID
 
 //搜尋單筆car資訊
-axios.get('http://localhost:8080/kajarta/car/find/1')
+axios.get(`http://localhost:8080/kajarta/car/find/${carId}`)
     .then(function (response) {
         if (response && response.data) {
             console.log("response", response);
@@ -111,7 +112,7 @@ axios.get('http://localhost:8080/kajarta/car/find/1')
             icon: "error"
         });
     });
- 
+
 //==========Like=============
 import Like from './Like.vue';
 //==========Like=============
