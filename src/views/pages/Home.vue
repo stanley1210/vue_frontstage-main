@@ -17,13 +17,9 @@
     </div>
 
     <div class="homepageManu">
-      <div class="homepageBTMBox"><a href="" class="homepageBTM">Home</a></div>
-      <div class="homepageBTMBox">
-        <a href="/pages/about" class="homepageBTM">About</a>
-      </div>
-      <div class="homepageBTMBox">
-        <a href="/pages/shop/home" class="homepageBTM">Shop</a>
-      </div>
+      <div class="homepageBTMBox"><RouterLink class="homepageBTM" :to="{ name: 'home-link' }">Home</RouterLink></div>
+      <div class="homepageBTMBox" ><RouterLink class="homepageBTM" :to="{ name: 'about' }">About</RouterLink></div><!--  href="/pages/about" -->
+      <div class="homepageBTMBox"><RouterLink  class="homepageBTM" :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink></div>
       <div class="homepageBTMBox"><a href="" class="homepageBTM">Estimate</a></div>
       <div class="homepageBTMBox"><a href="" class="homepageBTM">News</a></div>
       <!-- Only show the login button if the user is not authenticated -->
@@ -64,17 +60,19 @@
     </div>
   </div>
   <!-- Display user information -->
-  <div>
+  <!-- <div>
     ~ {{ customerInfo.name || "用户名" }} ~ {{ customerInfo.id || "用户ID" }} ~
     {{ customerInfo.account || "帳號" }}
-  </div>
+  </div> -->
 </template>
 
 <script setup>
+import { RouterLink, useRouter } from 'vue-router';
 import Login from "@/views/pages/Login.vue";
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 
+const router = useRouter();
 const store = useStore();
 
 // Compute the authentication state from Vuex store

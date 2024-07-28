@@ -1,4 +1,5 @@
 <template>
+<div id="about">    
     <Navigation></Navigation>
     <div class="container-fluid" style="height: 100vh;background-color: #fff5eb;">
     <div class="row" style="background-color: #fff5eb;padding-top: 5%;padding-right: 0; " >
@@ -25,6 +26,7 @@
 
     </div></div>
     <Footer></Footer>
+</div>    
 </template>
     
 <script setup >

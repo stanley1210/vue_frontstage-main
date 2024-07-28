@@ -13,7 +13,7 @@
           <RouterLink class="nav-link active" :to="{ name: 'home-link' }">Home</RouterLink>
         </li>
         <li class="nav-item col">
-          <a class="nav-link" href="#">About</a>
+          <RouterLink class="nav-link" :to="{ name: 'about' }">About</RouterLink>
         </li>
         <li class="nav-item col">
           <RouterLink class="nav-link " :to="{ name: 'pages-shop-car-link' }">Car</RouterLink>
