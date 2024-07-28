@@ -1,69 +1,57 @@
 <template>
-  <div class="homebackground">
-    <!-- <h3>Home</h3> -->
-    <img
-      src="/public/Kajarta_LOGO_ 1.svg"
-      style="width: 4%; margin: 4% 4%; float: left"
-    />
-    <div class="homepagebanner">
-      <img src="/public/img/homepageIMG01.jpg" style="width: 100%" />
-    </div>
+  <section>
+    <div class="homebackground">
+      <!-- <h3>Home</h3> -->
+      <img src="/public/Kajarta_LOGO_ 1.svg" style="width: 4%; margin: 4% 4%; float: left" />
+      <div class="homepagebanner">
+        <img src="/public/img/homepageIMG01.jpg" style="width: 100%" />
+      </div>
 
-    <div class="homepagebuttonpart">駕 馭 未 來 ， 擁 抱 旅 程</div>
+      <div class="homepagebuttonpart">駕 馭 未 來 ， 擁 抱 旅 程</div>
 
-    <div class="homepageSlogan">
-      Drive the Future,<br />
-      Embrace the Journey
-    </div>
+      <div class="homepageSlogan">
+        Drive the Future,<br />
+        Embrace the Journey
+      </div>
 
-    <div class="homepageManu">
-      <div class="homepageBTMBox"><RouterLink class="homepageBTM" :to="{ name: 'home-link' }">Home</RouterLink></div>
-      <div class="homepageBTMBox" ><RouterLink class="homepageBTM" :to="{ name: 'about' }">About</RouterLink></div><!--  href="/pages/about" -->
-      <div class="homepageBTMBox"><RouterLink  class="homepageBTM" :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink></div>
-      <div class="homepageBTMBox"><a href="" class="homepageBTM">Estimate</a></div>
-      <div class="homepageBTMBox"><a href="" class="homepageBTM">News</a></div>
-      <!-- Only show the login button if the user is not authenticated -->
-      <div class="homepageBTMBox" v-if="!isAuthenticated">
-        <button
-          type="button"
-          class="homepageBTM btn-login"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasScrolling"
-          aria-controls="offcanvasScrolling"
-        >
-          Log in
-        </button>
+      <div class="homepageManu">
+        <div class="homepageBTMBox">
+          <RouterLink class="homepageBTM" :to="{ name: 'home-link' }">Home</RouterLink>
+        </div>
+        <div class="homepageBTMBox">
+          <RouterLink class="homepageBTM" :to="{ name: 'about' }">About</RouterLink>
+        </div><!--  href="/pages/about" -->
+        <div class="homepageBTMBox">
+          <RouterLink class="homepageBTM" :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink>
+        </div>
+        <div class="homepageBTMBox"><a href="" class="homepageBTM">Estimate</a></div>
+        <div class="homepageBTMBox"><a href="" class="homepageBTM">News</a></div>
+        <!-- Only show the login button if the user is not authenticated -->
+        <div class="homepageBTMBox" v-if="!isAuthenticated">
+          <button type="button" class="homepageBTM btn-login" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+            Log in
+          </button>
+        </div>
       </div>
       <!-- Offcanvas -->
-      <div
-        class="offcanvas offcanvas-end custom-offcanvas"
-        data-bs-scroll="true"
-        data-bs-backdrop="false"
-        tabindex="-1"
-        id="offcanvasScrolling"
-        aria-labelledby="offcanvasScrollingLabel"
-        style="width: 550px"
-      >
+      <div class="offcanvas offcanvas-end custom-offcanvas" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+        id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: 550px">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasScrollingLabel"></h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
           <Login></Login>
         </div>
       </div>
     </div>
-  </div>
-  <!-- Display user information -->
-  <!-- <div>
+    <!-- Display user information -->
+    <!-- <div>
     ~ {{ customerInfo.name || "用户名" }} ~ {{ customerInfo.id || "用户ID" }} ~
-    {{ customerInfo.account || "帳號" }}
+    {{ customerInfo.account || "帳號" }}S
   </div> -->
+  </section>
 </template>
 
 <script setup>
@@ -159,7 +147,8 @@ onMounted(() => {
   border: none;
   background: none;
   font-size: 23px;
-  font-weight: 900; /* Ensure button text is bold */
+  font-weight: 900;
+  /* Ensure button text is bold */
   color: #a332389c;
 }
 

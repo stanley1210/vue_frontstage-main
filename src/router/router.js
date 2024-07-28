@@ -10,9 +10,9 @@ import About from "@/views/pages/About.vue"
 // 2. 定義網頁路由
 const routes = [
     { name: "home-link", path: "/", component: Home },
-    { name: "notfound-link", path: "/:pathMatch(.*)*", component: NotFound },
     { name: "about", path: "/pages/about", component: About },
-    ...routerPages
+    ...routerPages,
+    { name: "notfound-link", path: "/:pathMatch(.*)*", component: NotFound }
     // ...routerLogin
 
 ]
