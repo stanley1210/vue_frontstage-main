@@ -42,6 +42,15 @@
         <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
         <div class="p-2 flex-fill navbarBody">
             <div>
+                <p>3,000,000</p>
+                <p>NTD</p>
+            </div>
+            <div>
+                <el-icon :size="16" class="likeLogo" @click="callLikeCreate(selectedCarId)">
+                    <Star />
+                </el-icon>
+            </div>
+            <div>
                 <el-button color="#626aef" plain @click="toggleViewCar(selectedCarId, customerInfo.id)">預約賞車</el-button>
                 <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar" :carId="selectedCarId"
                     :customerId="customerInfo.id" />
@@ -69,7 +78,7 @@ import CarColumnR from '@/components/CarColumnR.vue';
 import { useRoute } from 'vue-router';
 const route = useRoute();
 const carId = Number(route.query.carId);  // 获取传递过来的carId参数
-console.log("carId================="+carId)
+console.log("carId=================" + carId)
 // 串接登入會員,這邊下面的import一定要加
 import { useStore } from 'vuex';
 let customerInfo = ref({});
@@ -114,7 +123,27 @@ axios.get(`http://localhost:8080/kajarta/car/find/${carId}`)
     });
 
 //==========Like=============
-import Like from './Like.vue';
+function callLikeCreate(carId) {
+    const likeData = {
+        carId: carId,
+        customerId: customerInfo.value.id
+    };
+    console.log("likeData=", likeData);
+    axios.post('http://localhost:8080/kajarta/front/like/create', likeData)
+        .then(function (response) {
+            console.log('response=', response);
+            Swal.fire({
+                text: "已成功加入心儀清單！",
+                icon: "success"
+            });
+        })
+        .catch(function (error) {
+            Swal.fire({
+                text: "加入心儀清單失敗：" + error.message,
+                icon: "error"
+            });
+        });
+}
 //==========Like=============
 //=========ViewCar========
 import ViewCar from './ViewCar.vue';
