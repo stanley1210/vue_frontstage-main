@@ -249,7 +249,7 @@ const torque = ref('')
 //儲存查詢結果
 const results = ref([])
 const savedSearches = ref([])
-
+//送搜尋條件給PreferenceSearch
 const handleSubmit = () => {
 
   router.push({
@@ -275,7 +275,7 @@ const handleSubmit = () => {
 
 };
 
-
+//儲存心儀條件
 const saveSearchRecord = async () => {
   try {
     const searchRecord = {
@@ -312,6 +312,7 @@ const saveSearchRecord = async () => {
   }
 };
 
+//列出使用心儀的條件
 const fetchSavedSearches = async () => {
   try {
     const response = await axios.get('http://localhost:8080/kajarta/preference/list')

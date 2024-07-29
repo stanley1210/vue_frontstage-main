@@ -60,7 +60,7 @@ const score = ref('');
 const hp = ref('');
 const torque = ref('');
 
-
+//接到資料，顯示結果
 const handleSearchByNoMemSearch = async () => {
   try { 
     const response = await axios.get('http://localhost:8080/kajarta/preference/searchMore', {

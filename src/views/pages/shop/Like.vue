@@ -28,16 +28,39 @@
     <div class="likecard-container">
         <LikeCard v-for="like in likes" :key="like.likeId" :like="like" @card-delete="callRemove">
         </LikeCard>
+        <div>
+    ~ {{ customerInfo.name || "用户名" }} ~ {{ customerInfo.id || "用户ID" }} ~
+    {{ customerInfo.account || "帳號" }}
+  </div>
     </div>
 </template>
 
 <script setup>
 import axios from 'axios';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import Swal from 'sweetalert2';
 import Paginate from 'vuejs-paginate-next';
 import LikeCard from '@/components/LikeCard.vue';
 import LikeRows from '@/components/LikeRows.vue';
+import { useStore } from "vuex";
+
+const router = useRouter();
+const store = useStore();
+
+// Compute the authentication state from Vuex store
+const isAuthenticated = computed(() => store.state.isAuthenticated);
+
+// Compute customer information from Vuex store
+const customerInfo = computed(() => store.state.customerInfo.data || {});
+
+onMounted(() => {
+  const username = localStorage.getItem("username");
+  if (username) {
+    store.dispatch("fetchCustomerInfo", username);
+  }
+});
+
+
 
 // 定义 reactive 状态
 const rows = ref(4); // 每页显示的条目数
