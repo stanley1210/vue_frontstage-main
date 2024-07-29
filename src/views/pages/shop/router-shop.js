@@ -17,6 +17,6 @@ export default [
     { name: "pages-shop-preference-link", path: "/pages/shop/preference", component: Preference },
     { name: "pages-shop-notices-link", path: "/pages/shop/notices", component: Notices },
     { name: "login", path: "/pages/login", component: Login },
-    { name: "about", path: "/pages/about", component: About }
+    { name: "about", path: "/pages/about", component: About },
     { name: "register", path: "/pages/register", component: Register }
 ];

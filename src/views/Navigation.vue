@@ -10,10 +10,10 @@
     <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
       <ul class="navbar-nav col-6">
         <li class="nav-item col">
-          <RouterLink class="nav-link active" :to="{ name: 'home-link' }">Home</RouterLink>
+          <RouterLink class="nav-link  navbtm" :to="{ name: 'home-link' }">Home</RouterLink>
         </li>
         <li class="nav-item col">
-          <a class="nav-link" href="#">About</a>
+          <RouterLink class="nav-link  navbtm" :to="{ name: 'about' }">About</RouterLink>
         </li>
         <li class="nav-item col">
           <RouterLink class="nav-link navbtm " :to="{ name: 'pages-shop-car-link' }">Car</RouterLink>
@@ -22,7 +22,7 @@
           <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink>
         </li>
         <li class="nav-item col">
-          <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-memberArea-link' }" style="margin-right: 40px;">MemberArea</RouterLink>
+          <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-memberArea-link' }" style="margin-right: 35px;">MemberArea</RouterLink>
         </li>
 
         <li class="nav-item col" style="margin-right: 20px;">
@@ -126,7 +126,6 @@ onMounted(async () => {
 });
 </script>
 
-<style>
 <style scoped>
 .navbtm{
   font-size: 18px;
