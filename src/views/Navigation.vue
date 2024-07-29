@@ -1,41 +1,40 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbarBody ">
-    <div class="container-fluid navbar-margin">
-      <RouterLink class="navbar-brand nav-link active" :to="{ name: 'home-link' }">
-        <img src="/Kajarta_LOGO_03.svg" class="kajartaLogo" />
-      </RouterLink>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
-        <ul class="navbar-nav col-6">
-          <li class="nav-item col">
-            <RouterLink class="nav-link active" :to="{ name: 'home-link' }">Home</RouterLink>
-          </li>
-          <li class="nav-item col">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item col">
-            <RouterLink class="nav-link" :to="{ name: 'pages-shop-car-link' }">Car</RouterLink>
-          </li>
-          <li class="nav-item col">
-            <RouterLink class="nav-link" :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink>
-          </li>
-          <li class="nav-item col" v-if="isAuthenticated">
-            <RouterLink class="nav-link" :to="{ name: 'pages-shop-memberArea-link' }">MemberArea</RouterLink>
-          </li>
-          <li class="nav-item col">
-            <a class="nav-link" aria-disabled="true">Estimate</a>
-          </li>
-          <li class="nav-item col">
-            <a class="nav-link" aria-disabled="true">News</a>
-          </li>
-          <li class="nav-item col" v-if="!isAuthenticated">
-            <RouterLink class="nav-link" :to="{ name: 'register' }">Register</RouterLink>
-          </li>
-          <li class="nav-item col" v-if="isAuthenticated">
-            <button class="btn btn-link nav-link" @click="logout">Logout</button>
+<nav class="navbar navbar-expand-lg navbarBody">
+  <div class="container-fluid navbar-margin">
+    <RouterLink class="navbar-brand nav-link active" :to="{ name: 'home-link' }">
+      <img src="/Kajarta_LOGO_03.svg" class="kajartaLogo" style="width: 65%;padding-top: 3px;padding-left: 10px;"/>
+    </RouterLink>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
+      <ul class="navbar-nav col-6">
+        <li class="nav-item col">
+          <RouterLink class="nav-link  navbtm" :to="{ name: 'home-link' }">Home</RouterLink>
+        </li>
+        <li class="nav-item col">
+          <RouterLink class="nav-link  navbtm" :to="{ name: 'about' }">About</RouterLink>
+        </li>
+        <li class="nav-item col">
+          <RouterLink class="nav-link navbtm " :to="{ name: 'pages-shop-car-link' }">Car</RouterLink>
+        </li>
+        <li class="nav-item col">
+          <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink>
+        </li>
+        <li class="nav-item col">
+          <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-memberArea-link' }" style="margin-right: 35px;">MemberArea</RouterLink>
+        </li>
+
+        <li class="nav-item col" style="margin-right: 20px;">
+          <RouterLink  class="nav-link navbtm" disabled="true" to="#">Estimate</RouterLink>
+        </li>
+        <li class="nav-item col">
+          <RouterLink  class="nav-link navbtm" disabled="true" to="#">News</RouterLink>
+        </li>
+        <li class="nav-item col" v-if="isAuthenticated">
+            <div class="logout-container">
+              <el-button round @click="logout" plain>Logout</el-button>
+            </div>
           </li>
       </ul>
       <div><Notices :filteredViewCars="filteredViewCars" @clear-notices="clearNotices"></Notices></div>
@@ -128,42 +127,14 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* 确保所有的 nav-link 和按钮有一致的样式 */
-.nav-link {
-  color: #a33238;
-  text-decoration: none;
-  font-size: 14px;
-  line-height: 1.5;
-  /* 调整行高确保对齐 */
+.navbtm{
+  font-size: 18px;
+  font-weight: 900;
+  color:#a33238 ;
 }
+.navbtm:hover{
+  text-decoration: underline #a33238 3px;
+  color:#a33238 ;
 
-.nav-link:hover {
-  text-decoration: underline;
 }
-
-.btn-link {
-  background: none;
-  border: none;
-  padding: 0;
-  font-size: 14px;
-  color: #a33238;
-  line-height: 1.5;
-  /* 确保按钮与其他链接在垂直方向上对齐 */
-}
-
-.btn-link:hover {
-  text-decoration: underline;
-}
-
-/* 确保按钮和其他 nav-items 在同一行对齐 */
-.nav-item {
-  display: flex;
-  align-items: center;
-}
-
-.navbar-margin {
-  margin-right: 30px;
-}
-
-
 </style>
