@@ -3,6 +3,35 @@
   會員進階查詢
   </el-button>
   <el-button color="#a33238" @click="goToRegister" :dark="isDark">註冊會員</el-button>
+  <el-button type="warning" style="margin-left: 16px" @click="openSavedSearche">列出儲存搜尋條件
+  </el-button>
+  <el-drawer v-model="drawer2" :direction="direction" style="background-color:#fff5eb">
+      <div v-if="savedSearches.length" >
+      <div v-for="search in savedSearches" :key="search.id" :search=search class="card" style="background-color:#fff5eb">
+        <p>車輛名稱: {{ search.selectName }}</p>
+        <p>年分: {{ search.productionYear }}</p>
+        <p>價格: {{ search.price }}</p>
+        <p>里程數: {{ search.milage }}</p>
+        <p>車況評分: {{ search.score }}</p>
+        <p>馬力: {{ search.hp }}</p>
+        <p>扭力: {{ search.torque }}</p>
+        <p>品牌: {{ getBrandName(search.brand)}}</p>
+        <p>車型: {{ getSuspensionName(search.suspension) }}</p>
+        <p>車門數: {{getDoorName(search.door )}}</p>
+        <p>乘客數: {{ getPassengerName(search.passenger) }}</p>
+        <p>驅動方式: {{ getRearWheelName(search.rearWheel) }}</p>
+        <p>引擎燃料: {{ getGasolineName(search.gasoline) }}</p>
+        <p>變速系統: {{ getTransmissionName(search.transmission) }}</p>
+        <p>排氣量: {{getCcName (search.cc) }}</p> 
+      </div> 
+    </div>
+    <div v-else>
+      <p>沒有儲存的搜尋條件。</p>
+    </div>
+  </el-drawer>
+
+
+
   <el-drawer v-model="drawer" title="進階搜尋功能" :with-header="false" style="background-color:#fff5eb" >
     <span style="color: #a33238;">選擇你想要的車輛條件</span>
     <div class="form-container" >
@@ -96,8 +125,8 @@
         </div>
 
         <div class="form-group">
-          <label for="rearWheel">驅動方式</label>
-          <select id="rearWheel" v-model="rearWheel" required>
+          <label for="rearwheel">驅動方式</label>
+          <select id="rearwheel" v-model="rearwheel" required>
             <option value="" disabled>選擇你要的驅動方式</option>
             <option value="1">前驅</option>
             <option value="2">後驅</option>
@@ -140,8 +169,9 @@
             <option value="7">5401cc以上</option>
           </select>
         </div>
-        <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">進階搜尋</el-button>
+        <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">搜尋</el-button>
         <el-button type="warning" @click="resetForm">重置查詢</el-button>
+        <el-button type="success" @click="saveSearchRecord">儲存搜尋條件</el-button>      
       </div>
     </el-drawer>
 
@@ -199,12 +229,13 @@ import { Search} from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 
 const drawer = ref(false)
+const drawer2 = ref(false)
 const router = useRouter()
 const brand = ref('')
 const suspension = ref('')
 const door = ref('')
 const passenger = ref('')
-const rearWheel = ref('')
+const rearwheel = ref('')
 const gasoline = ref('')
 const transmission = ref('')
 const cc = ref('')
@@ -217,44 +248,7 @@ const hp = ref('')
 const torque = ref('')
 //儲存查詢結果
 const results = ref([])
-
-// 提交查询
-// const handleSubmit = async () => {
-//   try {
-//     // 调用动态查询
-//     await handleSearchByNoMemSearch();
-//   } catch (error) {
-//     console.error('查詢失敗:', error);
-//   }
-// }
-
-// const handleSearchByNoMemSearch = async () => {
-//   try {
-//     const response = await axios.get('http://localhost:8080/kajarta/preference/searchMore', {
-//       params: {
-//         brand: brand.value,
-//         suspension: suspension.value,
-//         door: door.value,
-//         passenger: passenger.value,
-//         rearWheel: rearWheel.value,
-//         gasoline: gasoline.value,
-//         transmission: transmission.value,
-//         cc: cc.value,
-//         score:score.value,
-//         modelName: modelName.value || null,
-//         productionYear: productionYear.value ? parseInt(productionYear.value, 10) : null,
-//         price: price.value ? parseFloat(price.value) : null,
-//         milage: milage.value ? parseInt(milage.value, 10) : null,
-//         hp: hp.value ? parseInt(hp.value, 10) : null,
-//         torque: torque.value ? parseFloat(torque.value) : null
-//       }
-//     })
-//     results.value = response.data.list
-//     console.log('查詢結果:', response.data)
-//   } catch (error) {
-//     console.error('查詢失敗:', error);
-//   }
-// }
+const savedSearches = ref([])
 
 const handleSubmit = () => {
 
@@ -272,7 +266,7 @@ const handleSubmit = () => {
       suspension: suspension.value,
       door: door.value,
       passenger: passenger.value,
-      rearWheel: rearWheel.value,
+      rearwheel: rearwheel.value,
       gasoline: gasoline.value,
       transmission: transmission.value,
       cc: cc.value,
@@ -281,44 +275,70 @@ const handleSubmit = () => {
 
 };
 
+
+const saveSearchRecord = async () => {
+  try {
+    const searchRecord = {
+      selectName: modelName.value || null,
+      productionYear: productionYear.value ? parseInt(productionYear.value) : null,
+      price: price.value ? parseFloat(price.value) : null,
+      milage: milage.value ? parseInt(milage.value) : null,
+      score: score.value ? parseInt(score.value) : null,
+      customer_id: 1, // 根據需求設置合適的customer_id
+      carinfo_id: 1, // 根據需求設置合適的carinfo_id
+      brand: brand.value ? parseInt(brand.value) : null,
+      suspension: suspension.value ? parseInt(suspension.value) : null,
+      door: door.value ? parseInt(door.value) : null,
+      passenger: passenger.value ? parseInt(passenger.value) : null,
+      rear_wheel: rearwheel.value ? parseInt(rearwheel.value) : null,
+      gasoline: gasoline.value ? parseInt(gasoline.value) : null,
+      transmission: transmission.value ? parseInt(transmission.value) : null,
+      cc: cc.value ? parseInt(cc.value) : null,
+      hp: hp.value ? parseInt(hp.value) : null,
+      torque: torque.value ? parseFloat(torque.value) : null,
+      preferences_lists: 1,
+    };
+
+    const response = await axios.post('http://localhost:8080/kajarta/preference/create', searchRecord);
+    ElMessageBox.alert('搜尋條件已成功儲存!', '成功', {
+      confirmButtonText: '確定',
+      type: 'success',
+    })
+  } catch (error) {
+    ElMessage({
+      message: '儲存搜尋條件失敗',
+      type: 'error',
+    })
+  }
+};
+
+const fetchSavedSearches = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/kajarta/preference/list')
+    savedSearches.value = response.data.list
+  } catch (error) {
+    ElMessage({
+      message: '無法獲取儲存的搜尋條件',
+      type: 'error',
+    })
+  }
+}
+
+const openSavedSearche = () => {
+  fetchSavedSearches()
+  drawer2.value = true
+}
+
 const goToRegister = () => {
   router.push({ name: 'register' });
 };
-
-const handleSearchByNoMemSearch = async () => {
-  try {
-    const response = await axios.get('http://localhost:8080/kajarta/preference/searchMore', {
-      params: {
-        brand: brand.value,
-        suspension: suspension.value,
-        door: door.value,
-        passenger: passenger.value,
-        rearWheel: rearWheel.value,
-        gasoline: gasoline.value,
-        transmission: transmission.value,
-        cc: cc.value,
-        score: score.value,
-        modelName: modelName.value || null,
-        productionYear: productionYear.value ? parseInt(productionYear.value, 10) : null,
-        price: price.value ? parseFloat(price.value) : null,
-        milage: milage.value ? parseInt(milage.value, 10) : null,
-        hp: hp.value ? parseInt(hp.value, 10) : null,
-        torque: torque.value ? parseFloat(torque.value) : null
-      }
-    })
-    results.value = response.data.preferenceCarList
-    console.log('查詢結果:', response.data)
-  } catch (error) {
-    console.error('查詢失敗:', error);
-  }
-}
 
 const resetForm = () => {
   brand.value = ''
   suspension.value = ''
   door.value = ''
   passenger.value = ''
-  rearWheel.value = ''
+  rearwheel.value = ''
   gasoline.value = ''
   transmission.value = ''
   cc.value = ''
@@ -331,6 +351,96 @@ const resetForm = () => {
   torque.value = ''
 }
 
+const getBrandName = (value) => {
+  const brand = {
+    1: 'HONDA',
+    2: 'TOYOTA',
+    3: 'MAZDA',
+    4: 'BENZ',
+    5: 'PORSCHE',
+    6: 'BMW',
+    7: 'VOLKSWAGEN',
+    8: 'NISSAN',
+    9: 'SUBARU'
+  }
+  return brand[value] || '未填入搜尋條件'
+}
+
+const getSuspensionName = (value)=> {
+  const Suspension = {
+    1: '轎車',
+    2: '休旅車',
+    3: '敞篷車',
+    4: '跑車',
+    5: '吉普車',
+    6: '掀背車'
+  }
+  return Suspension[value] || '未填入搜尋條件'
+}
+
+const getDoorName = (value)=> {
+  const door = {
+    1: '二門',
+    2: '三門',
+    3: '四門',
+    4: '五門',
+    5: '六門',
+  }
+  return door[value] || '未填入搜尋條件'
+}
+
+const getPassengerName = (value)=> {
+  const passenger = {
+    1: '二人座',
+    2: '四人座',
+    3: '五人座',
+    4: '七人座以上'
+    
+  }
+  return passenger[value] || '未填入搜尋條件'
+}
+
+const getRearWheelName = (value)=> {
+  const rearWheel = {
+    1: '前驅',
+    2: '後驅',
+    3: '四驅'
+  }
+  return rearWheel[value] || '未填入搜尋條件'
+}
+
+const getGasolineName = (value)=> {
+  const gasoline = {
+    1: '汽油',
+    2: '柴油',
+    3: '油電複合',
+    4: '純電'
+  }
+  return gasoline[value] || '未填入搜尋條件'
+}
+
+const getTransmissionName = (value)=> {
+  const transmission = {
+    1: '自排',
+    2: '手排',
+    3: '手自排',
+    4: '自手排'
+  }
+  return transmission[value] || '未填入搜尋條件'
+}
+
+const getCcName = (value)=> {
+  const cc = {
+    1: '1200以下',
+    2: '1201-1800',
+    3: '1801-2400',
+    4: '2401-3000',
+    5: '3001-4200',
+    6: '4201-5400',
+    7: '5401以上',
+  }
+  return cc[value] || '未填入搜尋條件'
+}
 
 </script>
     

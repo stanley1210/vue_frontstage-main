@@ -28,6 +28,8 @@
   </div>
   <br>
   <el-button @click="goBack" type="default" color="#a33238">返回查詢</el-button>
+
+
 </template>
 
 <script setup>
@@ -45,7 +47,7 @@ const brand = ref('');
 const suspension = ref('');
 const door = ref('');
 const passenger = ref('');
-const rearWheel = ref('');
+const rearwheel = ref('');
 const gasoline = ref('');
 const transmission = ref('');
 const cc = ref('');
@@ -59,28 +61,27 @@ const torque = ref('');
 
 
 const handleSearchByNoMemSearch = async () => {
-  try {
+  try { 
     const response = await axios.get('http://localhost:8080/kajarta/preference/searchMore', {
       params: {
-        brand: brand.value,
-        suspension: suspension.value,
-        door: door.value,
-        passenger: passenger.value,
-        rearWheel: rearWheel.value,
-        gasoline: gasoline.value,
-        transmission: transmission.value,
-        cc: cc.value,
-        score: score.value,
+        brand:  query.brand,
+        suspension:  query.suspension,
+        door: query.door,
+        passenger: query.passenger,
+        rearwheel: query.rearwheel,
+        gasoline: query.gasoline,
+        transmission:  query.transmission,
+        cc:  query.cc,
+        score:  query.score,
         modelName: query.modelName || null,
-        productionYear: query.productionYear ? parseInt(productionYear.value, 10) : null,
-        price: query.price ? parseFloat(price.value) : null,
-        milage: query.milage ? parseInt(milage.value, 10) : null,
-        hp: query.hp ? parseInt(hp.value, 10) : null,
-        torque: query.torque ? parseFloat(torque.value) : null,
+        productionYear: +query.productionYear || null,
+        price: query.price ? parseFloat(query.price) : null,
+        milage: query.milage ? parseInt(query.milage) : null,
+        hp: query.hp ? parseInt(query.hp) : null,
+        torque: query.torque ? parseFloat(query.torque) : null,
       },
     });
     results.value = response.data.preferenceCarList;
-    
     console.log('查詢結果:', response.data);
   } catch (error) {
     console.error('查詢失敗:', error);
