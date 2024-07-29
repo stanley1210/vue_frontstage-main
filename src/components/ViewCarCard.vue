@@ -10,7 +10,7 @@
           <img :src="`${path}${viewCar.car}`" class="img-fluid rounded-start" alt="Car Image">
         </div>
         <div class="col-md-5 position-relative">
-          <div class="card-body d-flex flex-column justify-content-between h-100 p-3 viewcarnavbarBody ">
+          <div class="card-body d-flex flex-column justify-content-between h-100 p-3 viewcarnavbarBody">
             <div class="text-end">
               <h5 class="custom-title-color">ID.00{{ viewCar.id }}</h5>
               <h5 class="custom-title-color">{{ viewCar.modelName }}</h5>
@@ -104,8 +104,8 @@ const getViewTimeSectionhText = (time) => viewTimeSectionhMap[time] || '未知�
 
 const fetchViewCars = async (pageNumber) => {
   try {
-    const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/selectAll', {
-      params: { pageNumber, max: 1 }
+    const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/findByCustomer', {
+      params: { customerId:customerInfo.value.id, pageNumber, max: 1 }
     });
 
     const data = response.data;
@@ -119,11 +119,11 @@ const fetchViewCars = async (pageNumber) => {
 
 const handlePageChange = (page) => {
   currentPage.value = page;
-  fetchViewCars(page);
+  fetchViewCars(page, customerInfo.value.id);
 };
 
 onMounted(() => {
-  fetchViewCars(currentPage.value);
+  fetchViewCars(currentPage.value, customerInfo.value.id);
 });
 
 function confirmRemove(id) {
@@ -153,7 +153,7 @@ function callRemove(id) {
       .then(function (response) {
         console.log("response", response);
         if (response.data.success) {
-          fetchViewCars(currentPage.value);
+          fetchViewCars(currentPage.value, customerInfo.value.id);
           ElMessage({
             type: 'success',
             message: 'Delete completed',

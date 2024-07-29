@@ -32,9 +32,6 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      <p>目前沒有通知喔，去賣場逛逛吧!</p>
-    </div>
     <div v-for="viewCar in sortedViewCars" :key="viewCar.id">
       <div v-if="sortedViewCars.length > 0">
         <div v-if="viewCar.daysLeft > 0" class="info-box">
