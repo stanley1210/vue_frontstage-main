@@ -3,8 +3,30 @@
     <div class="homebackground">
       <!-- <h3>Home</h3> -->
       <img src="/public/Kajarta_LOGO_ 1.svg" style="width: 4%; margin: 4% 4%; float: left" />
+
       <div class="homepagebanner">
-        <img src="/public/img/homepageIMG01.jpg" style="width: 100%" />
+        <!-- 跑馬燈 -->
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <!-- 跑馬燈下方按鈕 -->
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <!-- 跑馬燈圖示 -->
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="4000">
+            <img src="/public/img/homepageIMG01.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="4000">
+            <img src="/public/img/homepageIMG03.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-bs-interval="000">
+            <img src="/public/img/homepageIMG02.jpg" class="d-block w-100" alt="...">
+          </div>
+        </div>
+      </div>
+        <!-- <img src="/public/img/homepageIMG01.jpg" style="width: 100%" /> -->
       </div>
 
       <div class="homepagebuttonpart">駕 馭 未 來 ， 擁 抱 旅 程</div>
@@ -36,10 +58,10 @@
       </div>
       <!-- Offcanvas -->
       <div class="offcanvas offcanvas-end custom-offcanvas" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-        id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: 550px">
+        id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: 400px">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasScrollingLabel"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
           <Login></Login>
@@ -51,6 +73,7 @@
     ~ {{ customerInfo.name || "用户名" }} ~ {{ customerInfo.id || "用户ID" }} ~
     {{ customerInfo.account || "帳號" }}S
   </div> -->
+  <Footer></Footer>
   </section>
 </template>
 
@@ -59,6 +82,7 @@ import { RouterLink, useRouter } from 'vue-router';
 import Login from "@/views/pages/Login.vue";
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
+import Footer from "../Footer.vue"
 
 const router = useRouter();
 const store = useStore();
@@ -120,6 +144,7 @@ onMounted(() => {
   font-weight: 900;
   color: #a33238;
   line-height: 70px;
+  z-index: 2;
 }
 
 .homebackground {
@@ -131,6 +156,7 @@ onMounted(() => {
   float: right;
   width: 70%;
   margin: 4% 0%;
+  z-index: 1;
 }
 
 .homepagebuttonpart {
@@ -149,7 +175,7 @@ onMounted(() => {
   font-size: 23px;
   font-weight: 900;
   /* Ensure button text is bold */
-  color: #a332389c;
+  color: #a33238;
 }
 
 .btn-login:hover {
@@ -157,6 +183,6 @@ onMounted(() => {
 }
 
 .custom-offcanvas {
-  background-color: #F2E6E6;
+  background-color: #5c1519;
 }
 </style>
