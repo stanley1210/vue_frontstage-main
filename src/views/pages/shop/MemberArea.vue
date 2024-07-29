@@ -1,4 +1,5 @@
 <template>
+          <section>
         <Navigation></Navigation>
         <MemberAreaNav :name="customerInfo.name"></MemberAreaNav>
         <br><br>
@@ -13,6 +14,7 @@
         <Like></Like>
         <MemberInfo></MemberInfo>
         <Footer></Footer>
+</section>
 </template>
 
 <script setup>

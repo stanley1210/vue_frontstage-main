@@ -50,6 +50,10 @@
       </div>
     </div>
   </div>
+  <div>
+    ~ {{ customerInfo.name || "用户名" }} ~ {{ customerInfo.id || "用户ID" }} ~
+    {{ customerInfo.account || "帳號" }}
+  </div>
 </template>
 
 <script setup>

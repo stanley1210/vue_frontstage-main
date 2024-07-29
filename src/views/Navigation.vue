@@ -1,45 +1,52 @@
 <template>
-<nav class="navbar navbar-expand-lg navbarBody">
-  <div class="container-fluid navbar-margin">
-    <RouterLink class="navbar-brand nav-link active" :to="{ name: 'home-link' }">
-      <img src="/Kajarta_LOGO_03.svg" class="kajartaLogo" style="width: 65%;padding-top: 3px;padding-left: 10px;"/>
-    </RouterLink>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
-      <ul class="navbar-nav col-6">
-        <li class="nav-item col">
-          <RouterLink class="nav-link  navbtm" :to="{ name: 'home-link' }">Home</RouterLink>
-        </li>
-        <li class="nav-item col">
-          <RouterLink class="nav-link  navbtm" :to="{ name: 'about' }">About</RouterLink>
-        </li>
-        <li class="nav-item col">
-          <RouterLink class="nav-link navbtm " :to="{ name: 'pages-shop-car-link' }">Car</RouterLink>
-        </li>
-        <li class="nav-item col">
-          <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink>
-        </li>
-        <li class="nav-item col">
-          <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-memberArea-link' }" style="margin-right: 35px;">MemberArea</RouterLink>
-        </li>
+  <nav class="navbar navbar-expand-lg navbarBody">
+    <div class="container-fluid navbar-margin">
+      <RouterLink class="navbar-brand nav-link active" :to="{ name: 'home-link' }">
+        <img src="/Kajarta_LOGO_03.svg" class="kajartaLogo" style="width: 65%;padding-top: 3px;padding-left: 10px;" />
+      </RouterLink>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
+        <ul class="navbar-nav col-6">
+          <li class="nav-item col">
+            <RouterLink class="nav-link  navbtm" :to="{ name: 'home-link' }">Home</RouterLink>
+          </li>
+          <li class="nav-item col">
+            <RouterLink class="nav-link  navbtm" :to="{ name: 'about' }">About</RouterLink>
+          </li>
+          <li class="nav-item col">
+            <RouterLink class="nav-link navbtm " :to="{ name: 'pages-shop-car-link' }">Car</RouterLink>
+          </li>
+          <li class="nav-item col">
+            <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink>
+          </li>
+          <li class="nav-item col">
+            <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-memberArea-link' }"
+              style="margin-right: 35px;">MemberArea</RouterLink>
+          </li>
 
-        <li class="nav-item col" style="margin-right: 20px;">
-          <RouterLink  class="nav-link navbtm" disabled="true" to="#">Estimate</RouterLink>
-        </li>
-        <li class="nav-item col">
-          <RouterLink  class="nav-link navbtm" disabled="true" to="#">News</RouterLink>
-        </li>
-        <li class="nav-item col" v-if="isAuthenticated">
+          <li class="nav-item col" style="margin-right: 20px;">
+            <RouterLink class="nav-link navbtm" disabled="true" to="#">Estimate</RouterLink>
+          </li>
+          <li class="nav-item col">
+            <RouterLink class="nav-link navbtm" disabled="true" to="#">News</RouterLink>
+          </li>
+          <li class="nav-item col" v-if="isAuthenticated">
             <div class="logout-container">
               <el-button round @click="logout" plain>Logout</el-button>
             </div>
           </li>
-      </ul>
-      <div><Notices :filteredViewCars="filteredViewCars" @clear-notices="clearNotices"></Notices></div>
+          <li>
+            <div>
+              <Notices :filteredViewCars="filteredViewCars" @clear-notices="clearNotices"></Notices>
+            </div>
+          </li>
+        </ul>
+
+      </div>
     </div>
-  </div>
 
   </nav>
 </template>
@@ -84,7 +91,9 @@ const logout = async () => {
 const fetchViewCars = async () => {
   if (customerInfo.value.id) {
     try {
-      const response = await axiosapi.get(`http://localhost:8080/kajarta/front/viewCar/findByCustomer/${customerInfo.value.id}`);
+      const response = await axiosapi.get('/front/viewCar/findAllByCustomer', {
+        params: { customerId: customerInfo.value.id }
+      });
       const data = response.data;
       viewCars.value = data.list;
 
@@ -127,14 +136,15 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.navbtm{
+.navbtm {
   font-size: 18px;
   font-weight: 900;
-  color:#a33238 ;
+  color: #a33238;
 }
-.navbtm:hover{
+
+.navbtm:hover {
   text-decoration: underline #a33238 3px;
-  color:#a33238 ;
+  color: #a33238;
 
 }
 </style>
