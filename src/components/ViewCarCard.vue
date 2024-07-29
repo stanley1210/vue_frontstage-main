@@ -36,8 +36,8 @@
             <br>
             <div class="custom-text-color">
               <p>預約狀態: {{ getViewCarStatusText(viewCar.viewCarStatus) }}</p>
-              <p>賞車客戶: {{ viewCar.customerName }}先生/小姐</p>
-              <p>客戶電話: {{ viewCar.tel }}</p>
+              <p>賞車客戶: {{ customerInfo.name }}先生/小姐</p>
+              <p>客戶電話: {{ customerInfo.phone }}</p>
               <p>試車分店: {{ getViewCarBranchText(viewCar.branch) }}</p>
             </div>
 
