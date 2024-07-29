@@ -21,7 +21,7 @@
           <div class="carousel-item" data-bs-interval="4000">
             <img src="/public/img/homepageIMG03.jpg" class="d-block w-100" alt="...">
           </div>
-          <div class="carousel-item" data-bs-interval="4000">
+          <div class="carousel-item" data-bs-interval="000">
             <img src="/public/img/homepageIMG02.jpg" class="d-block w-100" alt="...">
           </div>
         </div>
@@ -58,10 +58,10 @@
       </div>
       <!-- Offcanvas -->
       <div class="offcanvas offcanvas-end custom-offcanvas" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-        id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: 550px">
+        id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="width: 400px">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasScrollingLabel"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
           <Login></Login>
@@ -175,7 +175,7 @@ onMounted(() => {
   font-size: 23px;
   font-weight: 900;
   /* Ensure button text is bold */
-  color: #a332389c;
+  color: #a33238;
 }
 
 .btn-login:hover {
@@ -183,6 +183,6 @@ onMounted(() => {
 }
 
 .custom-offcanvas {
-  background-color: #F2E6E6;
+  background-color: #5c1519;
 }
 </style>
