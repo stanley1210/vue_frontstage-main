@@ -9,6 +9,12 @@
 .wordBody{
     color: #845b38;
 }
+
+.custom-button {
+  color: #a33238;
+  background-color: #fff8f3 !important;
+}
+
 .kajartaLogo {
     width: 120px;
 }
