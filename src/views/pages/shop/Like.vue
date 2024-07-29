@@ -14,7 +14,7 @@
     </div>
     <br>
 
-    <!-- 上方分頁欄 -->
+    <!-- 上方分頁欄 --> 
     <div class="row">
         <div class="col-8" v-show="total != 0">
             <Paginate :first-last-button="true" first-button-text="<<" last-button-text=">>" prev-text="<" next-text=">"
