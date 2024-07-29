@@ -1,4 +1,5 @@
 <template>
+    <section>
     <Navigation></Navigation>
     <!-- ------------------------------------------大圖------------------------------------------ -->
     <div id="carouselExampleIndicators" class="carousel slide navbarBody" data-bs-ride="carousel"
@@ -65,6 +66,7 @@
         ~ {{ customerInfo.account || '帳號' }}
     </div>
     <Footer></Footer>
+</section>
 </template>
 
 <script setup>

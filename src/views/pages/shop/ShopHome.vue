@@ -1,4 +1,5 @@
 <template>
+    <section>
         <Navigation></Navigation>
     <!-- ------------------------------------------心儀條件------------------------------------------ -->
 
@@ -85,6 +86,7 @@
         </div>
     </div>
     <Footer></Footer>
+</section>
 </template>
 
 <script setup>

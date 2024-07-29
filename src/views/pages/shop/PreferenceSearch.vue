@@ -1,4 +1,5 @@
 <template>
+  <section>
   <Navigation></Navigation>
   <br />
   <h3 style="color: #a33238;">顯示搜尋車輛結果</h3>
@@ -29,7 +30,7 @@
   <br>
   <el-button @click="goBack" type="default" color="#a33238">返回查詢</el-button>
 
-
+</section>
 </template>
 
 <script setup>
