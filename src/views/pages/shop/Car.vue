@@ -79,7 +79,7 @@ axios.get(`http://localhost:8080/kajarta/car/find/${carId}`)
                 selectedCarId.value = carDatas.value[0].id; // 假设你选择了第一个汽车
                 console.log("Selected Car ID:", selectedCarId.value); // Debug output
             }
-
+ 
             // 搜索图片信息
             return axios.get('http://localhost:8080/kajarta/image/getCarIdImage/1');
         } else {
