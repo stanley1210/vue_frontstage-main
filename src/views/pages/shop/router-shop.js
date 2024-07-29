@@ -8,7 +8,6 @@ import Notices from "./Notices.vue";
 import Login from "../Login.vue"
 import About from "../About.vue"
 import Register from "../Register.vue"
-
 export default [
     { name: "pages-shop-car-link", path: "/pages/shop/car", component: Car },
     { name: "pages-shop-like-link", path: "/pages/shop/like", component: Like },
@@ -18,6 +17,6 @@ export default [
     { name: "pages-shop-preference-link", path: "/pages/shop/preference", component: Preference },
     { name: "pages-shop-notices-link", path: "/pages/shop/notices", component: Notices },
     { name: "login", path: "/pages/login", component: Login },
-    { name: "about", path: "/pages/about", component: About },
+    { name: "about", path: "/pages/about", component: About }
     { name: "register", path: "/pages/register", component: Register }
 ];
