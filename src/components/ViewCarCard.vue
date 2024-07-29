@@ -61,15 +61,6 @@ import ViewCarDrawer from './ViewCarDrawer.vue';
 
 const store = useStore();
 let customerInfo = ref({});
-onMounted(() => {
-  const username = localStorage.getItem('username');
-  if (username) {
-    store.dispatch('fetchCustomerInfo', username);
-  }
-});
-customerInfo = computed(() => store.state.customerInfo.data || {});
-console.log('===>test Customer info:', customerInfo);
-
 const path = import.meta.env.VITE_PHOTO;
 const viewCars = ref([]);
 const totalElements = ref(0);
@@ -89,14 +80,11 @@ const viewTimeSectionhMap = {
   4: "17:00:00-19:00:00"
 };
 
-
 const branchMap = {
   1: '台北市大吉祥分店',
   2: '台中市大滿貫分店',
   3: '高雄市大巨蛋分店'
 };
-
-
 
 const getViewCarStatusText = (status) => viewCarStatusMap[status] || '未知状态';
 const getViewCarBranchText = (branch) => branchMap[branch] || '未知状态';
@@ -104,8 +92,8 @@ const getViewTimeSectionhText = (time) => viewTimeSectionhMap[time] || '未知�
 
 const fetchViewCars = async (pageNumber) => {
   try {
-    const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/findByCustomer', {
-      params: { customerId:customerInfo.value.id, pageNumber, max: 1 }
+    const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/findPageByCustomerId', {
+      params: { customerId: customerInfo.value.id, pageNumber, max: 1 }
     });
 
     const data = response.data;
@@ -119,12 +107,22 @@ const fetchViewCars = async (pageNumber) => {
 
 const handlePageChange = (page) => {
   currentPage.value = page;
-  fetchViewCars(page, customerInfo.value.id);
+  fetchViewCars(page);
 };
 
 onMounted(() => {
-  fetchViewCars(currentPage.value, customerInfo.value.id);
+  const username = localStorage.getItem('username');
+  if (username) {
+    store.dispatch('fetchCustomerInfo', username).then(() => {
+      fetchViewCars(currentPage.value, customerInfo.value.id);
+    });
+  } else {
+    fetchViewCars(currentPage.value, customerInfo.value.id);
+  }
 });
+
+customerInfo = computed(() => store.state.customerInfo.data || {});
+console.log('===>test Customer info:', customerInfo);
 
 function confirmRemove(id) {
   ElMessageBox.confirm(
@@ -175,6 +173,7 @@ function callRemove(id) {
   }
 }
 </script>
+
 
 <style scoped>
 .custom-card {
