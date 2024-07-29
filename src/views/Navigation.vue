@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbarBody">
   <div class="container-fluid">
     <RouterLink class="navbar-brand nav-link active" :to="{ name: 'home-link' }">
-      <img src="/Kajarta_LOGO_03.svg" class="kajartaLogo" />
+      <img src="/Kajarta_LOGO_03.svg" class="kajartaLogo" style="width: 65%;padding-top: 3px;padding-left: 10px;"/>
     </RouterLink>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -10,26 +10,25 @@
     <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
       <ul class="navbar-nav col-6">
         <li class="nav-item col">
-          <RouterLink class="nav-link active" :to="{ name: 'home-link' }">Home</RouterLink>
+          <RouterLink class="nav-link  navbtm" :to="{ name: 'home-link' }">Home</RouterLink>
         </li>
         <li class="nav-item col">
-          <RouterLink class="nav-link" :to="{ name: 'about' }">About</RouterLink>
+          <RouterLink class="nav-link navbtm" :to="{ name: 'about' }">About</RouterLink>
         </li>
         <li class="nav-item col">
-          <RouterLink class="nav-link " :to="{ name: 'pages-shop-car-link' }">Car</RouterLink>
+          <RouterLink class="nav-link navbtm " :to="{ name: 'pages-shop-car-link' }">Car</RouterLink>
         </li>
         <li class="nav-item col">
-          <RouterLink class="nav-link " :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink>
+          <RouterLink class="nav-link navbtm " :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink>
         </li>
-        <li class="nav-item col">
-          <RouterLink class="nav-link " :to="{ name: 'pages-shop-memberArea-link' }">MemberArea</RouterLink>
+        <li class="nav-item col" style="margin-right: 40px;">
+          <RouterLink class="nav-link navbtm " :to="{ name: 'pages-shop-memberArea-link' }">MemberArea</RouterLink>
         </li>
-
-        <li class="nav-item col">
-          <a class="nav-link" aria-disabled="true">Estimate</a>
+        <li class="nav-item col "style="margin-right: 20px;">
+          <RouterLink  class="nav-link navbtm" disabled="true" to="#">Estimate</RouterLink>
         </li>
-        <li class="nav-item col">
-          <a class="nav-link" aria-disabled="true">News</a>
+        <li class="nav-item col ">
+          <RouterLink  class="nav-link navbtm" disabled="true" to="#">News</RouterLink>
         </li>
         <li class="nav-item col" v-if="isAuthenticated">
             <div class="logout-container">
@@ -80,4 +79,15 @@ onMounted(async () => {
 });
 </script>
 
-<style></style>
+<style scoped>
+.navbtm{
+  font-size: 18px;
+  font-weight: 900;
+  color:#a33238 ;
+}
+.navbtm:hover{
+  text-decoration: underline #a33238 3px;
+  color:#a33238 ;
+
+}
+</style>

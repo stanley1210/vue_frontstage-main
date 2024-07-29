@@ -2,7 +2,7 @@
     <section>
         <Navigation></Navigation>
         <div class="container-fluid" style="height: 100vh;background-color: #fff5eb;">
-            <div class="row" style="background-color: #fff5eb;padding-top: 5%;padding-right: 0; ">
+            <div class="row" style="background-color: #fff5eb;padding-top: 4%;padding-right: 0; ">
                 <div class="col-4" style="padding-left: 0;">
                     <img src="/public/img/About_img01.jpg" width="95%">
                 </div>
