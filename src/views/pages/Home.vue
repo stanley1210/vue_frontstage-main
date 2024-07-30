@@ -175,7 +175,7 @@ onMounted(() => {
   font-size: 23px;
   font-weight: 900;
   /* Ensure button text is bold */
-  color: #a33238;
+  color: #a332389c;
 }
 
 .btn-login:hover {
