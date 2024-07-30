@@ -142,7 +142,7 @@
       await store.dispatch('fetchCustomerInfo', username);
       await fetchViewCars();
       await fetchNewCars(); 
-      setInterval(fetchNewCars, 30000); // 每分钟检查一次
+      // setInterval(fetchNewCars, 30000); // 每分钟检查一次
     }
   });
   

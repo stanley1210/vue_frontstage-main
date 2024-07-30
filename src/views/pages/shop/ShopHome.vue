@@ -150,29 +150,6 @@ function callFind(page) {
         });
 }
 
-
-
-//===========新增心儀清單=========
-function callLikeCreate(carId) {
-    const likeData = {
-        carId: carId,
-        customerId: 1
-    };
-    axios.post('http://localhost:8080/kajarta/front/like/create', likeData)
-        .then(function (response) {
-            Swal.fire({
-                text: "已成功加入心儀清單！",
-                icon: "success"
-            });
-        })
-        .catch(function (error) {
-            Swal.fire({
-                text: "加入心儀清單失敗：" + error.message,
-                icon: "error"
-            });
-        });
-}
-//===========新增心儀清單=========
 import Preference from './Preference.vue'
 
 
