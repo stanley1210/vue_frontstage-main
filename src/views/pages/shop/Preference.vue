@@ -23,14 +23,13 @@
         <p>引擎燃料: {{ getGasolineName(search.gasoline) }}</p>
         <p>變速系統: {{ getTransmissionName(search.transmission) }}</p>
         <p>排氣量: {{getCcName (search.cc) }}</p> 
+        <el-button type="primary" @click="editSearch(search)">編輯</el-button>
       </div> 
     </div>
     <div v-else>
       <p>沒有儲存的搜尋條件。</p>
     </div>
   </el-drawer>
-
-
 
   <el-drawer v-model="drawer" title="進階搜尋功能" :with-header="false" style="background-color:#fff5eb" >
     <span style="color: #a33238;">選擇你想要的車輛條件</span>
@@ -171,7 +170,11 @@
         </div>
         <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">搜尋</el-button>
         <el-button type="warning" @click="resetForm">重置查詢</el-button>
-        <el-button type="success" @click="saveSearchRecord">儲存搜尋條件</el-button>      
+        <el-button type="success" @click="saveSearchRecord">儲存搜尋條件</el-button> 
+       <p></p>
+        <el-button type="primary" @click="handleUpdate">儲存搜尋修改條件
+
+        </el-button>    
       </div>
     </el-drawer>
 
@@ -246,10 +249,11 @@ const milage = ref('')
 const score = ref('')
 const hp = ref('')
 const torque = ref('')
-//儲存查詢結果
 const results = ref([])
 const savedSearches = ref([])
+const id =  ref('')
 
+//搜尋條件頁面跳轉到結果
 const handleSubmit = () => {
 
   router.push({
@@ -275,7 +279,72 @@ const handleSubmit = () => {
 
 };
 
+//打開儲存心儀條件搜尋紀錄
+const editSearch = (search) => {
+  modelName.value = search.selectName || ''
+  productionYear.value = search.productionYear || ''
+  price.value = search.price || ''
+  milage.value = search.milage || ''
+  score.value = search.score || ''
+  hp.value = search.hp || ''
+  torque.value = search.torque || ''
+  brand.value = search.brand || ''
+  suspension.value = search.suspension || ''
+  door.value = search.door || ''
+  passenger.value = search.passenger || ''
+  rearwheel.value = search.rearWheel || ''
+  gasoline.value = search.gasoline || ''
+  transmission.value = search.transmission || ''
+  cc.value = search.cc || ''
+  id.value = search.id || ''
 
+  // 打開編輯的 drawer
+  drawer.value = true
+}
+
+//修改心儀列表table
+const handleUpdate = async () => {
+  try {
+    const updateData = {
+      id: parseInt(id.value) ,
+      selectName: modelName.value,
+      productionYear: productionYear.value ? parseInt(productionYear.value) : null,
+      price: price.value ? parseFloat(price.value) : null,
+      milage: milage.value ? parseInt(milage.value) : null,
+      score: score.value ? parseInt(score.value) : null,
+      brand: brand.value ? parseInt(brand.value) : null,
+      suspension: suspension.value ? parseInt(suspension.value) : null,
+      door: door.value ? parseInt(door.value) : null,
+      passenger: passenger.value ? parseInt(passenger.value) : null,
+      rear_wheel: rearwheel.value ? parseInt(rearwheel.value) : null,
+      gasoline: gasoline.value ? parseInt(gasoline.value) : null,
+      transmission: transmission.value ? parseInt(transmission.value) : null,
+      cc: cc.value ? parseInt(cc.value) : null,
+      hp: hp.value ? parseInt(hp.value) : null,
+      torque: torque.value ? parseFloat(torque.value) : null,
+      customer_id: 1, 
+      carinfo_id: 1,
+      preferences_lists: 1,
+    };
+
+    console.log('Sending data:', updateData);
+
+    await axios.put(`http://localhost:8080/kajarta/preference/modify/${id.value}`, updateData);
+    ElMessage({
+      message: '搜尋條件已成功更新!',
+      type: 'success',
+    });
+    fetchSavedSearches(); // 重新獲取儲存的搜尋條件以更新顯示
+    drawer.value = false;
+  } catch (error) {
+    ElMessage({
+      message: '更新搜尋條件失敗',
+      type: 'error',
+    });
+  }
+};
+
+//心儀搜尋條件儲存
 const saveSearchRecord = async () => {
   try {
     const searchRecord = {
@@ -284,8 +353,8 @@ const saveSearchRecord = async () => {
       price: price.value ? parseFloat(price.value) : null,
       milage: milage.value ? parseInt(milage.value) : null,
       score: score.value ? parseInt(score.value) : null,
-      customer_id: 1, // 根據需求設置合適的customer_id
-      carinfo_id: 1, // 根據需求設置合適的carinfo_id
+      customer_id: 1, // 暫時寫死
+      carinfo_id: 1, //  暫時寫死
       brand: brand.value ? parseInt(brand.value) : null,
       suspension: suspension.value ? parseInt(suspension.value) : null,
       door: door.value ? parseInt(door.value) : null,
@@ -312,6 +381,7 @@ const saveSearchRecord = async () => {
   }
 };
 
+//列出心儀TABLE的結果
 const fetchSavedSearches = async () => {
   try {
     const response = await axios.get('http://localhost:8080/kajarta/preference/list')
