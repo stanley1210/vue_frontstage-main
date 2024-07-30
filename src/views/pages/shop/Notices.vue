@@ -38,7 +38,7 @@
         </div>
       </div>
     </div>
-    <div v-for="viewCar in sortedViewCars" :key="viewCar.id">
+    <div v-for="viewCar in sortedViewCars" :key="viewCar.id" @click="redirectToViewCar(viewCar.id)" class="pointer" >
       <div v-if="sortedViewCars.length > 0">
         <div v-if="viewCar.daysLeft > 0" class="info-box">
           <div class="info-content">
@@ -60,7 +60,8 @@ import { ref, computed, onMounted } from 'vue';
 import { ElButton, ElDrawer } from 'element-plus';
 import { CircleCloseFilled, Bell } from '@element-plus/icons-vue';
 import { useStore } from 'vuex';
-
+import { useRouter } from 'vue-router'; // 引入 useRouter
+const router = useRouter(); // 使用 useRouter
 const path = import.meta.env.VITE_PHOTO;
 const store = useStore();
 
@@ -129,6 +130,11 @@ const handleClearNotices = () => {
 };
 
 
+
+// Redirect to ViewCar with query parameter
+const redirectToViewCar = (carId) => {
+  router.push({ name: 'pages-shop-memberArea-link', query: { id: carId } });
+};
 
 </script>
 
@@ -199,5 +205,9 @@ const handleClearNotices = () => {
 
 .custom-offcanvas {
   background-color: #F2E6E6;
+}
+
+.pointer {
+  cursor: pointer;
 }
 </style>

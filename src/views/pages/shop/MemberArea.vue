@@ -3,7 +3,8 @@
                 <Navigation></Navigation>
                 <MemberAreaNav :name="customerInfo.name"></MemberAreaNav>
                 <br><br>
-                <ViewCarCard></ViewCarCard>
+                <ViewCarCard :viewCarId="carId"></ViewCarCard>
+                <p>Car ID: {{ carId }}</p>
                 <br> <br> <br>
                 <div class="homepageSlogan">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sparkling
@@ -25,9 +26,14 @@ import ViewCarCard from '@/components/ViewCarCard.vue';
 import MemberAreaNav from '@/components/MemberAreaNav.vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 import MemberInfo from '@/components/MemberInfo.vue';
+import ViewCar from './ViewCar.vue';
+const route = useRoute();
+const carId = route.query.id;
 let customerInfo = ref({});
 const store = useStore();
+
 onMounted(() => {
         const username = localStorage.getItem('username');
         if (username) {

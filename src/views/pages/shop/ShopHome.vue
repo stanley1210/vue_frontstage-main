@@ -83,7 +83,7 @@
             <!--Card-->
             <div class="likecard-container">
                 <ShopHomeCard v-for="shopHomeCard in shopHomeCards" :key="shopHomeCard.id" :shopHomeCard="shopHomeCard"
-                    @likeCreate="callLikeCreate"></ShopHomeCard>
+                   ></ShopHomeCard>
             </div>
         </div>
         <Footer></Footer>

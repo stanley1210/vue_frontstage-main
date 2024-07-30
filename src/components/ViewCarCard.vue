@@ -1,7 +1,10 @@
 <template>
   <br>
-  <div class="homepageSlogan">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reservation info</div>
-  <p>__________________________________________________________________________________________________________________</p>
+  <div class="homepageSlogan">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reservation
+    info</div>
+  <p>__________________________________________________________________________________________________________________
+  </p>
   <br>
   <div>
     <div v-for="viewCar in viewCars" :key="viewCar.id" class="custom-card mb-3">
@@ -38,12 +41,13 @@
               <p>預約狀態: {{ getViewCarStatusText(viewCar.viewCarStatus) }}</p>
               <p>賞車客戶: {{ customerInfo.name }}先生/小姐</p>
               <p>客戶電話: {{ customerInfo.phone }}</p>
+              <p>接待業務: {{employeeName}}</p>
               <p>試車分店: {{ getViewCarBranchText(viewCar.branch) }}</p>
             </div>
 
             <div class="text-end">
-              <el-pagination size="small" background layout="prev, pager, next" :total="totalElements" :current-page="currentPage"
-                :page-size="1" @current-change="handlePageChange" />
+              <el-pagination size="small" background layout="prev, pager, next" :total="totalElements"
+                :current-page="currentPage" :page-size="1" @current-change="handlePageChange" />
             </div>
           </div>
         </div>
@@ -58,6 +62,9 @@ import axios from 'axios';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from 'vuex';
 import ViewCarDrawer from './ViewCarDrawer.vue';
+const props = defineProps({
+  viewCarId: String
+});
 
 const store = useStore();
 let customerInfo = ref({});
@@ -65,6 +72,8 @@ const path = import.meta.env.VITE_PHOTO;
 const viewCars = ref([]);
 const totalElements = ref(0);
 const currentPage = ref(1);
+const employeeName = ref('');
+const employeeId = ref('');
 
 const viewCarStatusMap = {
   0: '預約中',
@@ -90,20 +99,72 @@ const getViewCarStatusText = (status) => viewCarStatusMap[status] || '未知状�
 const getViewCarBranchText = (branch) => branchMap[branch] || '未知状态';
 const getViewTimeSectionhText = (time) => viewTimeSectionhMap[time] || '未知状态';
 
-const fetchViewCars = async (pageNumber) => {
+const fetchViewCars = async (page = 1) => {
   try {
     const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/findPageByCustomerId', {
-      params: { customerId: customerInfo.value.id, pageNumber, max: 1 }
+      params: { customerId: customerInfo.value.id, pageNumber: page, max: 1 }
     });
 
     const data = response.data;
     viewCars.value = data.list;
     totalElements.value = data.totalElements;
-    currentPage.value = data.currentPage;
+
+     // Fetch employee information for each viewCar
+     viewCars.value.forEach(viewCar => {
+      findEmployee(viewCar.id);
+    });
+
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 };
+
+
+
+
+
+
+
+// Fetch all viewCars data to find the page containing viewCarId
+const fetchAllViewCars = async () => {
+  try {
+    let pageNumber = 1;
+    let found = false;
+
+    while (!found) {
+      const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/findPageByCustomerId', {
+        params: { customerId: customerInfo.value.id, pageNumber, max: 1 }
+      });
+
+      const data = response.data;
+      if (data.list.some(viewCar => viewCar.id == props.viewCarId)) {
+        console.log(`Found viewCarId ${props.viewCarId} on page ${pageNumber}`);
+        currentPage.value = pageNumber;
+        viewCars.value = data.list;
+        totalElements.value = data.totalElements;
+        found = true;
+        viewCars.value.forEach(viewCar => {
+          findEmployee(viewCar.id);
+        });
+      } else if (pageNumber >= data.totalPages) {
+        console.log(`Reached last page without finding viewCarId ${props.viewCarId}`);
+        found = true;
+      } else {
+        pageNumber++;
+      }
+    }
+
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+
+
+
+
+
+
 
 const handlePageChange = (page) => {
   currentPage.value = page;
@@ -114,10 +175,18 @@ onMounted(() => {
   const username = localStorage.getItem('username');
   if (username) {
     store.dispatch('fetchCustomerInfo', username).then(() => {
-      fetchViewCars(currentPage.value, customerInfo.value.id);
+      if (props.viewCarId) {
+        fetchAllViewCars();
+      } else {
+        fetchViewCars();
+      }
     });
   } else {
-    fetchViewCars(currentPage.value, customerInfo.value.id);
+    if (props.viewCarId) {
+      fetchAllViewCars();
+    } else {
+      fetchViewCars();
+    }
   }
 });
 
@@ -144,6 +213,34 @@ function confirmRemove(id) {
       });
     });
 }
+
+
+function findEmployee(viewCarId) {
+  let request = {
+    "viewCarId": viewCarId,
+    "isPage": 0,
+    "max": 999,
+    "dir": false,
+    "order": "updateTime"
+  }
+  axios.post("http://localhost:8080/kajarta/viewCarAssigned/findByHQL", request).then(function (responce) {
+    console.log(responce.data.data);
+    if (responce.data.data.length == 0) {
+      console.log("no單");
+    } else {
+      employeeName.value = responce.data.data[0].employeeName
+      employeeId.value = responce.data.data[0].employeeId
+    }
+  }).catch(function (error) {
+    console.log("error", error);
+    Swal.fire({
+      text: "查詢錯誤" + error.message,
+      icon: "error"
+    });
+  });
+}
+
+
 
 function callRemove(id) {
   if (id) {
@@ -182,9 +279,12 @@ function callRemove(id) {
 }
 
 .img-fluid {
-  height: 350px; /* 设定固定高度 */
-  width: 100%; /* 设定宽度为容器的 100% */
-  object-fit: cover; /* 确保图片覆盖整个容器，保持比例 */
+  height: 350px;
+  /* 设定固定高度 */
+  width: 100%;
+  /* 设定宽度为容器的 100% */
+  object-fit: cover;
+  /* 确保图片覆盖整个容器，保持比例 */
 }
 
 .card-body {
@@ -219,9 +319,9 @@ function callRemove(id) {
 }
 
 .homepageSlogan {
-        font-size: 30px;
-        color: #a33238;
-        font-weight: 500;
-        line-height: 6px;
+  font-size: 30px;
+  color: #a33238;
+  font-weight: 500;
+  line-height: 6px;
 }
 </style>
