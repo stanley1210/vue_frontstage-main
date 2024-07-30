@@ -4,7 +4,7 @@
       <img src="/img/menber_info_img01.jpg" alt="Register" class="card-image " />
     </div>
     <div class="col-8" style="background-color: #fff5eb;padding: 0;">
-    <el-card class="card" style="all:unset;padding: 0;">
+    
       <div class="card-content" style="padding: 0;">
         
         <div class="card-form">
@@ -97,7 +97,7 @@
           </form>
         </div>
       </div>
-    </el-card>
+    
     </div>
   </div>
 </template>
@@ -293,7 +293,7 @@ onMounted(() => {
 
 h1 {
   color: #a33238;
-  margin: 1% 0 0 1%; /* 调整标题的左边距 */
+  margin: 3% 0 0 3%; /* 调整标题的左边距 */
 }
 
 
