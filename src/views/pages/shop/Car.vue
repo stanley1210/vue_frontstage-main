@@ -1,4 +1,5 @@
 <template>
+    <section>
         <!-- ------------------------------------------大圖------------------------------------------ -->
         <Navigation></Navigation>
         <CarImage :images="images"></CarImage>
