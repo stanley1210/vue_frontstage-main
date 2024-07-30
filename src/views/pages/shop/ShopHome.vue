@@ -125,7 +125,7 @@ function callFind(page) {
         max: rows.value
     };
 
-    //搜尋單筆car資訊
+    //搜尋所有car資訊
     axios.get(`${kajartaUrl}/car/findAll`, { params: request })
         .then(function (response) {
             if (response && response.data) {

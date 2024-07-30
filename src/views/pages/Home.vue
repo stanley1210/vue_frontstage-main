@@ -71,7 +71,7 @@
     <!-- Display user information -->
     <!-- <div>
     ~ {{ customerInfo.name || "用户名" }} ~ {{ customerInfo.id || "用户ID" }} ~
-    {{ customerInfo.account || "帳號" }}S
+    {{ customerInfo.account || "帳號" }}
   </div> -->
   <Footer></Footer>
   </section>
