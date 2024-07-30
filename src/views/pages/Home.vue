@@ -73,6 +73,7 @@
     ~ {{ customerInfo.name || "用户名" }} ~ {{ customerInfo.id || "用户ID" }} ~
     {{ customerInfo.account || "帳號" }}S
   </div> -->
+  <!-- <SuggestTable></SuggestTable> 推薦測試用-->
   <Footer></Footer>
   </section>
 </template>
@@ -83,6 +84,7 @@ import Login from "@/views/pages/Login.vue";
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import Footer from "../Footer.vue"
+// import SuggestTable from "@/components/SuggestTable.vue"
 
 const router = useRouter();
 const store = useStore();
