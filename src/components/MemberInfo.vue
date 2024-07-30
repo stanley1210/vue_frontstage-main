@@ -1,13 +1,17 @@
 <template>
-  <div class="card-wrapper" v-if="customerInfo">
-    <el-card class="card">
-      <div class="card-content">
-        <img src="/happyDriver.png" alt="Register" class="card-image" />
+  <div class="row"  v-if="customerInfo" style="margin-top:5%;margin-bottom: 5%;  ">
+    <div class="col-4" style="padding: 0;">
+      <img src="/img/menber_info_img01.jpg" alt="Register" class="card-image " />
+    </div>
+    <div class="col-8" style="background-color: #fff5eb;padding: 0;">
+    <el-card class="card" style="all:unset;padding: 0;">
+      <div class="card-content" style="padding: 0;">
+        
         <div class="card-form">
-          <h2>Member Information</h2>
+          <h1>Member Information</h1>
           <form v-if="!isEditing">
             <div class="form-item">
-              <label for="name">姓名：</label>
+              <label for="name">姓名    ：</label>
               <span>{{ customerInfo.name }}</span>
             </div>
             <div class="form-item">
@@ -15,23 +19,23 @@
               <span>{{ customerInfo.idNumber }}</span>
             </div>
             <div class="form-item">
-              <label for="gender">性別：</label>
+              <label for="gender">性別    ：</label>
               <span>{{ customerInfo.sex }}</span>
             </div>
             <div class="form-item">
-              <label for="phone">電話：</label>
+              <label for="phone">電話    ：</label>
               <span>{{ customerInfo.phone }}</span>
             </div>
             <div class="form-item">
-              <label for="email">Email：</label>
+              <label for="email">E-mail：</label>
               <span>{{ customerInfo.email }}</span>
             </div>
             <div class="form-item">
-              <label for="city">縣市：</label>
+              <label for="city">縣市    ：</label>
               <span>{{ customerInfo.cityName }}</span>
             </div>
             <div class="form-item">
-              <label for="address">地址：</label>
+              <label for="address">地址    ：</label>
               <span>{{ customerInfo.address }}</span>
             </div>
             <div class="button-row1">
@@ -42,8 +46,8 @@
           <!-- 编辑模式表单 -->
           <form v-if="isEditing" @submit.prevent="callModify">
             <div class="form-item">
-              <label for="name">姓名：</label>
-              <input id="name" type="text" v-model="form.name" class="custom-input" />
+              <label for="name">姓名    ：</label>
+              <input id="name" type="text" v-model="form.name" class="custom-input"  />
             </div>
             <div class="form-item">
               <label for="idNumber">身分證號：</label>
@@ -55,22 +59,22 @@
               />
             </div>
             <div class="form-item">
-              <label for="gender">性別：</label>
+              <label for="gender">性別    ：</label>
               <select id="gender" v-model="form.sex" class="custom-input">
                 <option value="F">F</option>
                 <option value="M">M</option>
               </select>
             </div>
             <div class="form-item">
-              <label for="phone">電話：</label>
+              <label for="phone">電話    ：</label>
               <input id="phone" type="text" v-model="form.phone" class="custom-input" />
             </div>
             <div class="form-item">
-              <label for="email">Email：</label>
+              <label for="email">E-mail：</label>
               <input id="email" type="email" v-model="form.email" class="custom-input" />
             </div>
             <div class="form-item">
-              <label for="city">縣市：</label>
+              <label for="city">縣市    ：</label>
               <select id="city" v-model="form.city" class="custom-input">
                 <option v-for="(city, value) in cities" :key="value" :value="value">
                   {{ city }}
@@ -78,7 +82,7 @@
               </select>
             </div>
             <div class="form-item">
-              <label for="address">地址：</label>
+              <label for="address">地址    ：</label>
               <input
                 id="address"
                 type="text"
@@ -94,6 +98,7 @@
         </div>
       </div>
     </el-card>
+    </div>
   </div>
 </template>
 
@@ -217,6 +222,7 @@ onMounted(() => {
   border-radius: 4px; /* 设置圆角边框 */
   font-size: 14px; /* 调整字体大小 */
   box-sizing: border-box; /* 包括内边距和边框在内的宽度 */
+  height: 40px;
 }
 
 .custom-input:focus {
@@ -258,17 +264,7 @@ onMounted(() => {
   background-color: #aaa; /* 设置不同的背景颜色 */
 }
 
-.card-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 60vh;
-  width: 120%;
-  max-width: 1300px;
-  padding: 20px;
-  box-sizing: border-box;
-  margin: 0 auto; /* 确保在父容器中水平居中 */
-}
+
 
 .card {
   max-width: 1450px;
@@ -283,7 +279,7 @@ onMounted(() => {
   gap: 10px; /* 减小图片和表单之间的间距 */
 }
 .card-image {
-  width: 55%; /* 调整图片的宽度 */
+  width: 100%; /* 调整图片的宽度 */
   height: auto;
   object-fit: cover;
 }
@@ -295,15 +291,12 @@ onMounted(() => {
   margin-right: 0; /* 去除右边距 */
 }
 
-h2 {
-  font-size: 28px;
+h1 {
   color: #a33238;
-  margin: 0 0 20px 75px; /* 调整标题的左边距 */
+  margin: 1% 0 0 1%; /* 调整标题的左边距 */
 }
 
-form {
-  width: 150%;
-}
+
 
 .form-item {
   display: flex;
