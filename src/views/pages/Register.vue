@@ -189,9 +189,9 @@ const callCreate = async () => {
           showConfirmButton: false,
           timer: 1000,
         }).then(async () => {
-          await nextTick(); // 确保 DOM 更新完成
+          await nextTick(); 
           router.push("/").then(() => {
-            window.location.reload(); // 强制页面刷新
+            window.location.reload(); // 強制刷新頁面
           });
         });
       } else {
