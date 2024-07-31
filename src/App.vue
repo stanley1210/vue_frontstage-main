@@ -1,9 +1,9 @@
 <template>
 
-  <RouterView v-slot="{Component, route}">
+  <RouterView v-slot="{Component, route}" >
 
     <transition name="slide" mode="out-in">
-      <component :is="Component" :key="route.path" ></component>
+      <component :is="Component" :key="route.fullPath" ></component>
     </transition>
 
   </RouterView>
