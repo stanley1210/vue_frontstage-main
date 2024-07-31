@@ -106,7 +106,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import axiosapi from "@/plugins/axios.js";
 import { useStore } from "vuex";
 import Swal from "sweetalert2";
@@ -152,7 +152,7 @@ const form = ref({
 });
 
 const callCreate = async () => {
-  const request = {
+  const customerRequest = {
     accountType: form.value.accountType,
     account: form.value.account,
     password: form.value.password,
@@ -166,21 +166,46 @@ const callCreate = async () => {
   };
 
   try {
-    const response = await axiosapi.post("/customer/add", request);
-    console.log("API Response:", response.data); // 添加此行查看响应内容
-    if (response.data.success) {
-      Swal.fire({
-        icon: "success",
-        title: "註冊成功",
-        showConfirmButton: false,
-        timer: 1000,
-      });
-      router.push("/");
+    // 第一個mssql的API請求參數
+    const customerResponse = await axiosapi.post("/customer/add", customerRequest);
+    console.log("Customer API Response:", customerResponse.data); 
+
+    if (customerResponse.data.success) {
+      const customerId = customerResponse.data.data.id; //假設註冊已經包含了員工的id假設註冊已經包含了員工的id
+
+      // mango的API請求參數
+      const customerRecordRequest = {
+        customerId: customerId,
+      };
+
+      // 調用mango的新增API
+      const customerRecordResponse = await axiosapi.post("/customerRecord", customerRecordRequest);
+      console.log("CustomerRecord API Response:", customerRecordResponse.data);
+
+      if (customerRecordResponse.data.success) {
+        Swal.fire({
+          icon: "success",
+          title: "註冊成功",
+          showConfirmButton: false,
+          timer: 1000,
+        }).then(async () => {
+          await nextTick(); // 确保 DOM 更新完成
+          router.push("/").then(() => {
+            window.location.reload(); // 强制页面刷新
+          });
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "CustomerRecord 註冊失敗",
+          text: customerRecordResponse.data.message,
+        });
+      }
     } else {
       Swal.fire({
         icon: "error",
         title: "註冊失敗",
-        text: response.data.msg,
+        text: customerResponse.data.msg,
       });
     }
   } catch (error) {
@@ -192,6 +217,7 @@ const callCreate = async () => {
     });
   }
 };
+
 
 const customerInfo = ref({});
 onMounted(() => {
