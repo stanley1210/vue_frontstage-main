@@ -1,4 +1,5 @@
 <template>
+  <section>
   <Navigation></Navigation>
   <br />
   <!-- 顯示查詢結果 -->
@@ -30,7 +31,7 @@
   <br>
   <el-button @click="goBack" type="default" color="#a33238">返回查詢</el-button>
 
-
+</section>
 </template>
 
 <script setup>

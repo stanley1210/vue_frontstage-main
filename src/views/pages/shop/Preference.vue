@@ -1,4 +1,5 @@
 <template>
+  <section>
   <!-- 註冊會員按鍵 -->
 <el-button color="#a33238" @click="goToRegister" :dark="isDark" :icon="User" v-if="!isCustomerInfoComplete || !isAuthenticated">註冊會員</el-button>
 
@@ -97,11 +98,17 @@
 
         <div class="form-group">
           <label for="carinfoId">車輛型號</label>
-          <select id="carinfoId" v-model="carinfoId" required>
-            <option value="" disabled>選擇你要的型號</option>
-            <option value="1">YARISCROSS</option>
-            <option value="7">棒棒腿有毒</option>
-            <option value="1006">GT3RS</option>
+          <select id="carinfoId" 
+            v-model="carinfoId"  
+            name="carinfoId" 
+            required>
+            <option value="" disabled>選擇你要的車型</option>
+              <option 
+                v-for="carinfoData in carinfoDatas"
+                :key="carinfoData.id"
+                :carinfoData="carinfoData"
+                :value="`${carinfoData.id}`" 
+                >{{ carinfoData.modelName }}</option>
           </select>
         </div>
         
@@ -235,6 +242,7 @@
     <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">查詢</el-button>
     <el-button type="warning" :icon="Refresh" color="#a33238"  @click="resetForm">重置查詢</el-button>
   </div>
+</section>
 </template>
   
 <script setup>
@@ -260,6 +268,7 @@ onMounted(() => {
     store.dispatch("fetchCustomerInfo", username);
   }
   customerId.value=customerInfo.value.id;
+  callCarinfoFind();
 });
 
 const drawer = ref(false)
@@ -285,33 +294,32 @@ const savedSearches = ref([])
 const id =  ref('')
 const customerId=ref(null)
 const carinfoId=ref('')
+const carinfoDatas=ref([]);
+const kajartaUrl = import.meta.env.VITE_API_URL;
 
-
-axios.get('http://localhost:8080/kajarta/car/find/1')
-    .then(function (response) {
-        if (response && response.data) {
-            console.log("response", response);
-            carDatas.value = response.data.list;
-            if (carDatas.value.length > 0) {
-                selectedCarId.value = carDatas.value[0].id; // 假设你选择了第一个汽车
-                console.log("Selected Car ID:", selectedCarId.value); // Debug output
+function callCarinfoFind() {
+  //搜尋單筆carinfo資訊
+  axios.get(`${kajartaUrl}/carinfo/list`)
+        .then(function (response) {
+            if (response && response.data) {
+                console.log("response", response);
+                carinfoDatas.value = response.data.list;
+            } else {
+                console.error("Invalid response data structure:", response);
             }
-        } else {
-            console.error("Invalid response data structure:", response);
-        }
 
-        // setTimeout(function () {
-        //     Swal.close();
-        // }, 500);
-    })
-    .catch(function (error) {
-        console.error("Error fetching data:", error, response);
-        Swal.fire({
-            text: "查詢失敗：" + error.message,
-            icon: "error"
+            // setTimeout(function () {
+            //     Swal.close();
+            // }, 500);
+        })
+        .catch(function (error) {
+            console.error("Error fetching data:", error, response);
+            Swal.fire({
+                text: "查詢失敗：" + error.message,
+                icon: "error"
+            });
         });
-    });
-
+      }
 
 
 //搜尋條件頁面跳轉到結果
@@ -381,8 +389,8 @@ const handleUpdate = async () => {
       cc: cc.value ? parseInt(cc.value) : null,
       hp: hp.value ? parseInt(hp.value) : null,
       torque: torque.value ? parseFloat(torque.value) : null,
-      customer_id: 1, 
-      carinfo_id: 1,
+      customer_id: customerInfo.value.id, 
+      carinfo_id: carinfoId.value,
       preferences_lists: 1,
     };
     console.log('Sending data:', updateData);
@@ -413,7 +421,7 @@ const saveSearchRecord = async () => {
       milage: milage.value ? parseInt(milage.value) : null,
       score: score.value ? parseInt(score.value) : null,
       customer_id: customerInfo.value.id,
-      carinfo_id: 1, //  暫時寫死
+      carinfo_id: carinfoId.value,
       brand: brand.value ? parseInt(brand.value) : null,
       suspension: suspension.value ? parseInt(suspension.value) : null,
       door: door.value ? parseInt(door.value) : null,
