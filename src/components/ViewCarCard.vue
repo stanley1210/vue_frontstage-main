@@ -10,7 +10,7 @@
           <img :src="`${path}${viewCar.car}`" class="img-fluid rounded-start" alt="Car Image">
         </div>
         <div class="col-md-5 position-relative">
-          <div class="card-body d-flex flex-column justify-content-between h-100 p-3 viewcarnavbarBody ">
+          <div class="card-body d-flex flex-column justify-content-between h-100 p-3 viewcarnavbarBody">
             <div class="text-end">
               <h5 class="custom-title-color">ID.00{{ viewCar.id }}</h5>
               <h5 class="custom-title-color">{{ viewCar.modelName }}</h5>
@@ -36,8 +36,8 @@
             <br>
             <div class="custom-text-color">
               <p>預約狀態: {{ getViewCarStatusText(viewCar.viewCarStatus) }}</p>
-              <p>賞車客戶: {{ viewCar.customerName }}先生/小姐</p>
-              <p>客戶電話: {{ viewCar.tel }}</p>
+              <p>賞車客戶: {{ customerInfo.name }}先生/小姐</p>
+              <p>客戶電話: {{ customerInfo.phone }}</p>
               <p>試車分店: {{ getViewCarBranchText(viewCar.branch) }}</p>
             </div>
 
@@ -61,15 +61,6 @@ import ViewCarDrawer from './ViewCarDrawer.vue';
 
 const store = useStore();
 let customerInfo = ref({});
-onMounted(() => {
-  const username = localStorage.getItem('username');
-  if (username) {
-    store.dispatch('fetchCustomerInfo', username);
-  }
-});
-customerInfo = computed(() => store.state.customerInfo.data || {});
-console.log('===>test Customer info:', customerInfo);
-
 const path = import.meta.env.VITE_PHOTO;
 const viewCars = ref([]);
 const totalElements = ref(0);
@@ -89,14 +80,11 @@ const viewTimeSectionhMap = {
   4: "17:00:00-19:00:00"
 };
 
-
 const branchMap = {
   1: '台北市大吉祥分店',
   2: '台中市大滿貫分店',
   3: '高雄市大巨蛋分店'
 };
-
-
 
 const getViewCarStatusText = (status) => viewCarStatusMap[status] || '未知状态';
 const getViewCarBranchText = (branch) => branchMap[branch] || '未知状态';
@@ -104,8 +92,8 @@ const getViewTimeSectionhText = (time) => viewTimeSectionhMap[time] || '未知�
 
 const fetchViewCars = async (pageNumber) => {
   try {
-    const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/selectAll', {
-      params: { pageNumber, max: 1 }
+    const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/findPageByCustomerId', {
+      params: { customerId: customerInfo.value.id, pageNumber, max: 1 }
     });
 
     const data = response.data;
@@ -123,8 +111,18 @@ const handlePageChange = (page) => {
 };
 
 onMounted(() => {
-  fetchViewCars(currentPage.value);
+  const username = localStorage.getItem('username');
+  if (username) {
+    store.dispatch('fetchCustomerInfo', username).then(() => {
+      fetchViewCars(currentPage.value, customerInfo.value.id);
+    });
+  } else {
+    fetchViewCars(currentPage.value, customerInfo.value.id);
+  }
 });
+
+customerInfo = computed(() => store.state.customerInfo.data || {});
+console.log('===>test Customer info:', customerInfo);
 
 function confirmRemove(id) {
   ElMessageBox.confirm(
@@ -153,7 +151,7 @@ function callRemove(id) {
       .then(function (response) {
         console.log("response", response);
         if (response.data.success) {
-          fetchViewCars(currentPage.value);
+          fetchViewCars(currentPage.value, customerInfo.value.id);
           ElMessage({
             type: 'success',
             message: 'Delete completed',
@@ -175,6 +173,7 @@ function callRemove(id) {
   }
 }
 </script>
+
 
 <style scoped>
 .custom-card {

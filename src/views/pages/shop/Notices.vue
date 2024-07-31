@@ -20,6 +20,12 @@
         </el-button>
       </div>
     </template>
+      <!-- 显示新车信息 -->
+      <div v-if="Array.isArray(newCarIds) && newCarIds.length > 0" class="info-box">
+      <div class="info-content">
+        <p>新增的二手车 IDs：{{ newCarIds.join(', ') }}</p>
+      </div>
+    </div>
     <div v-if="todayViewCars.length > 0">
       <div v-for="viewCar in todayViewCars" :key="viewCar.id" class="info-box-today">
         <div class="info-content">
@@ -31,9 +37,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div v-else>
-      <p>目前沒有通知喔，去賣場逛逛吧!</p>
     </div>
     <div v-for="viewCar in sortedViewCars" :key="viewCar.id">
       <div v-if="sortedViewCars.length > 0">
@@ -61,9 +64,16 @@ import { useStore } from 'vuex';
 const path = import.meta.env.VITE_PHOTO;
 const store = useStore();
 
-// Define props
+// Define props with default values
 const props = defineProps({
-  filteredViewCars: Array
+  filteredViewCars: {
+    type: Array,
+    default: () => []
+  },
+  newCarIds: {
+    type: Array,
+    default: () => []
+  }
 });
 
 // Emit events
@@ -117,6 +127,9 @@ const visible = ref(false);
 const handleClearNotices = () => {
   emit('clear-notices');
 };
+
+
+
 </script>
 
 <style scoped>

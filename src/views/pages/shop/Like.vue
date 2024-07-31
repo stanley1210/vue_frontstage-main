@@ -14,7 +14,7 @@
     </div>
     <br>
 
-    <!-- 上方分頁欄 -->
+    <!-- 上方分頁欄 --> 
     <div class="row">
         <div class="col-8" v-show="total != 0">
             <Paginate :first-last-button="true" first-button-text="<<" last-button-text=">>" prev-text="<" next-text=">"
@@ -33,11 +33,18 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import Swal from 'sweetalert2';
 import Paginate from 'vuejs-paginate-next';
 import LikeCard from '@/components/LikeCard.vue';
 import LikeRows from '@/components/LikeRows.vue';
+import { useStore } from 'vuex';
+
+// 获取 store 实例
+const store = useStore();
+
+// 获取 customerInfo 并定义一个 computed 属性以便在模板中使用
+const customerInfo = computed(() => store.state.customerInfo.data || {});
 
 // 定义 reactive 状态
 const rows = ref(4); // 每页显示的条目数
@@ -48,12 +55,16 @@ const pages = ref(1); // 总页数
 const current = ref(1); // 当前页码
 
 // 在组件挂载时调用一次 callFind
-onMounted(function () {
+onMounted(() => {
+    const username = localStorage.getItem('username');
+    if (username) {
+        store.dispatch('fetchCustomerInfo', username);
+    }
     callFind();
 });
 
 // 当 rows 改变时重置页码到 1 并调用 callFind
-watch(rows, function (newValue, oldValue) {
+watch(rows, (newValue, oldValue) => {
     if (newValue !== oldValue) {
         current.value = 1;
         callFind();
@@ -67,11 +78,12 @@ function callFind(page = 1) {
     let request = {
         pageNumber: current.value,
         sortOrder: sortOrder.value,
-        max: rows.value
+        max: rows.value,
+        customerId: customerInfo.value.id
     };
 
-    axios.get('http://localhost:8080/kajarta/front/like/selectAll', { params: request })
-        .then(function (response) {
+    axios.get('http://localhost:8080/kajarta/front/like/findByCustomerId', { params: request })
+        .then(response => {
             if (response && response.data) {
                 likes.value = response.data.list;
                 total.value = response.data.totalElements;
@@ -81,7 +93,7 @@ function callFind(page = 1) {
                 console.error("Invalid response data structure:", response);
             }
         })
-        .catch(function (error) {
+        .catch(error => {
             console.error("Error fetching data:", error);
             Swal.fire({
                 text: "查詢失敗：" + error.message,
@@ -92,7 +104,7 @@ function callFind(page = 1) {
 
 function callRemove(id) {
     if (id) {
-        axios.delete("http://localhost:8080/kajarta/front/like/delete/" + id).then(function (response) {
+        axios.delete("http://localhost:8080/kajarta/front/like/delete/" + id).then(response => {
             console.log("response", response);
             if (response.data.success) {
                 callFind(current.value);
@@ -102,12 +114,9 @@ function callRemove(id) {
                     text: response.data.message,
                 });
             }
-        })
+        });
     }
 }
-
-
-
 </script>
 
 <style scoped>

@@ -27,10 +27,12 @@
         ~ {{ customerInfo.id || '用户ID' }}
         ~ {{ customerInfo.account || '帳號' }}
     </div>
+    <SuggestTable></SuggestTable> 
     <Footer></Footer>
 </template>
 
 <script setup>
+import SuggestTable from "@/components/SuggestTable.vue";
 import Navigation from '@/views/Navigation.vue';
 import Footer from "@/views/Footer.vue"
 import axios from 'axios';

@@ -1,6 +1,6 @@
 <template>
 	<br><br><br>
-	<p class="p-text">Welcome,<br>Your next great find is wating</p><br>
+	<p class="p-text">Welcome,<br>Your next great find<br>is wating !</p><br>
 	<form @submit.prevent="handleSubmit">
 		<div class="form-group">
 			<label for="username">帳號:</label>
@@ -104,8 +104,10 @@ const getCustomerInfo = async (username) => {
 .p-text {
 	width: 90%;
 	/* 调整底线的长度 */
-	color: #a33238;
+	color: #fff5eb;
 	font-size: 30px;
+	font-weight: 900;
+	margin-bottom: 50%;
 }
 
 .header-container {
@@ -128,7 +130,7 @@ const getCustomerInfo = async (username) => {
 .header-text {
 	font-size: 1.5em;
 	font-weight: bold;
-	color: #a33238;
+	color: #fff5eb;
 }
 
 .card {
@@ -143,7 +145,7 @@ const getCustomerInfo = async (username) => {
 	align-items: flex-start;
 	background-color: white;
 	font-weight: bold;
-	color: #a33238;
+	color: #fff5eb;
 }
 
 .card-image {
@@ -165,11 +167,13 @@ const getCustomerInfo = async (username) => {
 
 .form-group {
 	margin-bottom: 15px;
-	color: #a33238;
+	color: #fff5eb;
+	border-bottom:1px solid #fff5eb;
 }
 
 .form-group label {
 	margin-right: 10px;
+	font-weight: 900;
 }
 
 .input-field {
@@ -177,6 +181,7 @@ const getCustomerInfo = async (username) => {
 	/* 当前设置宽度减去标签的宽度 */
 	padding: 8px;
 	border: none;
+	color: #fff5eb;
 	background-color: transparent;
 	/* 背景透明 */
 }
@@ -188,21 +193,26 @@ const getCustomerInfo = async (username) => {
 	padding: 10px;
 	border: none;
 	border-radius: 4px;
-	background-color: #a33238;
-	color: white;
+	background-color: #fff5eb;
+	color: #a33238;
 	cursor: pointer;
+	font-weight: 900;
+	margin-top: 20%;
 }
 
 .submit-button:hover {
-	background-color: #66b1ff;
+	background-color: #a33238;
+	color: #fff5eb;
+	font-weight: 900;
 }
 
 .register-link {
 	display: block;
 	margin-top: 10px;
-	color: #a33238;
+	color: #fff5eb;
 	text-align: center;
 	text-decoration: none;
+	font-weight: 900;
 	font-size: 14px;
 }
 

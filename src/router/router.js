@@ -2,15 +2,17 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 //1. 引用元件
-import Home from '@/views/Home.vue'
+import Home from '@/views/pages/Home.vue'
 import NotFound from "@/views/NotFound.vue";
 import routerPages from '@/views/pages/router-pages.js'
+import About from "@/views/pages/About.vue"
 
 // 2. 定義網頁路由
 const routes = [
     { name: "home-link", path: "/", component: Home },
-    { name: "notfound-link", path: "/:pathMatch(.*)*", component: NotFound },
-    ...routerPages
+    { name: "about", path: "/pages/about", component: About },
+    ...routerPages,
+    { name: "notfound-link", path: "/:pathMatch(.*)*", component: NotFound }
     // ...routerLogin
 
 ]
