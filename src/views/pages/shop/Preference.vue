@@ -451,7 +451,7 @@ const saveSearchRecord = async () => {
 //列出心儀TABLE的結果
 const fetchSavedSearches = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/kajarta/preference/list')
+    const response = await axios.get(`http://localhost:8080/kajarta/preference/findByCustomerId/${customerInfo.value.id}`)
     savedSearches.value = response.data.list
   } catch (error) {
     ElMessage({
