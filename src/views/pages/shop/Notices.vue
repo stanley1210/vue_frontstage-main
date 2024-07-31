@@ -70,7 +70,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { ElButton, ElDrawer } from 'element-plus';
 import { CircleCloseFilled, Bell } from '@element-plus/icons-vue';
 import { useStore } from 'vuex';
@@ -78,7 +78,12 @@ import { useRouter } from 'vue-router'; // 引入 useRouter
 const router = useRouter(); // 使用 useRouter
 const path = import.meta.env.VITE_PHOTO;
 const store = useStore();
-const notificationsEnabled = ref(true); // 添加通知開關狀態
+const notificationsEnabled = ref(localStorage.getItem('notificationsEnabled') === 'true'); // 從 localStorage 初始化通知開關狀態
+// 監聽 notificationsEnabled 的變化並保存到 localStorage
+watch(notificationsEnabled, (newVal) => {
+  localStorage.setItem('notificationsEnabled', newVal);
+});
+
 // Define props with default values
 const props = defineProps({
   filteredViewCars: {
