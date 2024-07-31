@@ -19,34 +19,48 @@
           Close
         </el-button>
       </div>
+
     </template>
+
+
+
+    <div class="switch-container"> <!-- 添加 switch-container -->
+      <el-switch v-model="notificationsEnabled" class="ml-2" inline-prompt
+        style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" active-text="關閉通知" inactive-text="開啟通知" />
+    </div>
+
+
+    
+    <div v-if="notificationsEnabled">
       <!-- 显示新车信息 -->
       <div v-if="Array.isArray(newCarIds) && newCarIds.length > 0" class="info-box">
-      <div class="info-content">
-        <p>新增的二手车 IDs：{{ newCarIds.join(', ') }}</p>
-      </div>
-    </div>
-    <div v-if="todayViewCars.length > 0">
-      <div v-for="viewCar in todayViewCars" :key="viewCar.id" class="info-box-today">
         <div class="info-content">
-          <img :src="`${path}${viewCar.car}`" class="car-img" alt="Car Image">
-          <div class="info-text">
-            <p>今天是您預約的賞車日期! </p>
-            <p>(賞車編號：{{ viewCar.id }})</p>
-            <p>車型：{{ viewCar.modelName }}</p>
-          </div>
+          <p>新增的二手车 IDs：{{ newCarIds.join(', ') }}</p>
         </div>
       </div>
-    </div>
-    <div v-for="viewCar in sortedViewCars" :key="viewCar.id" @click="redirectToViewCar(viewCar.id)" class="pointer" >
-      <div v-if="sortedViewCars.length > 0">
-        <div v-if="viewCar.daysLeft > 0" class="info-box">
+      <div v-if="todayViewCars.length > 0" class="pointer">
+        <div v-for="viewCar in todayViewCars" :key="viewCar.id" @click="redirectToViewCar(viewCar.id)"
+          class="info-box-today">
           <div class="info-content">
             <img :src="`${path}${viewCar.car}`" class="car-img" alt="Car Image">
             <div class="info-text">
-              <p>距離您賞車，還有 {{ viewCar.daysLeft }} 天! </p>
+              <p>今天是您預約的賞車日期!</p>
               <p>(賞車編號：{{ viewCar.id }})</p>
               <p>車型：{{ viewCar.modelName }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-for="viewCar in sortedViewCars" :key="viewCar.id" @click="redirectToViewCar(viewCar.id)" class="pointer">
+        <div v-if="sortedViewCars.length > 0">
+          <div v-if="viewCar.daysLeft > 0" class="info-box">
+            <div class="info-content">
+              <img :src="`${path}${viewCar.car}`" class="car-img" alt="Car Image">
+              <div class="info-text">
+                <p>距離您賞車，還有 {{ viewCar.daysLeft }} 天!</p>
+                <p>(賞車編號：{{ viewCar.id }})</p>
+                <p>車型：{{ viewCar.modelName }}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -64,7 +78,7 @@ import { useRouter } from 'vue-router'; // 引入 useRouter
 const router = useRouter(); // 使用 useRouter
 const path = import.meta.env.VITE_PHOTO;
 const store = useStore();
-
+const notificationsEnabled = ref(true); // 添加通知開關狀態
 // Define props with default values
 const props = defineProps({
   filteredViewCars: {
@@ -184,9 +198,11 @@ const redirectToViewCar = (carId) => {
 }
 
 .car-img {
-  width: 120px; /* 調整圖片大小 */
+  width: 120px;
+  /* 調整圖片大小 */
   height: auto;
-  margin-right: 16px; /* 調整圖片與文字之間的間距 */
+  margin-right: 16px;
+  /* 調整圖片與文字之間的間距 */
 }
 
 .info-text p {
