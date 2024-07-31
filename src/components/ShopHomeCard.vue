@@ -81,7 +81,7 @@
         if (customerId.value) {
             const likeData = {
                 carId: props.shopHomeCard.id,
-                customerId: customerId
+                customerId: customerId.value
             };
             axios.post('http://localhost:8080/kajarta/front/like/create', likeData)
                 .then(function (response) {
