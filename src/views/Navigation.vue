@@ -33,7 +33,7 @@
           </li>
           <li class="nav-item col" v-if="isAuthenticated">
               <div class="logout-container">
-                <el-button round @click="logout" plain>Logout</el-button>
+                <a class="nav-link navbtm" href="#" @click.prevent="logout">Logout</a>
               </div>
             </li>
         </ul>
