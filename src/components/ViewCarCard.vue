@@ -27,12 +27,11 @@
               </div>
               <div class="d-flex justify-content-end">
                 <ViewCarDrawer :date="viewCar.viewCarDate" :timeSection="String(viewCar.viewTimeSectionNb)"
-                  :customerId="customerInfo.id" :carId="viewCar.car" :viewCarId="viewCar.id">
+                  :customerId="customerInfo.id" :carId="viewCar.car" :viewCarId="viewCar.id" :viewCarStatus="viewCar.viewCarStatus">
                 </ViewCarDrawer>
-                <el-button round @click="confirmRemove(viewCar.id)" size="small" class="custom-button">取消賞車</el-button>
-                &nbsp;
-                &nbsp;
-                &nbsp;
+                <el-button round v-if="viewCar.viewCarStatus===3" disabled size="small" class="custom-button">註銷賞車</el-button>
+                <el-button round v-else @click="confirmRemove(viewCar.id,viewCar.car,viewCar.viewCarDate,viewCar.viewTimeSectionNb)" size="small" class="custom-button">取消賞車</el-button>
+
                 <el-button round @click="toggleCar(selectedCarId)" size="small" class="custom-button">詳細資料</el-button>
               </div>
             </div>
@@ -193,7 +192,7 @@ onMounted(() => {
 customerInfo = computed(() => store.state.customerInfo.data || {});
 console.log('===>test Customer info:', customerInfo);
 
-function confirmRemove(id) {
+function confirmRemove(id,car,viewCarDate,viewTimeSectionNb) {
   ElMessageBox.confirm(
     '確定要取消賞車嗎?',
     {
@@ -204,7 +203,7 @@ function confirmRemove(id) {
     }
   )
     .then(() => {
-      callRemove(id);
+      callRemove(id,car,viewCarDate,viewTimeSectionNb);
     })
     .catch(() => {
       ElMessage({
@@ -242,33 +241,71 @@ function findEmployee(viewCarId) {
 
 
 
-function callRemove(id) {
-  if (id) {
-    axios.delete(`http://localhost:8080/kajarta/front/viewCar/delete/${id}`)
-      .then(function (response) {
-        console.log("response", response);
-        if (response.data.success) {
-          fetchViewCars(currentPage.value, customerInfo.value.id);
-          ElMessage({
-            type: 'success',
-            message: 'Delete completed',
-          });
-        } else {
-          ElMessage({
-            type: 'warning',
-            message: response.data.message,
-          });
-        }
-      })
-      .catch(function (error) {
-        console.error("Error deleting data:", error);
-        ElMessage({
-          type: 'error',
-          message: 'Delete failed: ' + error.message,
-        });
+// function callRemove(id) {
+//   if (id) {
+//     axios.delete(`http://localhost:8080/kajarta/front/viewCar/delete/${id}`)
+//       .then(function (response) {
+//         console.log("response", response);
+//         if (response.data.success) {
+//           fetchViewCars(currentPage.value, customerInfo.value.id);
+//           ElMessage({
+//             type: 'success',
+//             message: 'Delete completed',
+//           });
+//         } else {
+//           ElMessage({
+//             type: 'warning',
+//             message: response.data.message,
+//           });
+//         }
+//       })
+//       .catch(function (error) {
+//         console.error("Error deleting data:", error);
+//         ElMessage({
+//           type: 'error',
+//           message: 'Delete failed: ' + error.message,
+//         });
+//       });
+//   }
+// }
+
+
+
+const callRemove = async (id,car,viewCarDate,viewTimeSectionNb) => {
+  try {
+    const response = await axios.put(`http://localhost:8080/kajarta/front/viewCar/update/${id}`, {
+      viewCarStatus: 3, // 將 viewCarStatus 設置為 3 表示註銷
+      id:id,
+      carId:car,
+      customerId: customerInfo.value.id,
+      viewCarDate:viewCarDate,
+      viewTimeSection:viewTimeSectionNb,
+    });
+    console.log(response.data);
+    if (response.data.success) {
+      ElMessage({
+        type: 'success',
+        message: '提交成功'
       });
+      // 刷新數據以反映更改
+      fetchViewCars(currentPage.value);
+    } else {
+      ElMessage({
+        type: 'warning',
+        message: response.data.message
+      });
+    }
+  } catch (error) {
+    ElMessage({
+      type: 'error',
+      message: '提交失敗: ' + error.message
+    });
   }
 }
+
+
+
+
 </script>
 
 

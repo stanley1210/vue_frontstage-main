@@ -130,7 +130,7 @@ const fetchNewCars = async () => {
     const since = new Date().toISOString();
     console.log('since=' + since)
 
-    const response = await axiosapi.get('http://localhost:8080/kajarta/car/new-cars', { params: { since } });
+    const response = await axiosapi.get('http://localhost:8080/kajarta/front/notice/new-cars', { params: { since } });
     const data = response.data;  // 已经是一个对象，不需要再次解析
 
     if (data.length > 0) {
