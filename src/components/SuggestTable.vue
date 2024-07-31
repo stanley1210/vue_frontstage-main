@@ -155,7 +155,7 @@ function callSuggestCarFind() {
         temp = response.data.preferenceCarList 
         if (temp!=null) {
             //只取前3項;
-            for (let i = 0; i < 3 && i < temp.length; i++) {
+            for (let i = 0; i < 4 && i < temp.length; i++) {
                 shopSuggestCards.value.push(response.data.preferenceCarList[i]);
             }
             console.log('shopSuggestCards 1',shopSuggestCards.value);
@@ -167,7 +167,7 @@ function callSuggestCarFind() {
                         }).then(function (response) {
                             let temp2 = []
                             temp2 = response.data.preferenceCarList
-                            for (let i = 0; i < 3-temp.length; i++) {
+                            for (let i = 0; i < 4-temp.length; i++) {
                                 shopSuggestCards.value.push(response.data.preferenceCarList[i]);
                             }
                             console.log('shopSuggestCards 2',shopSuggestCards.value);
@@ -181,7 +181,7 @@ function callSuggestCarFind() {
                         }).then(function (response) {
                             let temp2 = []
                             temp2 = response.data.preferenceCarList
-                            for (let i = 0; i < 3; i++) {
+                            for (let i = 0; i < 4; i++) {
                                 shopSuggestCards.value.push(response.data.preferenceCarList[i]);
                             }
                             console.log('shopSuggestCards 3',shopSuggestCards.value);

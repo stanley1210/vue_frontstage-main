@@ -47,8 +47,8 @@
 
         <!-- ------------------------------------------字---------------------------------------------------------- -->
         <div style="margin: 50px;">
-            <h1 class="wordBody">Looking for your dream ride?</h1>
-            <h1 class="wordBody">Luckily Your've just found it!</h1>
+            <h1 class="wordBody" style="color:#9a7352">Looking for your dream ride?</h1>
+            <h1 class="wordBody" style="color:#9a7352">Luckily Your've just found it!</h1>
         </div>
 
 
@@ -81,7 +81,7 @@
             <br>
 
             <!--Card-->
-            <div class="likecard-container">
+            <div class="likecard-container" style="display: flex;justify-content: center;margin-bottom: 5%; ">
                 <ShopHomeCard v-for="shopHomeCard in shopHomeCards" :key="shopHomeCard.id" :shopHomeCard="shopHomeCard"
                     @likeCreate="callLikeCreate"></ShopHomeCard>
             </div>

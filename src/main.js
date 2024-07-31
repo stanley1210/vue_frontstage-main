@@ -7,6 +7,7 @@ import 'element-plus/dist/index.css'
 import '@/style/style.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import FontAwesomeIcon from "./plugins/fontawesome.js";
 import store from './store'; // vuex
 
 
@@ -15,6 +16,7 @@ const app = createApp(App)
 app.use(ElementPlus)
 app.use(router)
 app.use(store) // vuex
+app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
