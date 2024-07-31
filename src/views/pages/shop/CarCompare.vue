@@ -1,32 +1,24 @@
 <template>
-    <!-- ------------------------------------------大圖------------------------------------------ -->
     <Navigation></Navigation>
-    <div class="d-flex flex-row wordBody">
-        <div class="p-2 flex-fill navbarBody">
-            <CarImage :images="images"></CarImage>
-        </div>
-        <div class="p-2 flex-fill navbarBody">
-            <CarCompareImage :images="images"></CarCompareImage>
-        </div>
-    </div>
     <h2 class="navbarBody wordBody">Compare Info.</h2>
-    <!-- ------------------------------------------左資料行 ------------------------------------------ -->
     <div class="d-flex flex-row wordBody">
-        <CarCompareColumnL
-            v-for="carData in carDatas"
-            :key="carData.id"
-            :carData="carData"
-            class="text-center navbarBody p-2 flex-fill"
-            ></CarCompareColumnL>
-
-        <!-- ------------------------------------------右資料行 ------------------------------------------ -->
+        <!-- ------------------------------------------左資料行 ------------------------------------------ -->
         <div class="p-2 flex-fill navbarBody">
-            <CarCompareColumnR
+            <CarCompareL 
+                :images="images"
                 v-for="carData in carDatas"
                 :key="carData.id"
                 :carData="carData"
-                class="text-center navbarBody p-2 flex-fill"
-                ></CarCompareColumnR>
+                ></CarCompareL>
+        </div>
+        <!-- ------------------------------------------右資料行 ------------------------------------------ -->
+        <div class="p-2 flex-fill navbarBody">
+            <CarCompareR 
+                
+                v-for="carData in carDatas"
+                :key="carData.id"
+                :carData="carData"
+                ></CarCompareR>
         </div>
     </div>
     <!-- ------------------------------------------字---------------------------------------------------------- -->
@@ -44,9 +36,8 @@ import Footer from "@/views/Footer.vue"
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { ref, computed, onMounted, watch } from 'vue';
-import CarCompareColumnL from '@/components/CarCompareColumnL .vue';
-import CarCompareColumnR from '@/components/CarCompareColumnR.vue';
-import CarCompareImage from '@/components/CarCompareImage.vue';
+import CarCompareR from '@/components/CarCompareR.vue';
+import CarCompareL from '@/components/CarCompareL.vue';
 import { useRoute } from 'vue-router';
 const route = useRoute();
 const carId = Number(route.query.carId);  // 获取传递过来的carId参数
