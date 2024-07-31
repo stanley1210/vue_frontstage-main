@@ -1,90 +1,93 @@
 <template>
+    <section>
         <Navigation></Navigation>
-    <!-- ------------------------------------------心儀條件------------------------------------------ -->
+        <!-- ------------------------------------------心儀條件------------------------------------------ -->
 
-    <div class="row align-items-start" style="background-color:#fff5eb;">
-            <div class="col-4" >
+        <div class="row align-items-start" style="background-color:#fff5eb;">
+            <div class="col-4">
                 <br>
                 <h3 style="color: #a33238;">選擇您的理想車輛查詢</h3>
                 <br>
-                    <Preference />
+                <Preference />
             </div>
-           
-    <div id="carouselExampleIndicators" class="carousel slide navbarBody imageWidth col-8" data-bs-ride="carousel" data-bs-interval="4000">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-            </div>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="../../../../public/supra1.png" class="d-block w-100">
+
+            <div id="carouselExampleIndicators" class="carousel slide navbarBody imageWidth col-8"
+                data-bs-ride="carousel" data-bs-interval="4000">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                        class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
                 </div>
-                <div class="carousel-item">
-                    <img src="../../../../public/supra2.jpeg" class="d-block w-100">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="../../../../public/supra1.png" class="d-block w-100">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../../../../public/supra2.jpeg" class="d-block w-100">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../../../../public/supra3.jpeg" class="d-block w-100">
+                    </div>
                 </div>
-                <div class="carousel-item">
-                    <img src="../../../../public/supra3.jpeg" class="d-block w-100">
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ------------------------------------------字---------------------------------------------------------- -->
+        <div style="margin: 50px;">
+            <h1 class="wordBody" style="color:#9a7352">Looking for your dream ride?</h1>
+            <h1 class="wordBody" style="color:#9a7352">Luckily Your've just found it!</h1>
+        </div>
+
+
+        <!-- ------------------------------------------分頁卡---------------------------------------------------------- -->
+        <div style="margin-left: 50px; margin-right: 50px;">
+            <div class="row">
+                <div class="col-1">
+                    <select v-model="sortOrder" @change="callFind(1)" class="form-select">
+                        <option value="asc">升序</option>
+                        <option value="desc">降序</option>
+                    </select>
+                </div>
+
+                <div class="col-4">
+                    <LikeRows :total="total" :options="[2, 3, 4, 5, 10]" v-model="rows" @rows-change="callFind">
+                    </LikeRows>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-    </div>
+            <br>
 
-    <!-- ------------------------------------------字---------------------------------------------------------- -->
-    <div style="margin: 50px;">
-        <h1 class="wordBody">Looking for your dream ride?</h1>
-        <h1 class="wordBody">Luckily Your've just found it!</h1>
-    </div>
-
-
-    <!-- ------------------------------------------分頁卡---------------------------------------------------------- -->
-    <div style="margin-left: 50px; margin-right: 50px;">
-        <div class="row">
-            <div class="col-1">
-                <select v-model="sortOrder" @change="callFind(1)" class="form-select">
-                    <option value="asc">升序</option>
-                    <option value="desc">降序</option>
-                </select>
+            <!--上方分頁欄-->
+            <div class="row">
+                <div class="col-8" v-show="total != 0">
+                    <Paginate :first-last-button="true" first-button-text="<<" last-button-text=">>" prev-text="<"
+                        next-text=">" :page-count="pages" :initial-page="current" v-model="current"
+                        :click-handler="callFind">
+                    </Paginate>
+                </div>
             </div>
+            <br>
 
-            <div class="col-4">
-                <LikeRows :total="total" :options="[2, 3, 4, 5, 10]" v-model="rows" @rows-change="callFind">
-                </LikeRows>
+            <!--Card-->
+            <div class="likecard-container" style="display: flex;justify-content: center;margin-bottom: 5%; ">
+                <ShopHomeCard v-for="shopHomeCard in shopHomeCards" :key="shopHomeCard.id" :shopHomeCard="shopHomeCard"
+                    @likeCreate="callLikeCreate"></ShopHomeCard>
             </div>
         </div>
-        <br>
-
-        <!--上方分頁欄-->
-        <div class="row">
-            <div class="col-8" v-show="total != 0">
-                <Paginate :first-last-button="true" first-button-text="<<" last-button-text=">>" prev-text="<"
-                    next-text=">" :page-count="pages" :initial-page="current" v-model="current"
-                    :click-handler="callFind">
-                </Paginate>
-            </div>
-        </div>
-        <br>
-
-        <!--Card-->
-        <div class="likecard-container">
-            <ShopHomeCard v-for="shopHomeCard in shopHomeCards" :key="shopHomeCard.id" :shopHomeCard="shopHomeCard"
-                @likeCreate="callLikeCreate"></ShopHomeCard>
-        </div>
-    </div>
-    <Footer></Footer>
+        <Footer></Footer>
+    </section>
 </template>
 
 <script setup>
@@ -122,7 +125,7 @@ function callFind(page) {
         max: rows.value
     };
 
-    //搜尋單筆car資訊
+    //搜尋所有car資訊
     axios.get(`${kajartaUrl}/car/findAll`, { params: request })
         .then(function (response) {
             if (response && response.data) {
@@ -147,29 +150,6 @@ function callFind(page) {
         });
 }
 
-
-
-//===========新增心儀清單=========
-function callLikeCreate(carId) {
-    const likeData = {
-        carId: carId,
-        customerId: 1
-    };
-    axios.post('http://localhost:8080/kajarta/front/like/create',likeData)
-    .then(function (response) {
-            Swal.fire({
-                text: "已成功加入心儀清單！",
-                icon: "success"
-            });
-        })
-        .catch(function (error) {
-            Swal.fire({
-                text: "加入心儀清單失敗：" + error.message,
-                icon: "error"
-            });
-        });
-}
-//===========新增心儀清單=========
 import Preference from './Preference.vue'
 
 
@@ -179,14 +159,14 @@ import Preference from './Preference.vue'
 .imageWidth {
     width: 1000px;
 }
-fieldset{
-        width: 500px;
-        margin: 15px
-       
+
+fieldset {
+    width: 500px;
+    margin: 15px
 }
-fieldset{
-        width: 500px;
-        margin: 15px
-       
+
+fieldset {
+    width: 500px;
+    margin: 15px
 }
 </style>
