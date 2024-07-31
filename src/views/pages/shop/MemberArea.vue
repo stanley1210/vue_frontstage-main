@@ -11,6 +11,7 @@
         </p>
         <br>
         <Like></Like>
+        <PreferenceSearch></PreferenceSearch>
         <MemberInfo></MemberInfo>
         <Footer></Footer>
 </template>
@@ -24,6 +25,7 @@ import MemberAreaNav from '@/components/MemberAreaNav.vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import MemberInfo from '@/components/MemberInfo.vue';
+import PreferenceSearch from './PreferenceSearch.vue';
 let customerInfo = ref({});
 const store = useStore();
 onMounted(() => {
