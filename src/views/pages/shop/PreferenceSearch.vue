@@ -1,6 +1,8 @@
 <template>
+  <section>
   <Navigation></Navigation>
   <br />
+  <!-- 顯示查詢結果 -->
   <h3 style="color: #a33238;">顯示搜尋車輛結果</h3>
   <div class="card-container">
     <div class="card" v-for="data in results" :key="data.id" :data="data">
@@ -29,7 +31,7 @@
   <br>
   <el-button @click="goBack" type="default" color="#a33238">返回查詢</el-button>
 
-
+</section>
 </template>
 
 <script setup>
@@ -59,11 +61,12 @@ const score = ref('');
 const hp = ref('');
 const torque = ref('');
 
-
+// 搜尋結果
 const handleSearchByNoMemSearch = async () => {
   try { 
     const response = await axios.get('http://localhost:8080/kajarta/preference/searchMore', {
       params: {
+        carinfoId: query.carinfoId,
         brand:  query.brand,
         suspension:  query.suspension,
         door: query.door,
