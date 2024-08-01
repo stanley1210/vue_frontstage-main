@@ -1,5 +1,5 @@
 <template>
-        <section>
+        <section class="container-fluid" style="padding: 0;overflow-x: hidden;" >
                 <Navigation></Navigation>
                 <MemberAreaNav :name="customerInfo.name"></MemberAreaNav>
                 <br><br>

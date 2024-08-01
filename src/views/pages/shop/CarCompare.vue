@@ -1,16 +1,17 @@
 <template>
-    <section>
+    <section class="container-fluid" style="padding: 0;overflow: hidden;">
         <Navigation></Navigation>
-        <h1>Compare Info.</h1>
+        
 
     <!-- ------------------------------------------大圖------------------------------------------ -->
-    <div class="row">
-        <div class="col-4">
-            <CarImage :images="images"></CarImage>
+    <div class="row cmp" style="padding: 0;">
+        <div class="col-4" style="padding: 0; overflow-x: hidden;">
+            <!-- <CarImage :images="images"></CarImage> -->
+            <img src="/public/img/homepageIMG01.jpg" class="cmpImg">
         </div>
 
     <!-- ------------------------------------------左資料行 ------------------------------------------ -->
-        <div class="col-2">
+        <div class="col-2 CMPT" style="padding: 0; ">
             <CarCompareColumnL
             v-for="carData in carDatas"
             :key="carData.id"
@@ -20,7 +21,7 @@
         </div>
 
     <!-- ------------------------------------------右資料行 ------------------------------------------ -->
-        <div class="col-2">
+        <div class="col-2 CMPT" style="padding: 0; ">
             <CarCompareColumnR
                 v-for="carData in carDatas"
                 :key="carData.id"
@@ -28,8 +29,9 @@
                 class="text-center navbarBody p-2 flex-fill"
                 ></CarCompareColumnR>
         </div>
-        <div class="col-4">
-            <CarCompareImage :images="images"></CarCompareImage>
+        <div class="col-4" style="padding: 0; overflow: hidden;">
+            <!-- <CarCompareImage :images="images"></CarCompareImage> -->
+            <img src="/public/img/homepageIMG01.jpg" class="cmpImg">
         </div>
     </div>
  
@@ -120,5 +122,27 @@ axios.get(`http://localhost:8080/kajarta/car/find/1`)
 h1 {
     color: #a33238;
     font-weight: 900;
+}
+
+.cmpImg{
+    width: auto;
+    height: 100%;
+}
+
+.cmp{
+    overflow: hidden;
+    height: 80vh;
+}
+
+.CMPT{
+    color: #a33238;
+    background-color:#fff5eb ;
+
+}
+
+.CMPT:hover{
+    color: #fff5eb;
+    background-color:#a33238 ;
+    
 }
 </style>
