@@ -5,7 +5,7 @@
   <!-- 顯示查詢結果 -->
   <h3 style="color: #a33238;">顯示搜尋車輛結果</h3>
   <div class="card-container">
-    <div class="card" v-for="data in results" :key="data.id" :data="data">
+    <div class="card" v-for="data in paginatedResults" :key="data.id" :data="data">
     <img class="card-img-top" :src="`${path}${data.id}`" :alt="data.modelName"> 
       <div class="card-body navbarBody">
         <h5 class="card-title">{{ data.modelName }}</h5>
@@ -28,14 +28,32 @@
       </div>
     </div>
   </div>
+<br>
+<!-- 分頁效果(上下頁) -->
+<div class="pagination-container">
+  <el-pagination
+      @current-change="handlePageChange"
+      :current-page="currentPage"
+      :page-size="pageSize"
+      :page-sizes="[2, 3, 4, 5]"
+      layout=" prev, pager, next, jumper"
+      :total="results.length">
+<!-- 自訂顯示幾筆 -->
+    </el-pagination>
+     <el-select v-model="pageSize" placeholder="每頁顯示數量" @change="handlePageSizeChange" style="width: 60px;">
+      <el-option label="2" :value="2"></el-option>
+      <el-option label="3" :value="3"></el-option>
+      <el-option label="4" :value="4"></el-option>
+      <el-option label="5" :value="5"></el-option>
+    </el-select>
+</div>
   <br>
   <el-button @click="goBack" type="default" color="#a33238">返回查詢</el-button>
-
 </section>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref,computed } from 'vue';
 import { useRoute,useRouter  } from 'vue-router';
 import Navigation from '@/views/Navigation.vue';
 import axios from 'axios';
@@ -45,21 +63,15 @@ const route = useRoute();
 const router = useRouter();
 const query = route.query;
 const results = ref([]);
-const brand = ref('');
-const suspension = ref('');
-const door = ref('');
-const passenger = ref('');
-const rearwheel = ref('');
-const gasoline = ref('');
-const transmission = ref('');
-const cc = ref('');
-const modelName = ref('');
-const productionYear = ref('');
-const price = ref('');
-const milage = ref('');
-const score = ref('');
-const hp = ref('');
-const torque = ref('');
+const currentPage = ref(1);
+const pageSize = ref(4);
+
+// 分頁
+const paginatedResults = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return results.value.slice(start, end);
+});
 
 // 搜尋結果
 const handleSearchByNoMemSearch = async () => {
@@ -91,7 +103,18 @@ const handleSearchByNoMemSearch = async () => {
   }
 };
 
+// 分頁有上下頁選擇
+const handlePageChange = (page) => {
+  currentPage.value = page;
+};
 
+// 分頁自訂顯示幾筆
+const handlePageSizeChange = (newSize) => {
+  pageSize.value = newSize;
+  currentPage.value = 1;
+};
+
+// 返回搜尋頁面
 const goBack = () => {
   router.push({
     name: 'pages-shop-home-link'
@@ -104,6 +127,7 @@ onMounted(() => {
 </script>
 
 <style>
+
 .card-container {
   display: flex;
   flex-wrap: nowrap;
@@ -111,6 +135,13 @@ onMounted(() => {
   overflow-x: auto;
 }
 
+/* 分頁效果格式 */
+.pagination-container {
+  display: flex;
+  align-items: center;
+  gap: 16px; 
+
+}
 
 .card-body {
   display: flex;

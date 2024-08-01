@@ -307,10 +307,6 @@ function callCarinfoFind() {
             } else {
                 console.error("Invalid response data structure:", response);
             }
-
-            // setTimeout(function () {
-            //     Swal.close();
-            // }, 500);
         })
         .catch(function (error) {
             console.error("Error fetching data:", error, response);
