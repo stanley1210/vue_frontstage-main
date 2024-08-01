@@ -174,7 +174,7 @@ const fetchCarIdsByCustomer = async (customerId) => {
     if (data.length > 0) {
       // 提取车辆 ID
       preferenceCarIds.value = data.map(car => car.id);
-      console.log('carIds.value=', preferenceCarIds.value);
+      console.log('preferenceCarIds.value=', preferenceCarIds.value);
     } else {
       console.log('No cars match the preferences.');
     }
