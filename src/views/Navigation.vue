@@ -70,6 +70,10 @@ const newCarId = ref<number | null>(null);
 const newCarIds = ref<any[]>([]);
 const preferenceCarIds = ref([]);
 const matchingIds = ref<any[]>([]);
+const customerInfoId = ref('');
+
+customerInfoId.value = customerInfo.value.id
+
 
 const logout = async () => {
   try {
@@ -143,8 +147,8 @@ const fetchNewCars = async () => {
     }
 
     // 获取符合条件的车辆 ID
-    await fetchCarIdsByCustomer(1);  // 这里的 123 是示例客户 ID，你需要替换成实际的客户 ID
-
+    await fetchCarIdsByCustomer(2);  // 这里的 123 是示例客户 ID，你需要替换成实际的客户 ID
+console.log('customerInfo.value.id========'+customerInfo.value.id)
     // 比较两个数组中的 ID
     matchingIds.value = newCarIds.value.filter(id => preferenceCarIds.value.includes(id));
     if (matchingIds.value.length > 0) {
