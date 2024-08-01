@@ -40,7 +40,7 @@
           </li>
           <li>
             <div>
-              <Notices :filteredViewCars="filteredViewCars" :newCarIds="newCarIds" @clear-notices="clearNotices">
+              <Notices :filteredViewCars="filteredViewCars" :newCarIds="matchingIds" @clear-notices="clearNotices">
               </Notices>
             </div>
           </li>
@@ -68,6 +68,8 @@ const viewCars = ref<any[]>([]);
 const filteredViewCars = ref<any[]>([]);
 const newCarId = ref<number | null>(null);
 const newCarIds = ref<any[]>([]);
+const preferenceCarIds = ref([]);
+const matchingIds = ref<any[]>([]);
 
 const logout = async () => {
   try {
@@ -128,20 +130,60 @@ const clearNotices = () => {
 const fetchNewCars = async () => {
   try {
     const since = new Date().toISOString();
-    console.log('since=' + since)
+    console.log('since=' + since);
 
-    const response = await axiosapi.get('http://localhost:8080/kajarta/front/notice/new-cars', { params: { since } });
-    const data = response.data;  // 已经是一个对象，不需要再次解析
+    // 发起请求获取新车
+    const responseNewCars = await axiosapi.get('http://localhost:8080/kajarta/front/notice/new-cars', { params: { since } });
+    const newCarsData = responseNewCars.data;  // 已经是对象，不需要再次解析
 
-    if (data.length > 0) {
+    if (newCarsData.length > 0) {
       // 将所有新车的 ID 存储在数组中
-      newCarIds.value = data.map(car => car.id);
+      newCarIds.value = newCarsData.map(car => car.id);
       console.log('newCarIds.value=' + newCarIds.value);
+    }
+
+    // 获取符合条件的车辆 ID
+    await fetchCarIdsByCustomer(1);  // 这里的 123 是示例客户 ID，你需要替换成实际的客户 ID
+
+    // 比较两个数组中的 ID
+    matchingIds.value = newCarIds.value.filter(id => preferenceCarIds.value.includes(id));
+    if (matchingIds.value.length > 0) {
+      console.log('Matching IDs:', matchingIds);
+    } else {
+      console.log('No matching IDs found.');
     }
   } catch (error) {
     console.error('Failed to fetch new cars:', error);
   }
 };
+
+
+//符合心儀條件的所有車子
+const fetchCarIdsByCustomer = async (customerId) => {
+  try {
+    // 发起请求获取符合条件的车辆
+    const response = await axiosapi.get(`http://localhost:8080/kajarta/front/notice/findByCustomerId/${customerId}`);
+
+    // 处理响应数据
+    const data = response.data.preferenceCarList; // 解析出符合条件的车辆列表
+
+    if (data.length > 0) {
+      // 提取车辆 ID
+      preferenceCarIds.value = data.map(car => car.id);
+      console.log('carIds.value=', preferenceCarIds.value);
+    } else {
+      console.log('No cars match the preferences.');
+    }
+  } catch (error) {
+    console.error('Failed to fetch car IDs:', error);
+  }
+};
+
+
+
+
+
+
 //======================有無新車=======================
 onMounted(async () => {
   const username = localStorage.getItem('username');
