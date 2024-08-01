@@ -19,7 +19,7 @@
 
                 <div class="card-body navbarBody" style="border: unset;">
                     <h5 class="card-text">ID.{{ shopHomeCard.id }}</h5>
-                    <p class="card-title" v-if="!shopHomeCard.carinfoModelName">ModelNameNoConnect</p>
+                    <p class="card-title" v-if="!shopHomeCard.carinfoModelName">{{ shopHomeCard.modelName }}</p>
                     <p class="card-title" v-if="shopHomeCard.carinfoModelName">{{ shopHomeCard.carinfoModelName }}</p>
                     <div class="d-flex flex-row" >
                         <div class="card-text " style="padding-left: 0;padding-right: 0;">{{ shopHomeCard.milage }} KM &nbsp;&nbsp;/ &nbsp;&nbsp;{{ shopHomeCard.productionYear }}</div>
@@ -81,7 +81,7 @@
         if (customerId.value) {
             const likeData = {
                 carId: props.shopHomeCard.id,
-                customerId: customerId
+                customerId: customerId.value
             };
             axios.post('http://localhost:8080/kajarta/front/like/create', likeData)
                 .then(function (response) {

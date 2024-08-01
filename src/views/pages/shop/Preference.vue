@@ -1,20 +1,28 @@
 <template>
-<el-button type="primary" color="#a33238" :icon="Search" @click="drawer = true">
+  <section>
+  <!-- 註冊會員按鍵 -->
+<el-button color="#a33238" @click="goToRegister" :dark="isDark" :icon="User" v-if="!isCustomerInfoComplete || !isAuthenticated">註冊會員</el-button>
+
+<!-- 會員進階搜尋按鈕 -->
+<el-button  type="primary" color="#a33238" :icon="Search" @click="handleClick" :disabled="false" >
   會員進階查詢
   </el-button>
-  <el-button color="#a33238" @click="goToRegister" :dark="isDark">註冊會員</el-button>
-  <el-button type="warning" style="margin-left: 16px" @click="openSavedSearche">列出儲存搜尋條件
+
+  <!-- 會員心儀列表按鈕 -->
+  <el-button  type="warning" color="#a33238" :icon="Star" :disabled="false" @click="openSavedSearches">會員喜好清單
   </el-button>
+
+  <!-- 搜尋過紀錄 -->
   <el-drawer v-model="drawer2" :direction="direction" style="background-color:#fff5eb">
       <div v-if="savedSearches.length" >
       <div v-for="search in savedSearches" :key="search.id" :search=search class="card" style="background-color:#fff5eb">
-        <p>車輛名稱: {{ search.selectName }}</p>
-        <p>年分: {{ search.productionYear }}</p>
-        <p>價格: {{ search.price }}</p>
-        <p>里程數: {{ search.milage }}</p>
-        <p>車況評分: {{ search.score }}</p>
-        <p>馬力: {{ search.hp }}</p>
-        <p>扭力: {{ search.torque }}</p>
+        <p>車輛名稱: {{ search.selectName || '未填入搜尋條件' }}</p>
+        <p>年分: {{ search.productionYear || '未填入搜尋條件' }}</p>
+        <p>價格: {{ search.price || '未填入搜尋條件' }}</p>
+        <p>里程數: {{ search.milage || '未填入搜尋條件' }}</p>
+        <p>車況評分: {{ search.score || '未填入搜尋條件' }}</p>
+        <p>馬力: {{ search.hp || '未填入搜尋條件' }}</p>
+        <p>扭力: {{ search.torque || '未填入搜尋條件' }}</p>
         <p>品牌: {{ getBrandName(search.brand)}}</p>
         <p>車型: {{ getSuspensionName(search.suspension) }}</p>
         <p>車門數: {{getDoorName(search.door )}}</p>
@@ -23,7 +31,7 @@
         <p>引擎燃料: {{ getGasolineName(search.gasoline) }}</p>
         <p>變速系統: {{ getTransmissionName(search.transmission) }}</p>
         <p>排氣量: {{getCcName (search.cc) }}</p> 
-        <el-button type="primary" @click="editSearch(search)">編輯</el-button>
+        <el-button type="primary" :icon="Edit" color="#a33238" @click="editSearch(search)">編輯</el-button>
       </div> 
     </div>
     <div v-else>
@@ -31,6 +39,7 @@
     </div>
   </el-drawer>
 
+  <!-- 進階搜尋功能 -->
   <el-drawer v-model="drawer" title="進階搜尋功能" :with-header="false" style="background-color:#fff5eb" >
     <span style="color: #a33238;">選擇你想要的車輛條件</span>
     <div class="form-container" >
@@ -84,6 +93,22 @@
             <option value="7">VOLKSWAGEN</option>
             <option value="8">NISSAN</option>
             <option value="9">SUBARU</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="carinfoId">車輛型號</label>
+          <select id="carinfoId" 
+            v-model="carinfoId"  
+            name="carinfoId" 
+            required>
+            <option value="" disabled>選擇你要的車型</option>
+              <option 
+                v-for="carinfoData in carinfoDatas"
+                :key="carinfoData.id"
+                :carinfoData="carinfoData"
+                :value="`${carinfoData.id}`" 
+                >{{ carinfoData.modelName }}</option>
           </select>
         </div>
         
@@ -168,16 +193,15 @@
             <option value="7">5401cc以上</option>
           </select>
         </div>
-        <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">搜尋</el-button>
-        <el-button type="warning" @click="resetForm">重置查詢</el-button>
-        <el-button type="success" @click="saveSearchRecord">儲存搜尋條件</el-button> 
+        <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">查尋</el-button>
+        <el-button type="warning" :icon="Refresh" color="#a33238" @click="resetForm">重置查詢</el-button>
+        <el-button type="success" :icon="FolderAdd" color="#a33238" @click="saveSearchRecord">儲存查詢條件</el-button> 
        <p></p>
-        <el-button type="primary" @click="handleUpdate">儲存搜尋修改條件
-
+        <el-button type="primary" :icon="Edit" color="#a33238" @click="handleUpdate">修改查詢條件
         </el-button>    
       </div>
     </el-drawer>
-
+<!-- 非會員搜尋 -->
   <div class="form-container">
     <br>
     <div class="form-group">
@@ -216,20 +240,36 @@
     </div>
 
     <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">查詢</el-button>
-    <el-button type="warning"  @click="resetForm">重置查詢</el-button>
+    <el-button type="warning" :icon="Refresh" color="#a33238"  @click="resetForm">重置查詢</el-button>
   </div>
-
-<!-- <div class="form-group">
-        <label for="preferences_lists">會員喜好清單</label>
-        <input type="text"  id="preferences_lists" required />
-      </div>          -->
+</section>
 </template>
   
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
-import { Search} from '@element-plus/icons-vue'
+import { Search,Star,Edit,FolderAdd,Refresh,User} from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
+import { computed, onMounted } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+// Compute the authentication state from Vuex store
+const isAuthenticated = computed(() => store.state.isAuthenticated);
+// Compute customer information from Vuex store
+const customerInfo = computed(() => store.state.customerInfo.data || {});
+const isCustomerInfoComplete = computed(() =>
+  customerInfo.value.name && customerInfo.value.id && customerInfo.value.account
+);
+
+onMounted(() => {
+  const username = localStorage.getItem("username");
+  if (username) {
+    store.dispatch("fetchCustomerInfo", username);
+  }
+  customerId.value=customerInfo.value.id;
+  callCarinfoFind();
+});
 
 const drawer = ref(false)
 const drawer2 = ref(false)
@@ -252,13 +292,42 @@ const torque = ref('')
 const results = ref([])
 const savedSearches = ref([])
 const id =  ref('')
+const customerId=ref(null)
+const carinfoId=ref('')
+const carinfoDatas=ref([]);
+const kajartaUrl = import.meta.env.VITE_API_URL;
+
+function callCarinfoFind() {
+  //搜尋單筆carinfo資訊
+  axios.get(`${kajartaUrl}/carinfo/list`)
+        .then(function (response) {
+            if (response && response.data) {
+                console.log("response", response);
+                carinfoDatas.value = response.data.list;
+            } else {
+                console.error("Invalid response data structure:", response);
+            }
+
+            // setTimeout(function () {
+            //     Swal.close();
+            // }, 500);
+        })
+        .catch(function (error) {
+            console.error("Error fetching data:", error, response);
+            Swal.fire({
+                text: "查詢失敗：" + error.message,
+                icon: "error"
+            });
+        });
+      }
+
 
 //搜尋條件頁面跳轉到結果
 const handleSubmit = () => {
-
   router.push({
     name: 'pages-shop-PreferenceSearch-link',
     query: {
+      carinfoId: carinfoId.value,
       modelName: modelName.value,
       productionYear: productionYear.value,
       price: price.value,
@@ -276,7 +345,6 @@ const handleSubmit = () => {
       cc: cc.value,
     },
   });
-
 };
 
 //打開儲存心儀條件搜尋紀錄
@@ -297,7 +365,6 @@ const editSearch = (search) => {
   transmission.value = search.transmission || ''
   cc.value = search.cc || ''
   id.value = search.id || ''
-
   // 打開編輯的 drawer
   drawer.value = true
 }
@@ -322,11 +389,10 @@ const handleUpdate = async () => {
       cc: cc.value ? parseInt(cc.value) : null,
       hp: hp.value ? parseInt(hp.value) : null,
       torque: torque.value ? parseFloat(torque.value) : null,
-      customer_id: 1, 
-      carinfo_id: 1,
+      customer_id: customerInfo.value.id, 
+      carinfo_id: carinfoId.value,
       preferences_lists: 1,
     };
-
     console.log('Sending data:', updateData);
 
     await axios.put(`http://localhost:8080/kajarta/preference/modify/${id.value}`, updateData);
@@ -347,14 +413,15 @@ const handleUpdate = async () => {
 //心儀搜尋條件儲存
 const saveSearchRecord = async () => {
   try {
+    console.log("customerInfo.value.id="+customerInfo.value.id);
     const searchRecord = {
       selectName: modelName.value || null,
       productionYear: productionYear.value ? parseInt(productionYear.value) : null,
       price: price.value ? parseFloat(price.value) : null,
       milage: milage.value ? parseInt(milage.value) : null,
       score: score.value ? parseInt(score.value) : null,
-      customer_id: 1, // 暫時寫死
-      carinfo_id: 1, //  暫時寫死
+      customer_id: customerInfo.value.id,
+      carinfo_id: carinfoId.value,
       brand: brand.value ? parseInt(brand.value) : null,
       suspension: suspension.value ? parseInt(suspension.value) : null,
       door: door.value ? parseInt(door.value) : null,
@@ -384,7 +451,7 @@ const saveSearchRecord = async () => {
 //列出心儀TABLE的結果
 const fetchSavedSearches = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/kajarta/preference/list')
+    const response = await axios.get(`http://localhost:8080/kajarta/preference/findByCustomerId/${customerInfo.value.id}`)
     savedSearches.value = response.data.list
   } catch (error) {
     ElMessage({
@@ -394,15 +461,38 @@ const fetchSavedSearches = async () => {
   }
 }
 
-const openSavedSearche = () => {
-  fetchSavedSearches()
-  drawer2.value = true
+// 會員喜好清單驗證
+const openSavedSearches = () => {
+  if (!isAuthenticated.value) {
+    alert("請先登入會員！");
+  }
+   else if(!isCustomerInfoComplete.value) {
+    alert("會員訊息不完整 麻煩檢查！");
+  }else{
+    fetchSavedSearches();
+    drawer2.value = true;
+  }
 }
 
+// 會員進階搜尋驗證
+const handleClick = () => {
+  if (!isAuthenticated.value) {
+    alert("請先登入會員！");
+  } else if (!isCustomerInfoComplete.value) {
+    alert("會員訊息不完整 麻煩檢查！");
+  } else {
+    drawer.value = true;
+  }
+  console.log("customerId="+customerId);
+  console.log("customerInfo.value.id="+customerInfo.value.id);
+};
+
+// 註冊會員跳轉頁面
 const goToRegister = () => {
   router.push({ name: 'register' });
 };
 
+// 重置搜尋條件
 const resetForm = () => {
   brand.value = ''
   suspension.value = ''
@@ -421,6 +511,7 @@ const resetForm = () => {
   torque.value = ''
 }
 
+// 以下都在轉值
 const getBrandName = (value) => {
   const brand = {
     1: 'HONDA',
