@@ -1,26 +1,26 @@
 <template>
+    <section>
+        <Navigation></Navigation>
+        <h1>Compare Info.</h1>
+
     <!-- ------------------------------------------大圖------------------------------------------ -->
-    <Navigation></Navigation>
-    <div class="d-flex flex-row wordBody">
-        <div class="p-2 flex-fill navbarBody">
+    <div class="row">
+        <div class="col-4">
             <CarImage :images="images"></CarImage>
         </div>
-        <div class="p-2 flex-fill navbarBody">
-            <CarCompareImage :images="images"></CarCompareImage>
-        </div>
-    </div>
-    <h2 class="navbarBody wordBody">Compare Info.</h2>
+
     <!-- ------------------------------------------左資料行 ------------------------------------------ -->
-    <div class="d-flex flex-row wordBody">
-        <CarCompareColumnL
+        <div class="col-2">
+            <CarCompareColumnL
             v-for="carData in carDatas"
             :key="carData.id"
             :carData="carData"
             class="text-center navbarBody p-2 flex-fill"
             ></CarCompareColumnL>
+        </div>
 
-        <!-- ------------------------------------------右資料行 ------------------------------------------ -->
-        <div class="p-2 flex-fill navbarBody">
+    <!-- ------------------------------------------右資料行 ------------------------------------------ -->
+        <div class="col-2">
             <CarCompareColumnR
                 v-for="carData in carDatas"
                 :key="carData.id"
@@ -28,15 +28,21 @@
                 class="text-center navbarBody p-2 flex-fill"
                 ></CarCompareColumnR>
         </div>
+        <div class="col-4">
+            <CarCompareImage :images="images"></CarCompareImage>
+        </div>
     </div>
+ 
     <!-- ------------------------------------------字---------------------------------------------------------- -->
-    <div>
+    <!-- <div>
         ~ {{ customerInfo.name || '用户名' }}
         ~ {{ customerInfo.id || '用户ID' }}
         ~ {{ customerInfo.account || '帳號' }}
-    </div>
+    </div> -->
     <SuggestTable></SuggestTable> 
     <Footer></Footer>
+
+</section>    
 </template>
 
 <script setup>
@@ -110,4 +116,9 @@ axios.get(`http://localhost:8080/kajarta/car/find/1`)
 
 </script>
 
-<style></style>
+<style scoped>
+h1 {
+    color: #a33238;
+    font-weight: 900;
+}
+</style>
