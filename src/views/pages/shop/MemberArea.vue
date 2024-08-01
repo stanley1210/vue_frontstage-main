@@ -1,17 +1,9 @@
 <template>
-        <section>
+           <section>
                 <Navigation></Navigation>
                 <MemberAreaNav :name="customerInfo.name"></MemberAreaNav>
                 <br><br>
-                <ViewCarCard :viewCarId="carId"></ViewCarCard>
-                <p>Car ID: {{ carId }}</p>
-                <br> <br> <br>
-                <div class="homepageSlogan">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sparkling
-                        List</div>
-                <p>__________________________________________________________________________________________________________________
-                </p>
-                <br>
+                <ViewCarCard></ViewCarCard>
                 <Like></Like>
                 <PreferenceSearch></PreferenceSearch>
                 <MemberInfo></MemberInfo>
