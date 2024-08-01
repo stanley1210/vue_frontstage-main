@@ -386,7 +386,7 @@ const handleUpdate = async () => {
       hp: hp.value ? parseInt(hp.value) : null,
       torque: torque.value ? parseFloat(torque.value) : null,
       customer_id: customerInfo.value.id, 
-      carinfo_id: carinfoId.value,
+      carinfo_id: carinfoId.value ? parseInt(carinfoId.value) : null,
       preferences_lists: 1,
     };
     console.log('Sending data:', updateData);
@@ -417,7 +417,7 @@ const saveSearchRecord = async () => {
       milage: milage.value ? parseInt(milage.value) : null,
       score: score.value ? parseInt(score.value) : null,
       customer_id: customerInfo.value.id,
-      carinfo_id: carinfoId.value,
+      carinfo_id: carinfoId.value?parseInt(carinfoId.value):null,
       brand: brand.value ? parseInt(brand.value) : null,
       suspension: suspension.value ? parseInt(suspension.value) : null,
       door: door.value ? parseInt(door.value) : null,
