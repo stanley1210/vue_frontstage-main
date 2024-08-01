@@ -46,6 +46,9 @@
       <el-option label="4" :value="4"></el-option>
       <el-option label="5" :value="5"></el-option>
     </el-select>
+    <div>
+      每頁顯示 {{ pageSize }} 筆
+    </div>
 </div>
   <br>
   <el-button @click="goBack" type="default" color="#a33238">返回查詢</el-button>
