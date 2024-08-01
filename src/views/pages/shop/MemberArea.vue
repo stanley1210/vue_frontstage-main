@@ -13,6 +13,7 @@
                 </p>
                 <br>
                 <Like></Like>
+                <PreferenceSearch></PreferenceSearch>
                 <MemberInfo></MemberInfo>
                 <Footer></Footer>
         </section>
@@ -31,6 +32,7 @@ import MemberInfo from '@/components/MemberInfo.vue';
 import ViewCar from './ViewCar.vue';
 const route = useRoute();
 const carId = route.query.id;
+import PreferenceSearch from './PreferenceSearch.vue';
 let customerInfo = ref({});
 const store = useStore();
 
