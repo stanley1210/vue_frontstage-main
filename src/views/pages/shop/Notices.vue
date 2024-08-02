@@ -32,12 +32,43 @@
 
     
     <div v-if="notificationsEnabled">
+
+
+
+
+
+
+
       <!-- 显示新车信息 -->
       <div v-if="Array.isArray(newCarIds) && newCarIds.length > 0" class="info-box">
         <div class="info-content">
           <p>新增的二手车 IDs：{{ newCarIds.join(', ') }}</p>
         </div>
       </div>
+
+      
+      <div v-if="Array.isArray(newCarIds) && newCarIds.length > 0" class="pointer">
+        <div v-for="viewCar in todayViewCars" :key="viewCar.id" @click="redirectToViewCar(viewCar.id)"
+          class="info-box-today">
+          <div class="info-content">
+            <img :src="`${path}${viewCar.car}`" class="car-img" alt="Car Image">
+            <div class="info-text">
+              <p>今天是您預約的賞車日期!</p>
+              <p>(賞車編號：{{ viewCar.id }})</p>
+              <p>車型：{{ viewCar.modelName }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
       <div v-if="todayViewCars.length > 0" class="pointer">
         <div v-for="viewCar in todayViewCars" :key="viewCar.id" @click="redirectToViewCar(viewCar.id)"
           class="info-box-today">
