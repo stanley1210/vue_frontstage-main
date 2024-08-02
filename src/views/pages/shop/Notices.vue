@@ -170,7 +170,7 @@ const fetchImageId = async (viewCar) => {
     document.getElementById(viewCar.id).src = path+response.data.isMainPic;
     // photoId = response.data.isMainPic;
     // console.log(photoId);
-    return response.data.isMainPic; // 根据实际返回数据的字段进行调整
+    // return response.data.isMainPic; // 根据实际返回数据的字段进行调整
   } catch (error) {
     console.error('Error fetching image ID:', error);
     return ''; // 返回空值或其他默认值
