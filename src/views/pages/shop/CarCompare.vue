@@ -7,7 +7,7 @@
     <!-- ------------------------------------------大圖------------------------------------------ -->
     <div class="row cmp" style="padding: 0;">
         <div class="col-4" style="padding: 0; overflow-x: hidden;">
-            <!-- <CarImage :images="images"></CarImage> -->
+             <!-- <CarImage style="height:100%; width: auto;"  :images="images"></CarImage> -->
             <img src="/public/img/homepageIMG01.jpg" class="cmpImg">
         </div>
 
@@ -33,7 +33,7 @@
                 ></CarCompareColumnR></div>
         </div>
         <div class="col-4" style="padding: 0; overflow: hidden;">
-            <!-- <CarCompareImage :images="images"></CarCompareImage> -->
+            <!-- <CarCompareImage style="height:100%; width: auto;" :images="images"></CarCompareImage> -->
             <img src="/public/jeep.jpg" class="cmpImg" style="width: 100%;">
         </div>
     </div>
