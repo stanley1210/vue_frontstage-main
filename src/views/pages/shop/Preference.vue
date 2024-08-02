@@ -23,6 +23,7 @@
         <p>車況評分: {{ search.score || '未填入搜尋條件' }}</p>
         <p>馬力: {{ search.hp || '未填入搜尋條件' }}</p>
         <p>扭力: {{ search.torque || '未填入搜尋條件' }}</p>
+        <p>車輛型號:{{search.carinfoModelName }}</p>
         <p>品牌: {{ getBrandName(search.brand)}}</p>
         <p>車型: {{ getSuspensionName(search.suspension) }}</p>
         <p>車門數: {{getDoorName(search.door )}}</p>
@@ -80,6 +81,22 @@
       <input type="text" v-model="torque" placeholder="輸入扭力" />
     </div>
 
+    <div class="form-group">
+          <label for="carinfoId">車輛型號</label>
+          <select id="carinfoId" 
+            v-model="carinfoId"  
+            name="carinfoId" 
+            required>
+            <option value="" disabled>選擇你要的車型</option>
+              <option 
+                v-for="carinfoData in carinfoDatas"
+                :key="carinfoData.id"
+                :carinfoData="carinfoData"
+                :value="`${carinfoData.id}`" 
+                >{{ carinfoData.modelName }}</option>
+          </select>
+        </div>
+
         <div class="form-group">
           <label for="brand">品牌</label>
           <select id="brand" v-model="brand" required>
@@ -96,22 +113,6 @@
           </select>
         </div>
 
-        <div class="form-group">
-          <label for="carinfoId">車輛型號</label>
-          <select id="carinfoId" 
-            v-model="carinfoId"  
-            name="carinfoId" 
-            required>
-            <option value="" disabled>選擇你要的車型</option>
-              <option 
-                v-for="carinfoData in carinfoDatas"
-                :key="carinfoData.id"
-                :carinfoData="carinfoData"
-                :value="`${carinfoData.id}`" 
-                >{{ carinfoData.modelName }}</option>
-          </select>
-        </div>
-        
         <div class="form-group">
           <label for="suspension">車型</label>
           <select id="suspension" v-model="suspension" required>
@@ -193,11 +194,11 @@
             <option value="7">5401cc以上</option>
           </select>
         </div>
-        <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">查尋</el-button>
+        <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">查詢</el-button>
         <el-button type="warning" :icon="Refresh" color="#a33238" @click="resetForm">重置查詢</el-button>
-        <el-button type="success" :icon="FolderAdd" color="#a33238" @click="saveSearchRecord">儲存查詢條件</el-button> 
+        <el-button v-if="saveValidate"type="success" :icon="FolderAdd" color="#a33238" @click="saveSearchRecord">儲存查詢條件</el-button> 
        <p></p>
-        <el-button type="primary" :icon="Edit" color="#a33238" @click="handleUpdate">修改查詢條件
+        <el-button v-if="updateValidate" type="primary" :icon="Edit" color="#a33238" @click="handleUpdate">修改查詢條件
         </el-button>    
       </div>
     </el-drawer>
@@ -253,6 +254,8 @@ import { useRouter } from 'vue-router'
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 
+const saveValidate=ref(false);
+const updateValidate=ref(false);
 const store = useStore();
 // Compute the authentication state from Vuex store
 const isAuthenticated = computed(() => store.state.isAuthenticated);
@@ -345,6 +348,7 @@ const handleSubmit = () => {
 
 //打開儲存心儀條件搜尋紀錄
 const editSearch = (search) => {
+  carinfoId.value= search.carinfo_id || ''
   modelName.value = search.selectName || ''
   productionYear.value = search.productionYear || ''
   price.value = search.price || ''
@@ -363,6 +367,8 @@ const editSearch = (search) => {
   id.value = search.id || ''
   // 打開編輯的 drawer
   drawer.value = true
+  updateValidate.value=true
+  saveValidate.value=false
 }
 
 //修改心儀列表table
@@ -449,6 +455,7 @@ const fetchSavedSearches = async () => {
   try {
     const response = await axios.get(`http://localhost:8080/kajarta/preference/findByCustomerId/${customerInfo.value.id}`)
     savedSearches.value = response.data.list
+    console.log("喜好清單資訊="+savedSearches.value[0].carinfo_id)
   } catch (error) {
     ElMessage({
       message: '無法獲取儲存的搜尋條件',
@@ -478,6 +485,8 @@ const handleClick = () => {
     alert("會員訊息不完整 麻煩檢查！");
   } else {
     drawer.value = true;
+    saveValidate.value=true;
+    updateValidate.value=false;
   }
   console.log("customerId="+customerId);
   console.log("customerInfo.value.id="+customerInfo.value.id);
@@ -490,6 +499,7 @@ const goToRegister = () => {
 
 // 重置搜尋條件
 const resetForm = () => {
+  carinfoId.value=''
   brand.value = ''
   suspension.value = ''
   door.value = ''
@@ -508,6 +518,7 @@ const resetForm = () => {
 }
 
 // 以下都在轉值
+
 const getBrandName = (value) => {
   const brand = {
     1: 'HONDA',

@@ -4,7 +4,7 @@
   <br />
   <!-- 顯示查詢結果 -->
   <h3 style="color: #a33238;">顯示搜尋車輛結果</h3>
-  <div class="card-container">
+  <div v-if="paginatedResults.length > 0" class="card-container">
     <div class="card" v-for="data in paginatedResults" :key="data.id" :data="data">
     <img class="card-img-top" :src="`${path}${data.id}`" :alt="data.modelName"> 
       <div class="card-body navbarBody">
@@ -28,6 +28,10 @@
       </div>
     </div>
   </div>
+  <div v-else>
+    <br>
+  <p style="color: #a33238;">未查詢到車輛</p>
+</div>
 <br>
 <!-- 分頁效果(上下頁) -->
 <div class="pagination-container">
