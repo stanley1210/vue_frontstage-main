@@ -10,11 +10,12 @@
     <div v-for="viewCar in viewCars" :key="viewCar.id" class="custom-card mb-3">
       <div class="row g-0">
         <div class="col-md-7">
-          <img :src="`${path}${viewCar.car}`" class="img-fluid rounded-start" alt="Car Image">
+          <img :src="`${path}${viewCar.isMainPic}`" class="img-fluid rounded-start" alt="Car Image">
         </div>
         <div class="col-md-5 position-relative">
           <div class="card-body d-flex flex-column justify-content-between h-100 p-3 viewcarnavbarBody">
             <div class="text-end">
+              <h5 class="custom-title-color">ID.00{{ viewCar.car }}</h5>
               <h5 class="custom-title-color">ID.00{{ viewCar.id }}</h5>
               <h5 class="custom-title-color">{{ viewCar.modelName }}</h5>
               <div class="d-flex flex-row-reverse">
@@ -61,6 +62,7 @@ import axios from 'axios';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from 'vuex';
 import ViewCarDrawer from './ViewCarDrawer.vue';
+
 const props = defineProps({
   viewCarId: String
 });
@@ -94,11 +96,20 @@ const branchMap = {
   3: '高雄市大巨蛋分店'
 };
 
-const getViewCarStatusText = (status) => viewCarStatusMap[status] || '未知状态';
-const getViewCarBranchText = (branch) => branchMap[branch] || '未知状态';
-const getViewTimeSectionhText = (time) => viewTimeSectionhMap[time] || '未知状态';
+const getViewCarStatusText = function(status) {
+  return viewCarStatusMap[status] || '未知状态';
+};
 
-const fetchViewCars = async (page = 1) => {
+const getViewCarBranchText = function(branch) {
+  return branchMap[branch] || '未知状态';
+};
+
+const getViewTimeSectionhText = function(time) {
+  return viewTimeSectionhMap[time] || '未知状态';
+};
+
+const fetchViewCars = async function(page) {
+  if (page === undefined) page = 1;
   try {
     const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/findPageByCustomerId', {
       params: { customerId: customerInfo.value.id, pageNumber: page, max: 1 }
@@ -108,9 +119,25 @@ const fetchViewCars = async (page = 1) => {
     viewCars.value = data.list;
     totalElements.value = data.totalElements;
 
-     // Fetch employee information for each viewCar
-     viewCars.value.forEach(viewCar => {
+    // Fetch employee information for each viewCar
+    viewCars.value.forEach(function(viewCar) {
       findEmployee(viewCar.id);
+    });
+
+    // Iterate over viewCars to fetch car images
+    viewCars.value.forEach(function(viewCar) {
+      axios.get(`http://localhost:8080/kajarta/image/isMainPic/${viewCar.car}`)
+        .then(function(response) {
+          if (response && response.data) {
+            viewCar.isMainPic = response.data.isMainPic;
+          } else {
+            console.error("Invalid response data structure:", response);
+            throw new Error("Invalid car data response");
+          }
+        })
+        .catch(function(error) {
+          console.error("Error fetching car data:", error);
+        });
     });
 
   } catch (error) {
@@ -118,62 +145,15 @@ const fetchViewCars = async (page = 1) => {
   }
 };
 
-
-
-
-
-
-
-// Fetch all viewCars data to find the page containing viewCarId
-const fetchAllViewCars = async () => {
-  try {
-    let pageNumber = 1;
-    let found = false;
-
-    while (!found) {
-      const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/findPageByCustomerId', {
-        params: { customerId: customerInfo.value.id, pageNumber, max: 1 }
-      });
-
-      const data = response.data;
-      if (data.list.some(viewCar => viewCar.id == props.viewCarId)) {
-        console.log(`Found viewCarId ${props.viewCarId} on page ${pageNumber}`);
-        currentPage.value = pageNumber;
-        viewCars.value = data.list;
-        totalElements.value = data.totalElements;
-        found = true;
-        viewCars.value.forEach(viewCar => {
-          findEmployee(viewCar.id);
-        });
-      } else if (pageNumber >= data.totalPages) {
-        console.log(`Reached last page without finding viewCarId ${props.viewCarId}`);
-        found = true;
-      } else {
-        pageNumber++;
-      }
-    }
-
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-};
-
-
-
-
-
-
-
-
-const handlePageChange = (page) => {
+const handlePageChange = function(page) {
   currentPage.value = page;
   fetchViewCars(page);
 };
 
-onMounted(() => {
+onMounted(function() {
   const username = localStorage.getItem('username');
   if (username) {
-    store.dispatch('fetchCustomerInfo', username).then(() => {
+    store.dispatch('fetchCustomerInfo', username).then(function() {
       if (props.viewCarId) {
         fetchAllViewCars();
       } else {
@@ -189,10 +169,12 @@ onMounted(() => {
   }
 });
 
-customerInfo = computed(() => store.state.customerInfo.data || {});
+customerInfo = computed(function() {
+  return store.state.customerInfo.data || {};
+});
 console.log('===>test Customer info:', customerInfo);
 
-function confirmRemove(id,car,viewCarDate,viewTimeSectionNb) {
+function confirmRemove(id, car, viewCarDate, viewTimeSectionNb) {
   ElMessageBox.confirm(
     '確定要取消賞車嗎?',
     {
@@ -202,17 +184,16 @@ function confirmRemove(id,car,viewCarDate,viewTimeSectionNb) {
       draggable: true,
     }
   )
-    .then(() => {
-      callRemove(id,car,viewCarDate,viewTimeSectionNb);
+    .then(function() {
+      callRemove(id, car, viewCarDate, viewTimeSectionNb);
     })
-    .catch(() => {
+    .catch(function() {
       ElMessage({
         type: 'info',
         message: 'Delete canceled',
       });
     });
 }
-
 
 function findEmployee(viewCarId) {
   let request = {
@@ -222,13 +203,13 @@ function findEmployee(viewCarId) {
     "dir": false,
     "order": "updateTime"
   }
-  axios.post("http://localhost:8080/kajarta/viewCarAssigned/findByHQL", request).then(function (responce) {
-    console.log(responce.data.data);
-    if (responce.data.data.length == 0) {
-      console.log("no單");
+  axios.post("http://localhost:8080/kajarta/viewCarAssigned/findByHQL", request).then(function (response) {
+    console.log(response.data.data);
+    if (response.data.data.length == 0) {
+      // console.log("no單");
     } else {
-      employeeName.value = responce.data.data[0].employeeName
-      employeeId.value = responce.data.data[0].employeeId
+      employeeName.value = response.data.data[0].employeeName;
+      employeeId.value = response.data.data[0].employeeId;
     }
   }).catch(function (error) {
     console.log("error", error);
@@ -239,47 +220,15 @@ function findEmployee(viewCarId) {
   });
 }
 
-
-
-// function callRemove(id) {
-//   if (id) {
-//     axios.delete(`http://localhost:8080/kajarta/front/viewCar/delete/${id}`)
-//       .then(function (response) {
-//         console.log("response", response);
-//         if (response.data.success) {
-//           fetchViewCars(currentPage.value, customerInfo.value.id);
-//           ElMessage({
-//             type: 'success',
-//             message: 'Delete completed',
-//           });
-//         } else {
-//           ElMessage({
-//             type: 'warning',
-//             message: response.data.message,
-//           });
-//         }
-//       })
-//       .catch(function (error) {
-//         console.error("Error deleting data:", error);
-//         ElMessage({
-//           type: 'error',
-//           message: 'Delete failed: ' + error.message,
-//         });
-//       });
-//   }
-// }
-
-
-
-const callRemove = async (id,car,viewCarDate,viewTimeSectionNb) => {
+const callRemove = async function(id, car, viewCarDate, viewTimeSectionNb) {
   try {
     const response = await axios.put(`http://localhost:8080/kajarta/front/viewCar/update/${id}`, {
       viewCarStatus: 3, // 將 viewCarStatus 設置為 3 表示註銷
-      id:id,
-      carId:car,
+      id: id,
+      carId: car,
       customerId: customerInfo.value.id,
-      viewCarDate:viewCarDate,
-      viewTimeSection:viewTimeSectionNb,
+      viewCarDate: viewCarDate,
+      viewTimeSection: viewTimeSectionNb,
     });
     console.log(response.data);
     if (response.data.success) {
@@ -302,8 +251,6 @@ const callRemove = async (id,car,viewCarDate,viewTimeSectionNb) => {
     });
   }
 }
-
-
 
 
 </script>

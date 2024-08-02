@@ -116,7 +116,7 @@ const fetchViewCars = async () => {
         return viewCarDate >= today && viewCarDate <= futureDate;
       });
 
-      console.log('Filtered view cars (today and within next 10 days):', filteredViewCars.value);
+      // console.log('Filtered view cars (today and within next 10 days):', filteredViewCars.value);
     } catch (error) {
       console.error('Failed to fetch view cars:', error);
     }
@@ -134,7 +134,7 @@ const clearNotices = () => {
 const fetchNewCars = async () => {
   try {
     const since = new Date().toISOString();
-    console.log('since=' + since);
+    // console.log('since=' + since);
 
     // 发起请求获取新车
     const responseNewCars = await axiosapi.get('http://localhost:8080/kajarta/front/notice/new-cars', { params: { since } });
@@ -143,18 +143,18 @@ const fetchNewCars = async () => {
     if (newCarsData.length > 0) {
       // 将所有新车的 ID 存储在数组中
       newCarIds.value = newCarsData.map(car => car.id);
-      console.log('newCarIds.value=' + newCarIds.value);
+      // console.log('newCarIds.value=' + newCarIds.value);
     }
 
     // 获取符合条件的车辆 ID
     await fetchCarIdsByCustomer(customerInfo.value.id);  // 这里的 123 是示例客户 ID，你需要替换成实际的客户 ID
-console.log('customerInfo.value.id========'+customerInfo.value.id)
+// console.log('customerInfo.value.id========'+customerInfo.value.id)
     // 比较两个数组中的 ID
     matchingIds.value = newCarIds.value.filter(id => preferenceCarIds.value.includes(id));
     if (matchingIds.value.length > 0) {
-      console.log('Matching IDs:', matchingIds);
+      // console.log('Matching IDs:', matchingIds);
     } else {
-      console.log('No matching IDs found.');
+      // console.log('No matching IDs found.');
     }
   } catch (error) {
     console.error('Failed to fetch new cars:', error);
@@ -174,9 +174,9 @@ const fetchCarIdsByCustomer = async (customerId) => {
     if (data.length > 0) {
       // 提取车辆 ID
       preferenceCarIds.value = data.map(car => car.id);
-      console.log('preferenceCarIds.value=', preferenceCarIds.value);
+      // console.log('preferenceCarIds.value=', preferenceCarIds.value);
     } else {
-      console.log('No cars match the preferences.');
+      // console.log('No cars match the preferences.');
     }
   } catch (error) {
     console.error('Failed to fetch car IDs:', error);

@@ -85,7 +85,7 @@ axios.get(`http://localhost:8080/kajarta/car/find/${carId}`)
             }
  
             // 搜索图片信息
-            return axios.get('http://localhost:8080/kajarta/image/getCarIdImage/1');
+            return axios.get('http://localhost:8080/kajarta/image/getCarIdImage/1');//給car的id
         } else {
             console.error("Invalid response data structure:", response);
             throw new Error("Invalid car data response");
