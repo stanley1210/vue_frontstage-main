@@ -1,42 +1,53 @@
 <template>
+    <section class="container-fluid" style="padding: 0;overflow: hidden;">
+        <Navigation></Navigation>
+        <div style="margin-top: 3%;"> 
+        
+
     <!-- ------------------------------------------大圖------------------------------------------ -->
-    <Navigation></Navigation>
-    <div class="d-flex flex-row wordBody">
-        <div class="p-2 flex-fill navbarBody">
-            <CarImage :images="images"></CarImage>
+    <div class="row cmp" style="padding: 0;">
+        <div class="col-4" style="padding: 0; overflow-x: hidden;">
+             <!-- <CarImage style="height:100%; width: auto;"  :images="images"></CarImage> -->
+            <img src="/public/img/homepageIMG01.jpg" class="cmpImg">
         </div>
-        <div class="p-2 flex-fill navbarBody">
-            <CarCompareImage :images="images"></CarCompareImage>
-        </div>
-    </div>
-    <h2 class="navbarBody wordBody">Compare Info.</h2>
+
     <!-- ------------------------------------------左資料行 ------------------------------------------ -->
-    <div class="d-flex flex-row wordBody">
-        <CarCompareColumnL
+        <div class="col-2 CMPT" style="padding: 0; ">
+            <div style="margin-top: 5%;">
+            <CarCompareColumnL
             v-for="carData in carDatas"
             :key="carData.id"
             :carData="carData"
             class="text-center navbarBody p-2 flex-fill"
-            ></CarCompareColumnL>
+            ></CarCompareColumnL></div>
+        </div>
 
-        <!-- ------------------------------------------右資料行 ------------------------------------------ -->
-        <div class="p-2 flex-fill navbarBody">
+    <!-- ------------------------------------------右資料行 ------------------------------------------ -->
+        <div class="col-2 CMPT" style="padding: 0; ">
+            <div style="margin-top: 5%;">
             <CarCompareColumnR
                 v-for="carData in carDatas"
                 :key="carData.id"
                 :carData="carData"
                 class="text-center navbarBody p-2 flex-fill"
-                ></CarCompareColumnR>
+                ></CarCompareColumnR></div>
+        </div>
+        <div class="col-4" style="padding: 0; overflow: hidden;">
+            <!-- <CarCompareImage style="height:100%; width: auto;" :images="images"></CarCompareImage> -->
+            <img src="/public/jeep.jpg" class="cmpImg" style="width: 100%;">
         </div>
     </div>
+</div>
     <!-- ------------------------------------------字---------------------------------------------------------- -->
-    <div>
+    <!-- <div>
         ~ {{ customerInfo.name || '用户名' }}
         ~ {{ customerInfo.id || '用户ID' }}
         ~ {{ customerInfo.account || '帳號' }}
-    </div>
+    </div> -->
     <SuggestTable></SuggestTable> 
     <Footer></Footer>
+
+</section>    
 </template>
 
 <script setup>
@@ -110,4 +121,31 @@ axios.get(`http://localhost:8080/kajarta/car/find/1`)
 
 </script>
 
-<style></style>
+<style scoped>
+h1 {
+    color: #a33238;
+    font-weight: 900;
+}
+
+.cmpImg{
+    width: auto;
+    height: 100%;
+}
+
+.cmp{
+    overflow: hidden;
+    height: 80vh;
+}
+
+.CMPT{
+    color: #a33238;
+    background-color:#fff5eb ;
+
+}
+
+.CMPT:hover{
+    color: #fff5eb;
+    background-color:#a33238 ;
+    
+}
+</style>
