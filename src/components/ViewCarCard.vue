@@ -75,6 +75,7 @@ const totalElements = ref(0);
 const currentPage = ref(1);
 const employeeName = ref('');
 const employeeId = ref('');
+const viewCarId = props.viewCarId;
 
 const viewCarStatusMap = {
   0: '預約中',
@@ -108,7 +109,14 @@ const getViewTimeSectionhText = function(time) {
   return viewTimeSectionhMap[time] || '未知状态';
 };
 
-const fetchViewCars = async function(page) {
+customerInfo = computed(function() {
+  return store.state.customerInfo.data || {};
+});
+
+
+const fetchViewCars = async (page = 1) => {
+  console.log('nowRunfetchViewCars')
+
   if (page === undefined) page = 1;
   try {
     const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/findPageByCustomerId', {
@@ -145,6 +153,57 @@ const fetchViewCars = async function(page) {
   }
 };
 
+
+// Fetch all viewCars data to find the page containing viewCarId
+const fetchAllViewCars = async () => {
+  try {
+    let pageNumber = 1;
+    let found = false;
+
+    while (!found) {
+      const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/findPageByCustomerId', {
+        params: { customerId: customerInfo.value.id, pageNumber, max: 1 }
+      });
+
+      const data = response.data;
+      if (data.list.some(viewCar => viewCar.id == props.viewCarId)) {
+        console.log(`Found viewCarId ${props.viewCarId} on page ${pageNumber}`);
+        currentPage.value = pageNumber;
+        viewCars.value = data.list;
+        totalElements.value = data.totalElements;
+        found = true;
+
+        // Fetch isMainPic for each viewCar
+        await Promise.all(viewCars.value.map(async (viewCar) => {
+          try {
+            const response = await axios.get(`http://localhost:8080/kajarta/image/isMainPic/${viewCar.car}`);
+            if (response && response.data) {
+              viewCar.isMainPic = response.data.isMainPic;
+            }
+          } catch (error) {
+            console.error(`Error fetching isMainPic for car ${viewCar.car}:`, error);
+          }
+        }));
+
+        viewCars.value.forEach(viewCar => {
+          findEmployee(viewCar.id);
+        });
+      } else if (pageNumber >= data.totalPages) {
+        console.log(`Reached last page without finding viewCarId ${props.viewCarId}`);
+        found = true;
+      } else {
+        pageNumber++;
+      }
+    }
+
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+
+
+
 const handlePageChange = function(page) {
   currentPage.value = page;
   fetchViewCars(page);
@@ -169,10 +228,6 @@ onMounted(function() {
   }
 });
 
-customerInfo = computed(function() {
-  return store.state.customerInfo.data || {};
-});
-console.log('===>test Customer info:', customerInfo);
 
 function confirmRemove(id, car, viewCarDate, viewTimeSectionNb) {
   ElMessageBox.confirm(

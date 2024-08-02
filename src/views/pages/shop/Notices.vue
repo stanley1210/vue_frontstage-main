@@ -194,6 +194,7 @@ const handleClearNotices = () => {
 
 // Redirect to ViewCar with query parameter
 const redirectToViewCar = (carId) => {
+  console.log('Car ID:', carId);
   router.push({ name: 'pages-shop-memberArea-link', query: { id: carId } });
 };
 

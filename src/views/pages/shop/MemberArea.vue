@@ -3,7 +3,7 @@
                 <Navigation></Navigation>
                 <MemberAreaNav :name="customerInfo.name"></MemberAreaNav>
                 <br><br>
-                <ViewCarCard></ViewCarCard>
+                <ViewCarCard :viewCarId="carId"></ViewCarCard>
                 <Like></Like>
                 <MemberInfo></MemberInfo>
                 <Footer></Footer>
