@@ -129,7 +129,7 @@ const handleSearchByNoMemSearch = async () => {
         });
 
     })
-    console.log('查詢結果:', response.data);
+    // console.log('查詢結果:', response.data);
   } catch (error) {
     console.error('查詢失敗:', error);
   }
@@ -138,12 +138,12 @@ const handleSearchByNoMemSearch = async () => {
 
 //抓圖片ID
 const photoSrc = async(data) =>{
-  console.log("data.carId",data.id)
+  // console.log("data.carId",data.id)
 try{
 const response = await axios.get(`http://localhost:8080/kajarta/image/isMainPic/${data.id}`);
-console.log("response.data.isMainPic===========",response.data.isMainPic)
+// console.log("response.data.isMainPic===========",response.data.isMainPic)
 document.getElementById(data.id).src = path+response.data.isMainPic;
-console.log("data.carId",data.id)
+// console.log("data.carId",data.id)
 }catch(error){
   console.error("error",error)
 }

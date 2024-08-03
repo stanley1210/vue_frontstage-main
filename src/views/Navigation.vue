@@ -143,7 +143,7 @@ const fetchNewCars = async () => {
     if (newCarsData.length > 0) {
       // 将所有新车的 ID 存储在数组中
       newCarIds.value = newCarsData.map(car => car.id);
-      // console.log('newCarIds.value=' + newCarIds.value);
+      console.log('newCarIds.value=' + newCarIds.value);
     }
 
     // 获取符合条件的车辆 ID
@@ -174,7 +174,7 @@ const fetchCarIdsByCustomer = async (customerId) => {
     if (data.length > 0) {
       // 提取车辆 ID
       preferenceCarIds.value = data.map(car => car.id);
-      // console.log('preferenceCarIds.value=', preferenceCarIds.value);
+      console.log('preferenceCarIds.value=', preferenceCarIds.value);
     } else {
       // console.log('No cars match the preferences.');
     }
@@ -185,16 +185,14 @@ const fetchCarIdsByCustomer = async (customerId) => {
 
 
 
-
-
-
 //======================有無新車=======================
 onMounted(async () => {
   const username = localStorage.getItem('username');
   if (username) {
     await store.dispatch('fetchCustomerInfo', username);
-    await fetchViewCars();
     await fetchNewCars();
+    await fetchViewCars();
+
     // setInterval(fetchNewCars, 30000); // 每分钟检查一次
   }
 });

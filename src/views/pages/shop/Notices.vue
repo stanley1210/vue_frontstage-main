@@ -6,7 +6,7 @@
     <template #header="{ close, titleId, titleClass }">
       <div class="drawer-header">
         <h3 class="custom-title-color" :id="titleId">Hello，{{ customerInfo.name }}!</h3>
-        <el-button type="info" @click="handleClearNotices">
+        <el-button type="info" @click="handleClearNotices" >
           <el-icon class="el-icon--left">
             <CircleCloseFilled />
           </el-icon>
@@ -22,19 +22,26 @@
 
     </template>
 
-
-
     <div class="switch-container"> <!-- 添加 switch-container -->
       <el-switch v-model="notificationsEnabled" class="ml-2" inline-prompt
         style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" active-text="關閉通知" inactive-text="開啟通知" />
     </div>
     <div v-if="notificationsEnabled">
       <!-- 显示新车信息 -->
-      <div v-if="Array.isArray(newCarIds) && newCarIds.length > 0" class="info-box">
-        <div class="info-content">
-          <p>新增的二手车 IDs：{{ newCarIds.join(', ') }}</p>
+
+
+      <div v-if="newCarData.length > 0" class="pointer">
+        <div v-for="car in newCarData" :key="car.id" @click="redirectToNewCar(car.id)" class="info-box-today">
+          <div class="info-content">
+            <img :src="fetchNewCarImageId(car)" class="car-img" alt="Car Image" :id="car.id">
+            <div class="info-text">
+              <p>有您心儀的車上架了! 快來看看吧!</p>
+              <p>(carId：{{ car.id }})</p>
+            </div>
+          </div>
         </div>
       </div>
+
 
 
 
@@ -42,9 +49,7 @@
         <div v-for="viewCar in todayViewCars" :key="viewCar.id" @click="redirectToViewCar(viewCar.id)"
           class="info-box-today">
           <div class="info-content">
-            <!-- <img :src="`${path}${viewCar.imageId}`" class="car-img" alt="Car Image"> -->
             <img :src="carPhotoSrc(viewCar)" class="car-img" alt="Car Image" :id="viewCar.id">
-            <p>Image ID: {{ viewCar.imageId }}</p>
             <div class="info-text">
               <p>今天是您預約的賞車日期!</p>
               <p>(賞車編號：{{ viewCar.id }})</p>
@@ -58,17 +63,13 @@
         <div v-if="sortedViewCars.length > 0">
           <div v-if="viewCar.daysLeft > 0" class="info-box">
             <div class="info-content">
-              <!-- <img :src="`${viewCar.imageId}`" class="car-img" alt="Car Image"> -->
               <img :src="carPhotoSrc(viewCar)" class="car-img" alt="Car Image" :id="viewCar.id">
-              <p>Image ID: {{ viewCar.imageId }}</p>
               <div class="info-text">
                 <p>距離您賞車，還有 {{ viewCar.daysLeft }} 天!</p>
                 <p>(賞車編號：{{ viewCar.id }})</p>
                 <p>(carId：{{ viewCar.car }})</p>
                 <p>車型：{{ viewCar.modelName }}</p>
-                ~ {{ customerInfo.name || '用户名' }}
-        ~ {{ customerInfo.id || '用户ID' }}
-        ~ {{ customerInfo.account || '帳號' }}
+
               </div>
             </div>
           </div>
@@ -88,7 +89,7 @@ import axios from 'axios';
 const router = useRouter(); // 使用 useRouter
 const path = import.meta.env.VITE_PHOTO;
 const store = useStore();
-const imageIdMap = ref({});
+const newCarData = ref([]);
 const notificationsEnabled = ref(localStorage.getItem('notificationsEnabled') === 'true'); // 從 localStorage 初始化通知開關狀態
 // 監聽 notificationsEnabled 的變化並保存到 localStorage
 watch(notificationsEnabled, (newVal) => {
@@ -107,6 +108,12 @@ const props = defineProps({
   }
 });
 
+
+watch(() => props.newCarIds, (newVal) => {
+  if (newVal && newVal.length > 0) {
+    fetchNewCarData(newVal);
+  }
+}, { immediate: true });
 // Emit events
 const emit = defineEmits(['clear-notices']);
 
@@ -146,38 +153,46 @@ const sortedViewCars = computed(() => {
 });
 
 onMounted(() => {
+  // console.log('傳入的carID', props.newCarIds); // 確保 props.newCarIds 有值
+  if (props.newCarIds.length > 0) {
+    fetchNewCarData(props.newCarIds);
+  }
+
+
   const username = localStorage.getItem('username');
   if (username) {
     store.dispatch('fetchCustomerInfo', username);
   }
-
-  // Fetch image IDs for each view car
-  props.filteredViewCars.forEach(viewCar => {
-    console.log(`记录正在请求的 carId: ${viewCar.car}`); // 记录正在请求的 carId
-    fetchImageId(viewCar.car)
-    .then(imageId => {
-      viewCar.imageId = imageId;
-      console.log(`记录请求的结果imageId ${viewCar.car}: ${imageId}`); // 记录请求的结果
-    });
-  });
 });
+
+
+
+
 
 // var photoId = null;
 const fetchImageId = async (viewCar) => {
   try {
     const response = await axios.get(`http://localhost:8080/kajarta/image/isMainPic/${viewCar.car}`);
-    console.log(`记录返回的数据 ${viewCar.car}: ${response.data.isMainPic}`); // 记录返回的数据
-    document.getElementById(viewCar.id).src = path+response.data.isMainPic;
-    // photoId = response.data.isMainPic;
-    // console.log(photoId);
-    // return response.data.isMainPic; // 根据实际返回数据的字段进行调整
+    // console.log(`记录返回的数据 ${viewCar.car}: ${response.data.isMainPic}`); 
+    document.getElementById(viewCar.id).src = path + response.data.isMainPic;
   } catch (error) {
     console.error('Error fetching image ID:', error);
     return ''; // 返回空值或其他默认值
   }
 };
 
-const carPhotoSrc= function (viewCar){
+const fetchNewCarImageId = async (car) => {
+  try {
+    const response = await axios.get(`http://localhost:8080/kajarta/image/isMainPic/${car.id}`);
+    // console.log(`记录返回的数据 ${viewCar.car}: ${response.data.isMainPic}`); 
+    document.getElementById(car.id).src = path + response.data.isMainPic;
+  } catch (error) {
+    console.error('Error fetching image ID:', error);
+    return ''; // 返回空值或其他默认值
+  }
+};
+
+const carPhotoSrc = function (viewCar) {
   fetchImageId(viewCar);
   // console.log(path);
   // console.log(path+photoId);
@@ -187,16 +202,44 @@ const visible = ref(false);
 
 // Handle clearing notices
 const handleClearNotices = () => {
+  clearNewCar();
   emit('clear-notices');
 };
 
-
+const clearNewCar = () =>{
+  newCarData.value = [];
+}
 
 // Redirect to ViewCar with query parameter
 const redirectToViewCar = (carId) => {
   console.log('Car ID:', carId);
   router.push({ name: 'pages-shop-memberArea-link', query: { id: carId } });
 };
+
+const redirectToNewCar = (carId) => {
+  console.log('Car ID:', carId);
+  router.push({ name: 'pages-shop-car-link', query: { carId: carId } });
+};
+
+
+
+//抓取新車id
+
+const fetchNewCarData = async (newCarIds) => {
+  try {
+    // console.log('Fetching new car data for IDs:', newCarIds);
+    const carDataPromises = newCarIds.flat().map(carId =>
+      axios.get(`http://localhost:8080/kajarta/car/find/${carId}`)
+    );
+    const carDataResponses = await Promise.all(carDataPromises);
+    newCarData.value = carDataResponses.flatMap(response => response.data.list);
+    // console.log('newCarData.value==============', newCarData.value);
+  } catch (error) {
+    console.error('Error fetching new car data:', error);
+  }
+};
+
+
 
 </script>
 
