@@ -6,7 +6,8 @@
   <h3 style="color: #a33238;">顯示搜尋車輛結果</h3>
   <div v-if="paginatedResults.length > 0" class="card-container">
     <div class="card" v-for="data in paginatedResults" :key="data.id" :data="data">
-    <img class="card-img-top" :src="`${path}${data.id}`" :alt="data.modelName"> 
+    <img class="card-img-top" :src="photoSrc(data)" :alt="data.modelName" :id="data.id"> 
+    <h5 class="card-title">ID.{{ data.id }}</h5>
       <div class="card-body navbarBody">
         <h5 class="card-title">{{ data.modelName }}</h5>
         <p class="card-text">
@@ -25,6 +26,7 @@
           變速系統: {{ data.transmission }} <br />
           排氣量: {{ data.cc }} <br />
         </p>
+        <el-button type="primary" @click="cardetail(data)">車輛詳細資訊</el-button>
       </div>
     </div>
   </div>
@@ -65,6 +67,7 @@ import { useRoute,useRouter  } from 'vue-router';
 import Navigation from '@/views/Navigation.vue';
 import axios from 'axios';
 
+
 const path =import.meta.env.VITE_PHOTO;
 const route = useRoute();
 const router = useRouter();
@@ -72,13 +75,15 @@ const query = route.query;
 const results = ref([]);
 const currentPage = ref(1);
 const pageSize = ref(4);
-
+const isMainPicDatas=ref([]);
+const kajartaUrl = import.meta.env.VITE_API_URL;
 // 分頁
 const paginatedResults = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value;
   const end = start + pageSize.value;
   return results.value.slice(start, end);
 });
+
 
 // 搜尋結果
 const handleSearchByNoMemSearch = async () => {
@@ -104,10 +109,51 @@ const handleSearchByNoMemSearch = async () => {
       },
     });
     results.value = response.data.preferenceCarList;
+    results.value.forEach(cars => {
+      axios.get(`${kajartaUrl}/image/isMainPic/${cars.id}`)
+        .then(function (response) {
+            if (response && response.data) {
+              
+                isMainPicDatas.value = response.data.isMainPic;
+            
+            } else {
+
+            }          
+        })
+        .catch(function (error) {
+            console.error("Error fetching data:", error, response);
+            Swal.fire({
+                text: "查詢失敗：" + error.message,
+                icon: "error"
+            });
+        });
+
+    })
     console.log('查詢結果:', response.data);
   } catch (error) {
     console.error('查詢失敗:', error);
   }
+};
+
+
+//抓圖片ID
+const photoSrc = async(data) =>{
+  console.log("data.carId",data.id)
+try{
+const response = await axios.get(`http://localhost:8080/kajarta/image/isMainPic/${data.id}`);
+console.log("response.data.isMainPic===========",response.data.isMainPic)
+document.getElementById(data.id).src = path+response.data.isMainPic;
+console.log("data.carId",data.id)
+}catch(error){
+  console.error("error",error)
+}
+};
+
+//搜尋結果導入車輛資訊
+const cardetail = (data) => {
+  console.log("ID value:", data.id);
+  console.log("ID type:", typeof data.id);
+  router.push({ name: 'pages-shop-car-link', query: { carId: data.id } });
 };
 
 // 分頁有上下頁選擇
@@ -125,11 +171,13 @@ const handlePageSizeChange = (newSize) => {
 const goBack = () => {
   router.push({
     name: 'pages-shop-home-link'
-})};
+})
+};
 
 onMounted(() => {
   handleSearchByNoMemSearch();
-  console.log('query=' + query);
+  // console.log('query=' + query);
+  // callImageFindByCarId();
 });
 </script>
 
