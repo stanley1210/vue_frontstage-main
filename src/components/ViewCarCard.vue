@@ -167,7 +167,7 @@ const fetchAllViewCars = async () => {
 
       const data = response.data;
       if (data.list.some(viewCar => viewCar.id == props.viewCarId)) {
-        console.log(`Found viewCarId ${props.viewCarId} on page ${pageNumber}`);
+        // console.log(`Found viewCarId ${props.viewCarId} on page ${pageNumber}`);
         currentPage.value = pageNumber;
         viewCars.value = data.list;
         totalElements.value = data.totalElements;

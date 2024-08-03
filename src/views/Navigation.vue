@@ -166,10 +166,10 @@ const fetchNewCars = async () => {
 const fetchCarIdsByCustomer = async (customerId) => {
   try {
     // 发起请求获取符合条件的车辆
-    const response = await axiosapi.get(`http://localhost:8080/kajarta/front/notice/findByCustomerId/${customerId}`);
-
+    const response = await axiosapi.get(`http://localhost:8080/kajarta/front/notice/findPreferenceDatasId/${customerId}`);
+// console.log('fetchCarIdsByCustomer response.data.list=====',response.data.list)
     // 处理响应数据
-    const data = response.data.preferenceCarList; // 解析出符合条件的车辆列表
+    const data = response.data.list; // 解析出符合条件的车辆列表
 
     if (data.length > 0) {
       // 提取车辆 ID
