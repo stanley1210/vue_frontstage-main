@@ -72,7 +72,7 @@ const handleSubmit = () => {
 				// 處理非200狀態碼或 success 為 false 的情况
 				Swal.fire({
 					icon: 'error',
-					title: '登入失败',
+					title: '登入失敗',
 					text: data.msg || '帳號或密碼錯誤'
 				});
 			}
@@ -81,7 +81,7 @@ const handleSubmit = () => {
 			// 處理其他错误
 			Swal.fire({
 				icon: 'error',
-				title: '登入失败',
+				title: '登入失敗',
 				text: '帳號或密碼錯誤'
 			});
 		});
