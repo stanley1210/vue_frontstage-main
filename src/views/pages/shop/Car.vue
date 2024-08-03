@@ -79,6 +79,9 @@ axios.get(`http://localhost:8080/kajarta/car/find/${carId}`)
         if (response && response.data) {
             console.log("response", response);
             carDatas.value = response.data.list;
+            carDatas.value.forEach(imageId => {
+                console.log("0000000000大中天＝",imageId.id);
+            });
             if (carDatas.value.length > 0) {
                 selectedCarId.value = carDatas.value[0].id; // 假设你选择了第一个汽车
                 console.log("Selected Car ID:", selectedCarId.value); // Debug output
