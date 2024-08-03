@@ -4,9 +4,11 @@
       <img src="/img/menber_info_img01.jpg" alt="Register" class="card-image " />
     </div>
     <div class="col-8" style="background-color: #fff5eb;padding: 0;">
-    
+      
+                
+         
       <div class="card-content" style="padding: 0;">
-        
+      
         <div class="card-form">
           <h1>Member Information</h1>
           <form v-if="!isEditing" style="margin-left: 5%;">
@@ -38,9 +40,41 @@
               <label for="address">地址&emsp;&emsp;&emsp;：</label>
               <span class="infoText">{{ customerInfo.address }}</span>
             </div>
-            <div class="button-row1">
-              <button type="button" @click="startEditing" class="save-button" style="width: 30%;position: absolute;right:5%;
+            
+            <div >
+              <div class="resetPWD">
+              <font-awesome-icon icon="fa-solid fa-lock" style="color:#a33238;"/> 
+<!-- 修改密碼 -->
+<button type="button" class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#resetPwd" @click="ss">Reset Password</button>
+
+<!-- 彈出視窗 -->
+<div class="modal fade" id="resetPwd" tabindex="-1" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 350px;"> 
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="display: flex; justify-content: center; align-items: center; height: 100%;">
+        <el-form>
+          <el-form-item label="請輸入原密碼 :&nbsp;" style="color:#a33238">
+            <el-input v-model="oldPassword" type="password" size="small" style="width:200px;" />
+          </el-form-item>
+          <el-form-item label="請輸入新密碼 :&nbsp;" style="color:#a33238">
+            <el-input v-model="password" type="password" size="small" style="width:200px;" />
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary custom-btn-primary" @click="doModify()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+            </div>
+              <button  type="button" @click="startEditing" class="save-button button-row1" style="width: 30%;position: absolute;right:5%;
 ">Information Revise</button>
+
             </div>
           </form>
 
@@ -93,11 +127,9 @@
             </div>
             <button type="button" @click="cancelEditing" class="cancel-button" style="width: 20%;position: absolute;right:5%">Cancel</button>
               <button type="submit" class="save-button" style="width: 20%;position: absolute;right:26%">Save</button>
-            
           </form>
         </div>
       </div>
-    
     </div>
   </div>
 </template>
@@ -111,6 +143,10 @@ import Swal from "sweetalert2";
 const store = useStore();
 const customerInfo = computed(() => store.state.customerInfo.data || {});
 const isEditing = ref(false);
+
+//修改密碼用
+const oldPassword = ref('');
+const password = ref('')
 
 const form = ref({
   name: customerInfo.value.name || "",
@@ -158,11 +194,143 @@ const startEditing = () => {
   };
 };
 
-const cancelEditing = () => {
-  isEditing.value = false;
+// 修改密码用
+function doModify() {
+
+if (!oldPassword.value.trim()) {
+    Swal.fire({
+        icon: "warning",
+        text: "原密碼不可為空",
+    });
+    return;
+}
+if (!password.value.trim()) {
+    Swal.fire({
+        icon: "warning",
+        text: "新密碼不可為空",
+    });
+    return;
+}
+
+Swal.fire({
+    text: "執行中......",
+    allowOutsideClick: false,
+    showConfirmButton: false,
+});
+
+let request = {
+    "password": password.value,
+    accountType: customerInfo.value.accountType,
+    account: customerInfo.value.account,
+    name: customerInfo.value.name,
+    idNumber: customerInfo.value.idNumber,
+    sex: customerInfo.value.sex,
+    phone: customerInfo.value.phone,
+    email: customerInfo.value.email,
+    city: customerInfo.value.city,
+    address: customerInfo.value.address,
 };
 
+console.log("request========>" + JSON.stringify(request));
+
+// 直接使用 employeeInfo.value.id
+axiosapi.put(`/customer/modify/${customerInfo.value.id}`, request).then(function (response) {
+    console.log("response", response);
+    if (response.data.success) {
+        Swal.fire({
+            icon: "success",
+            text: response.data.message,
+            showConfirmButton: false,
+        },700).then(() => {
+            setTimeout(() => {
+                window.location.reload();  // 自动刷新页面
+            }, 0);
+        });
+    } else {
+        Swal.fire({
+            icon: "warning",
+            text: response.data.message,
+        });
+    }
+}).catch(function (error) {
+    console.log("error", error);
+    Swal.fire({
+        icon: "error",
+        text: "修改錯誤：" + error.message,
+    });
+}).finally(() => {
+    setTimeout(() => {
+        Swal.close();  // 关闭视窗
+    }, 1000);
+});
+}
+
+
+
+const updatePassword = async () => {
+  if (!oldPassword.value.trim()) {
+    Swal.fire({
+      icon: "warning",
+      text: "原密碼不可為空",
+    });
+    return;
+  }
+  if (!password.value.trim()) {
+    Swal.fire({
+      icon: "warning",
+      text: "新密碼不可為空",
+    });
+    return;
+  }
+
+  Swal.fire({
+    text: "執行中......",
+    allowOutsideClick: false,
+    showConfirmButton: false,
+  });
+
+  const request = {
+
+   "password": password.value  // 如果需要旧密码进行验证
+  };
+
+  const customerId = customerInfo.value.id; // 确保 customerInfo.value 和 id 是有效的
+
+  try {
+    const response = await axiosapi.put(`/customer/modify/${customerId}`, request);
+    if (response.data.success) {
+      Swal.fire({
+        icon: "success",
+        title: "密碼已更新",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+      // 清除密码输入框
+      password.value = '';
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "更新失敗",
+        text: response.data.msg,
+      });
+    }
+  } catch (error) {
+    console.error("Error during password update:", error);
+    Swal.fire({
+      icon: "error",
+      title: "更新失敗",
+      text: "請稍後再試",
+    });
+  } finally {
+    Swal.close();
+  }
+};
+  
+
+
+
 const callModify = async () => {
+  
   const customerId = customerInfo.value.id; // 这里假设 customerInfo 中包含 id 字段
   const request = {
     accountType: customerInfo.value.accountType,
@@ -175,6 +343,7 @@ const callModify = async () => {
     email: form.value.email,
     city: form.value.city,
     address: form.value.address,
+
   };
 
   try {
@@ -192,7 +361,7 @@ const callModify = async () => {
     } else {
       Swal.fire({
         icon: "error",
-        title: "修改失败",
+        title: "修改失敗",
         text: response.data.msg,
       });
     }
@@ -200,8 +369,8 @@ const callModify = async () => {
     console.error("Error during modification:", error);
     Swal.fire({
       icon: "error",
-      title: "修改失败",
-      text: "请稍后再试",
+      title: "修改失敗",
+      text: "請稍後再試",
     });
   }
 };
@@ -215,6 +384,48 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.custom-btn-primary {
+  background-color: #a33238;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 0;
+  font-size: 15px;
+  width: 100px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.btn-custom{
+  color: #a33238;
+  font-weight: bold;
+}
+.resetPWD{
+  margin-left: 350px;
+  margin-bottom: -36px; 
+}
+.btn-custom:hover {
+  color: #a33238; 
+}
+
+.btn-custom:focus {
+  color: #a33238 !important;  
+  outline: none !important;  
+  border: none !important;   
+}
+
+.btn-custom:active{
+  color: #a33238 !important;  
+  outline: none !important;  
+  border: none !important;   
+  border-bottom: #a33238 2px solid !important;   
+  border-radius: 0px !important;   
+}
+
+
+
 .custom-input {
   width: 52%; /* 让输入框宽度自适应父容器 */
   padding: 8px; /* 添加内边距 */

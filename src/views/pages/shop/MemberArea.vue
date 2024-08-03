@@ -1,10 +1,11 @@
 <template>
-           <section>
+        <section class="container-fluid" style="padding: 0;overflow-x: hidden;" >
                 <Navigation></Navigation>
                 <MemberAreaNav :name="customerInfo.name"></MemberAreaNav>
                 <br><br>
                 <ViewCarCard :viewCarId="carId"></ViewCarCard>
                 <Like></Like>
+                <PreferenceSearch></PreferenceSearch>
                 <MemberInfo></MemberInfo>
                 <Footer></Footer>
         </section>
