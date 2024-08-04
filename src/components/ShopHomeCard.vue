@@ -12,7 +12,7 @@
 
             <div @click="navigateToCar">
                 <div class="card-img-top">
-                    <img :src="`${path}${shopHomeCard.id}`" >
+                    <img :src="mainImageUrl" >
                 </div>
                 
                 
@@ -47,7 +47,7 @@
     const path = import.meta.env.VITE_PHOTO;
     const router = useRouter();
     const customerId = ref(); // 或從其他來源獲取 //enzo加入會員ID
-    
+    const mainImageUrl=ref('');
     const emit = defineEmits(["likeCreate"]);
 
     //喜歡標誌屬性
@@ -75,6 +75,8 @@
         }else {
         console.warn('customer info not loaded yet');
         }
+        findMainPic(props.shopHomeCard);
+        
     });
     
     function handleLikeCreate() {
@@ -161,6 +163,29 @@
         }
         router.push({ name: 'pages-shop-car-link', query: { carId: props.shopHomeCard.id } });
     }
+
+//以carId搜主圖
+function findMainPic(shopHomeCard) {
+    
+    axiosapi.get(`/image/isMainPic/${shopHomeCard.id}`)
+        .then(function (response) {
+            if (response && response.data) {
+                console.log("response", response);
+                mainImageUrl.value = path+response.data.isMainPic;
+            } else {
+                console.error("Invalid response data structure:", response);
+                throw new Error("Invalid car data response");
+            }
+        })
+        .catch(function (error) {
+            console.error("Error fetching data:", error);
+            Swal.fire({
+                text: "查詢失敗：" + error.message,
+                icon: "error"
+            });
+        });
+}
+
 
 
     // 喜歡標誌事件

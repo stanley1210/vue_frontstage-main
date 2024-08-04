@@ -1,12 +1,6 @@
 <template>
     <div class="text-center navbarBody p-2 flex-fill">
         <div class="row row-cols-2">
-            <div class="col">
-                <img src="../../../../public/supra2.jpeg" class="imageSize">
-                <img src="../../../../public/supra2.jpeg" class="imageSize">
-                <img src="../../../../public/supra2.jpeg" class="imageSize">
-                <img src="../../../../public/supra2.jpeg" class="imageSize">
-            </div>
             <div class="col d-flex align-items-start flex-column mb-3 wordBody">
                 <p>ID.{{ carData.id }}</p>
                 <p>品牌：{{ carData.carinfoBrand }}</p>

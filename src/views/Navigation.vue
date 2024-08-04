@@ -17,9 +17,6 @@
             <RouterLink class="nav-link  navbtm" :to="{ name: 'about' }">About</RouterLink>
           </li>
           <li class="nav-item col">
-            <RouterLink class="nav-link navbtm " :to="{ name: 'pages-shop-car-link' }">Car</RouterLink>
-          </li>
-          <li class="nav-item col">
             <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink>
           </li>
           <li class="nav-item col">

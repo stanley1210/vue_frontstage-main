@@ -96,11 +96,11 @@ import Footer from "@/views/Footer.vue"
 import ShopHomeCard from "@/components/ShopHomeCard.vue"
 import LikeRows from '@/components/LikeRows.vue';
 import Paginate from 'vuejs-paginate-next';
-import axios from 'axios';
+import axiosapi from '@/plugins/axios';
 import Swal from 'sweetalert2';
 import { ref, onMounted } from 'vue';
+import Preference from './Preference.vue'
 
-const kajartaUrl = import.meta.env.VITE_API_URL;
 const shopHomeCards = ref([]);
 const rows = ref(4); // 每頁顯示筆數
 const pageNumber = ref(1); // 目前頁碼
@@ -126,7 +126,7 @@ function callFind(page) {
     };
 
     //搜尋所有car資訊
-    axios.get(`${kajartaUrl}/car/findAll`, { params: request })
+    axiosapi.get(`/car/findAll`, { params: request })
         .then(function (response) {
             if (response && response.data) {
                 console.log("response", response);
@@ -149,8 +149,6 @@ function callFind(page) {
             });
         });
 }
-
-import Preference from './Preference.vue'
 
 
 </script>
