@@ -56,6 +56,7 @@ import SuggestTable from "@/components/SuggestTable.vue";
 import Navigation from '@/views/Navigation.vue';
 import Footer from "@/views/Footer.vue"
 import axios from 'axios';
+import axiosapi from "@/plugins/axios";
 import Swal from 'sweetalert2';
 import { ref, computed, onMounted, watch } from 'vue';
 import CarColumnL from '@/components/CarColumnL.vue';
@@ -99,7 +100,7 @@ import CarImage from '@/components/CarImage.vue';
 const images = ref([]); // 資料列表
 
 //搜尋單筆car資訊
-axios.get(`http://localhost:8080/kajarta/car/find/${carId}`)
+axiosapi.get(`/car/find/${carId}`)
     .then(function (response) {
         if (response && response.data) {
             console.log("response", response);
@@ -113,7 +114,7 @@ axios.get(`http://localhost:8080/kajarta/car/find/${carId}`)
             }
 
             // 搜索图片信息
-            return axios.get('http://localhost:8080/kajarta/image/getCarIdImage/1');//給car的id
+            return axiosapi.get(`/image/getCarIdImage/${carId}`);//給car的id
         } else {
             console.error("Invalid response data structure:", response);
             throw new Error("Invalid car data response");

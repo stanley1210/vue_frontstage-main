@@ -9,6 +9,38 @@
             </div>
 
 
+                <div class="card-body navbarBody" style="border: unset;">
+                    <h5 class="card-text">ID.{{ shopHomeCard.id }}</h5>
+                    <p class="card-title" v-if="!shopHomeCard.carinfoModelName">{{ shopHomeCard.modelName }}</p>
+                    <p class="card-title" v-if="shopHomeCard.carinfoModelName">{{ shopHomeCard.carinfoModelName }}</p>
+                    <div class="d-flex flex-row" >
+                        <div class="card-text " style="padding-left: 0;padding-right: 0;">{{ shopHomeCard.milage }} KM &nbsp;&nbsp;/ &nbsp;&nbsp;{{ shopHomeCard.productionYear }}</div>
+                        <div class="card-text" style="padding-left: 0;padding-right: 0;position: absolute;right:5%;">{{ shopHomeCard.price }} NTD</div>
+                    </div>
+                    <!-- <el-button type="primary" @click="navigateToCar">我真的需要這個酷東西！！</el-button> -->
+                </div>
+                
+            </div>
+        </div>
+    </template>
+    
+    <script setup>
+    import { computed, onMounted,ref } from 'vue';
+    import { useRouter } from 'vue-router';
+    import axios from 'axios';
+    import axiosapi from '@/plugins/axios.js';
+    import Swal from 'sweetalert2';
+    import { Star } from '@element-plus/icons-vue';
+    import { useStore } from "vuex";
+    
+    const props = defineProps({
+        shopHomeCard: Object
+    });
+    const path = import.meta.env.VITE_PHOTO;
+    const router = useRouter();
+    const customerId = ref(); // 或從其他來源獲取 //enzo加入會員ID
+    const mainImageUrl=ref('');
+    const emit = defineEmits(["likeCreate"]);
             <div class="card-body navbarBody" style="border: unset;">
                 <h5 class="card-text">ID.{{ shopHomeCard.id }}</h5>
                 <p class="card-title" v-if="!shopHomeCard.carinfoModelName">{{ shopHomeCard.modelName }}</p>
@@ -172,6 +204,29 @@ function navigateToCar() {
     }
     router.push({ name: 'pages-shop-car-link', query: { carId: props.shopHomeCard.id } });
 }
+
+//以carId搜主圖
+function findMainPic(shopHomeCard) {
+    
+    axiosapi.get(`/image/isMainPic/${shopHomeCard.id}`)
+        .then(function (response) {
+            if (response && response.data) {
+                console.log("response", response);
+                mainImageUrl.value = path+response.data.isMainPic;
+            } else {
+                console.error("Invalid response data structure:", response);
+                throw new Error("Invalid car data response");
+            }
+        })
+        .catch(function (error) {
+            console.error("Error fetching data:", error);
+            Swal.fire({
+                text: "查詢失敗：" + error.message,
+                icon: "error"
+            });
+        });
+}
+
 
 
 // 喜歡標誌事件
