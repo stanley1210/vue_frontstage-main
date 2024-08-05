@@ -1,5 +1,60 @@
 <template>
 
+        <!-- =================================資料區塊================================= -->
+      <!-- <div v-if="CarNewId" class="p-2">
+        <div class="text-center navbarBody d-flex flex-column" v-for="carCompareData in carCompareDatas" :key="carCompareData.id" :carCompareData="carCompareData">
+          <div class="col p-2 wordBody">
+            <div class="col d-flex align-items-start flex-column mb-3" >
+              <p>ID.{{ carCompareData.id }}</p>
+              <p>品牌：{{ carCompareData.carinfoBrand }}</p>
+              <p>車名：{{ carCompareData.carinfoModelName }} </p>
+              <p>售價：${{ carCompareData.price }}</p>
+              <p>議價空間：{{ carCompareData.negotiable }}</p>
+            </div>
+          </div>
+          <div class="col p-2">
+            <div class="col d-flex align-items-start flex-column mb-3">
+              <h2>車輛資訊</h2>
+              <p>年份：{{ carCompareData.productionYear }}</p>
+              <p>里程：{{ carCompareData.milage }} km</p>
+              <p>車型：{{ carCompareData.carinfoSuspension }}</p>
+              <p>車門數量：{{ carCompareData.carinfoDoor }}</p>
+              <p>乘客數：{{ carCompareData.carinfoPassenger }}</p>
+              <p>驅動方式：{{ carCompareData.carinfoRearWheel }}</p>
+              <p>引擎燃料：{{ carCompareData.carinfoGasoline }}</p>
+              <p>顏色：{{ carCompareData.color }}</p>
+            </div>
+          </div>
+          <div class="col p-2">
+            <div class="col d-flex align-items-start flex-column mb-3">
+                <h2>性能</h2>
+                <p>變速系統：{{ carCompareData.carinfoTransmission }}</p>
+                <p>排氣量：{{ carCompareData.carinfoCc }}</p>
+                <p>馬力：{{ carCompareData.carinfoHp }}</p>
+                <p>扭力：{{ carCompareData.carinfoTorque }}</p>
+              </div>
+            </div>
+            <div class="col p-2">
+              <div class="col d-flex align-items-start flex-column mb-3">
+                <h2>其他資訊</h2>
+                <p>車況評分：{{ carCompareData.conditionScore }}</p>
+                <p>是否改裝：{{ carCompareData.remark }}</p>
+                <p>上架日期：{{ carCompareData.launchDate }}</p>
+              </div>
+            </div>
+            <div class="col p-2">
+              <div class="col d-flex align-items-start flex-column mb-3">
+                <h2>訂單狀態：{{ carCompareData.state }}</h2>
+                <p>停放分店：{{ carCompareData.branch }}</p>
+                <p>管理銷售員：{{ carCompareData.employeeId }}</p>
+                <p>state狀態：{{ carCompareData.state }}</p>
+              </div>
+            </div>
+          </div>
+</div> -->
+
+
+
     <div class="outsideH1" ><h1>Compa</h1></div>
     <div class="outsideP"><p>ID.{{ carData.id }}&emsp;&emsp;&emsp;&emsp;&emsp;車輛</p></div>
 
@@ -24,7 +79,6 @@
     <div class="outsideP"><p>{{ carData.remark }}&emsp;&emsp;&emsp;&emsp;是否</p></div>
     <div class="outsideP"><p>{{ carData.launchDate }}&emsp;&emsp;&emsp;&emsp;上架</p></div>
     <div class="outsideP" style="border-bottom: unset;"><p>{{ carData.branch }}&emsp;&emsp;&emsp;&emsp;停放</p></div>
-
     <!-- <p>品牌：{{ carData.carinfoBrand }}</p>-->
     <!--<p>車名：{{ carData.carinfoModelName }} </p> -->
     <!-- <p>議價空間：{{ carData.negotiable }}</p> -->
@@ -46,9 +100,8 @@
 </template>
 
 <script setup>
+    const props = defineProps(["carData"]);
 
-const props = defineProps(["carData"]);
-const emit = defineEmits([]);
 
 </script>
 

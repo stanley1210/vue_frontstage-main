@@ -26,7 +26,7 @@
                 <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar" :carId="selectedCarId"
                     :customerId="customerInfo.id" />
             </div>
-            <el-button color="#626aef" plain>開啟比較</el-button>
+            <el-button color="#626aef" @click="ChangePage(selectedCarId)" plain>開啟比較</el-button>
         </div>
     </div>
     <!-- ------------------------------------------字---------------------------------------------------------- -->
@@ -45,7 +45,9 @@ import Swal from 'sweetalert2';
 import { ref, computed, onMounted, watch } from 'vue';
 import CarColumnL from '@/components/CarColumnL.vue';
 import CarColumnR from '@/components/CarColumnR.vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import router from "@/router/router";
+// const router = useRouter();
 const route = useRoute();
 const carId = Number(route.query.carId);  // 获取传递过来的carId参数
 console.log("carId=================" + carId)
@@ -142,6 +144,11 @@ function hideViewCar() {
 }
 //=========ViewCar========
 
+
+//============ChangePage==========
+function ChangePage(carId) {
+    router.push({ name: "car-compare", query: { carId: carId } });
+}
 </script>
 
 <style></style>
