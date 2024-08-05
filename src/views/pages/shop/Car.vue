@@ -37,9 +37,8 @@
 
 
 
-                <el-button color="#626aef" plain>開啟比較</el-button>
+                <el-button color="#626aef" @click="ChangePage(selectedCarId)" plain>開啟比較</el-button>
             </div>
-            <el-button color="#626aef" plain>開啟比較</el-button>
         </div>
         <!-- ------------------------------------------字---------------------------------------------------------- -->
         <div>
