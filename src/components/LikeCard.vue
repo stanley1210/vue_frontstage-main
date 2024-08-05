@@ -39,7 +39,7 @@ onMounted(() => {
   axios.get(`http://localhost:8080/kajarta/image/isMainPic/${props.like.carId}`)
     .then(function (response) {
       if (response && response.data) {
-        console.log("response", response);
+        // console.log("response", response);
         isMainPic.value = response.data.isMainPic;
       } else {
         console.error("Invalid response data structure:", response);
