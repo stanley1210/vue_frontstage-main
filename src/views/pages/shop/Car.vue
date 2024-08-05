@@ -5,39 +5,55 @@
         <CarImage :images="images"></CarImage>
 
 
-    <!-- ------------------------------------------資料行 ------------------------------------------ -->
-    <div class="d-flex flex-row wordBody">
-        <CarColumnL v-for="carData in carDatas" :key="carData.id" :carData="carData"
-            class="text-center navbarBody p-2 flex-fill"></CarColumnL>
+        <!-- ------------------------------------------資料行 ------------------------------------------ -->
+        <div class="d-flex flex-row wordBody">
+            <CarColumnL v-for="carData in carDatas" :key="carData.id" :carData="carData"
+                class="text-center navbarBody p-2 flex-fill"></CarColumnL>
 
-        <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
-        <div class="p-2 flex-fill navbarBody">
-            <div>
-                <p>3,000,000</p>
-                <p>NTD</p>
-            </div>
-            <div>
-                <el-icon :size="16" class="likeLogo" @click="callLikeCreate(selectedCarId)">
-                    <Star />
-                </el-icon>
-            </div>
-            <div>
-                <el-button color="#626aef" plain @click="toggleViewCar(selectedCarId, customerInfo.id)">預約賞車</el-button>
-                <ViewCar v-if="showViewCar" @hide-view-car="hideViewCar" :carId="selectedCarId"
-                    :customerId="customerInfo.id" />
-            </div>
-            <el-button color="#626aef" plain>開啟比較</el-button>
+            <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
+            <div class="p-2 flex-fill navbarBody">
+                <div>
+                    <p>3,000,000</p>
+                    <p>NTD</p>
+                </div>
+                <div>
+                    <font-awesome-icon :icon="['fas', 'star-of-life']" :spin="isSpinning" :style="{ color: iconColor }"
+                        size="lg" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" class="likeLogo"
+                        @click="callLikeCreate(selectedCarId)" />
+                </div>
+
+
+
+
+
+                <div>
+          <el-button color="#626aef" plain @click="dialogVisible = true" :click=toggleViewCar()>預約賞車</el-button>
+          <el-dialog v-model="dialogVisible" title="預約賞車" width="500" :before-close="handleClose">
+            <ViewCar :carId="selectedCarId" :customerId="customerInfo.id" @hide-view-car="hideViewCar" />
+            <template #footer>
+              <div class="dialog-footer">
+                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">確認</el-button>
+              </div>
+            </template>
+          </el-dialog>
         </div>
-    </div>
-    <!-- ------------------------------------------字---------------------------------------------------------- -->
-    <div>
-        ~ {{ customerInfo.name || '用户名' }}
-        ~ {{ customerInfo.id || '用户ID' }}
-        ~ {{ customerInfo.account || '帳號' }}
-    </div>
-    <SuggestTable></SuggestTable> 
-    <Footer></Footer>
-</section>
+
+
+
+
+                <el-button color="#626aef" plain>開啟比較</el-button>
+            </div>
+        </div>
+        <!-- ------------------------------------------字---------------------------------------------------------- -->
+        <div>
+            ~ {{ customerInfo.name || '用户名' }}
+            ~ {{ customerInfo.id || '用户ID' }}
+            ~ {{ customerInfo.account || '帳號' }}
+        </div>
+        <SuggestTable></SuggestTable>
+        <Footer></Footer>
+    </section>
 </template>
 
 <script setup>
@@ -67,11 +83,25 @@ customerInfo = computed(() => store.state.customerInfo.data || {});
 // console.log('===>test Customer info:', customerInfo);
 
 
+//喜歡標誌屬性
+const isSpinning = ref(false);
+const iconColor = ref('#a332389c');
+// 喜歡標誌事件
+const handleMouseOver = () => {
+    isSpinning.value = true;
+    iconColor.value = '#a33238';
+};
+const handleMouseLeave = () => {
+    isSpinning.value = false;
+    iconColor.value = '#a332389c';
+};
+
+
 const carDatas = ref([]); // 資料列表
 const selectedCarId = ref(null); // 当前选择的汽车 ID
-    import CarImage from '@/components/CarImage.vue';
-    
-    const images = ref([]); // 資料列表
+import CarImage from '@/components/CarImage.vue';
+
+const images = ref([]); // 資料列表
 
 //搜尋單筆car資訊
 axios.get(`http://localhost:8080/kajarta/car/find/${carId}`)
@@ -80,13 +110,13 @@ axios.get(`http://localhost:8080/kajarta/car/find/${carId}`)
             console.log("response", response);
             carDatas.value = response.data.list;
             carDatas.value.forEach(imageId => {
-                console.log("0000000000大中天＝",imageId.id);
+                console.log("0000000000大中天＝", imageId.id);
             });
             if (carDatas.value.length > 0) {
                 selectedCarId.value = carDatas.value[0].id; // 假设你选择了第一个汽车
                 console.log("Selected Car ID:", selectedCarId.value); // Debug output
             }
- 
+
             // 搜索图片信息
             return axios.get('http://localhost:8080/kajarta/image/getCarIdImage/1');//給car的id
         } else {
@@ -136,9 +166,10 @@ function callLikeCreate(carId) {
 //=========ViewCar========
 import ViewCar from './ViewCar.vue';
 const showViewCar = ref(false);
+const dialogVisible = ref(false);
 function toggleViewCar(carId, customerId) {
     selectedCarId.value = carId;
-    showViewCar.value = !showViewCar.value; // 切换 ViewCar 组件的显示状态
+    
     console.log("Toggled Car ID:", selectedCarId.value, "Customer ID:", customerId);
 }
 function hideViewCar() {

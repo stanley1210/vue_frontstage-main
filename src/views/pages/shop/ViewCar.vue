@@ -4,18 +4,17 @@
     <div class="form-wrapper">
       <!-- 日期和时间选择器上下排列 -->
       <div class="row align-items-start">
-        <!-- 日期选择器 -->
+        <!-- 日历选择器 -->
         <div class="col-12 mb-2">
           <div class="demo-date-picker">
-            <el-date-picker v-model="picker" type="date" placeholder="Pick a Date" format="YYYY/MM/DD"
-              value-format="YYYY-MM-DD" :disabled-date="disabledDate" />
+            <el-calendar v-model="value" class="calendar" />
           </div>
         </div>
 
         <!-- 时间选择器 -->
         <div class="col-12 mb-2">
           <div class="demo-time-picker">
-            <el-select v-model="value" placeholder="Time Slot" style="width: 100%">
+            <el-select v-model="timeValue" placeholder="Time Slot" style="width: 100%">
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </div>
@@ -45,16 +44,9 @@ const emit = defineEmits<{
 }>();
 
 // 当前日期
-const today = new Date();
+const value = ref(new Date());
 
-//禁用今天之前的日期
-function disabledDate(date) {
-  if (!date) return false;
-  return date < today;
-}
-
-const picker = ref('');
-const value = ref('');
+const timeValue = ref('');
 const options = [
   { value: 1, label: '上午10:00-12:00' },
   { value: 2, label: '下午13:00-15:00' },
@@ -64,9 +56,9 @@ const options = [
 
 function handleSubmit() {
   const payload = {
-    viewTimeSection: value.value,
+    viewTimeSection: timeValue.value,
     carId: props.carId, // 使用传递的 carId
-    viewCarDate: picker.value,
+    viewCarDate: value.value,
     customerId: props.customerId
   };
   console.log(payload);
@@ -106,7 +98,12 @@ function handleSubmit() {
   width: 100%;
 }
 
-.demo-date-picker .el-date-picker,
+.demo-date-picker .calendar {
+  width: 100%; /* 让日历适应容器宽度 */
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 .demo-time-picker .el-select {
   width: 100%;
   padding: 10px;
