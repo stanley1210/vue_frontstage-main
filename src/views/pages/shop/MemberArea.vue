@@ -5,7 +5,7 @@
                 <br><br>
                 <ViewCarCard :viewCarId="carId"></ViewCarCard>
                 <Like></Like>
-                <PreferenceSearch></PreferenceSearch>
+                <PreferenceSearch :showNavigation="false"></PreferenceSearch>
                 <MemberInfo></MemberInfo>
                 <Footer></Footer>
         </section>
