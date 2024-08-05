@@ -1,27 +1,22 @@
 <template>
+
   <div class="row">
-        <div class="col-2">
-            <font-awesome-icon 
-                :icon="['fas', 'star-of-life']" 
-                style="color: #a33238; margin-top: 8px;" 
-                size="2xl"/>
-        </div>
+    <div class="col-2"></div>
         <div class="col-10" style="display: flex; justify-content: flex-end;">
-            <h1>Sparkling List</h1>
+            <h1>Reservation Info</h1>
         </div>
         <el-divider color="#a33238;"></el-divider>
     </div>
 
-    
-  <br>
-  <div>
-    <div v-for="viewCar in viewCars" :key="viewCar.id" class="custom-card mb-3">
-      <div class="row g-0">
-        <div class="col-md-7">
-          <img :src="`${path}${viewCar.isMainPic}`" class="img-fluid rounded-start" alt="Car Image">
+
+ 
+    <div v-for="viewCar in viewCars" :key="viewCar.id" class="row" style="height: 70vh;margin-bottom: 5%;">
+      
+        <div class="col-8" style="padding: 0;height: 100%; overflow: hidden;display: flex;align-items: center;justify-content: center;">
+          <img :src="`${path}${viewCar.isMainPic}`" class="img-fluid " alt="Car Image">
         </div>
-        <div class="col-md-5 position-relative">
-          <div class="card-body d-flex flex-column justify-content-between h-100 p-3 viewcarnavbarBody">
+        <div class="col-4 position-relative">
+          <div class="bodyCard ">
             <div class="text-end">
               <h5 class="custom-title-color">ID.00{{ viewCar.car }}</h5>
               <h5 class="custom-title-color">ID.00{{ viewCar.id }}</h5>
@@ -34,14 +29,14 @@
                   <h6 class="custom-title-color">{{ getViewTimeSectionhText(viewCar.viewTimeSectionNb) }}</h6>
                 </div>
               </div>
-              <div class="d-flex justify-content-end">
-                <ViewCarDrawer :date="viewCar.viewCarDate" :timeSection="String(viewCar.viewTimeSectionNb)"
+              <div >
+                <ViewCarDrawer class="customBTM" :date="viewCar.viewCarDate" :timeSection="String(viewCar.viewTimeSectionNb)"
                   :customerId="customerInfo.id" :carId="viewCar.car" :viewCarId="viewCar.id" :viewCarStatus="viewCar.viewCarStatus">
                 </ViewCarDrawer>
-                <el-button round v-if="viewCar.viewCarStatus===3" disabled size="small" class="custom-button">註銷賞車</el-button>
-                <el-button round v-else @click="confirmRemove(viewCar.id,viewCar.car,viewCar.viewCarDate,viewCar.viewTimeSectionNb)" size="small" class="custom-button">取消賞車</el-button>
+                <el-button round v-if="viewCar.viewCarStatus===3" disabled size="small" class="customBTM">註銷賞車</el-button>
+                <el-button round v-else @click="confirmRemove(viewCar.id,viewCar.car,viewCar.viewCarDate,viewCar.viewTimeSectionNb)" size="small" class="customBTM" >取消賞車</el-button>
 
-                <el-button round @click="toggleCar(selectedCarId)" size="small" class="custom-button">詳細資料</el-button>
+                <el-button round @click="toggleCar(selectedCarId)" size="small" class="customBTM" style="margin-left: 16px;">詳細資料</el-button>
               </div>
             </div>
             <br>
@@ -53,15 +48,15 @@
               <p>試車分店: {{ getViewCarBranchText(viewCar.branch) }}</p>
             </div>
 
-            <div class="text-end">
+            <div class="pageCON">
               <el-pagination size="small" background layout="prev, pager, next" :total="totalElements"
                 :current-page="currentPage" :page-size="1" @current-change="handlePageChange" />
             </div>
           </div>
         </div>
-      </div>
+      
     </div>
-  </div>
+ 
 </template>
 
 <script setup>
@@ -320,13 +315,10 @@ const callRemove = async function(id, car, viewCarDate, viewTimeSectionNb) {
 
 
 <style scoped>
-.custom-card {
-  max-width: 900px;
-  word-wrap: break-word;
-}
+
 
 .img-fluid {
-  height: 350px;
+  height: auto;
   /* 设定固定高度 */
   width: 100%;
   /* 设定宽度为容器的 100% */
@@ -334,8 +326,11 @@ const callRemove = async function(id, car, viewCarDate, viewTimeSectionNb) {
   /* 确保图片覆盖整个容器，保持比例 */
 }
 
-.card-body {
-  overflow: hidden;
+.bodyCard {
+  background-color: #a33238;
+  border: unset;
+  height: 100%;
+  padding: 5%;
 }
 
 .text-end {
@@ -344,6 +339,7 @@ const callRemove = async function(id, car, viewCarDate, viewTimeSectionNb) {
 
 .position-relative {
   position: relative;
+  padding: 0;
 }
 
 .h-100 {
@@ -355,14 +351,27 @@ const callRemove = async function(id, car, viewCarDate, viewTimeSectionNb) {
 }
 
 .custom-title-color {
-  color: #ffecdc;
-  line-height: 12px;
+  color: #fff8f3;
+  line-height: 36px;
+  font-size: 30px;
+
 }
 
 .custom-text-color {
-  color: #ffecdc;
-  font-size: 14px;
-  line-height: 6px;
+  position: absolute;
+  bottom: 5%;
+  left: 8%;
+  color: #fff8f3;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing:3px;
+  font-weight: 900;
+}
+
+.pageCON{
+  position: absolute;
+  bottom: 8%;
+  right: 8%;
 }
 
 .homepageSlogan {
@@ -370,5 +379,19 @@ const callRemove = async function(id, car, viewCarDate, viewTimeSectionNb) {
   color: #a33238;
   font-weight: 500;
   line-height: 6px;
+}
+
+h1 {
+    color: #a33238;
+    font-weight: 900;
+}
+
+.row {
+    margin-left: 3.2%;
+    margin-right: 3.2%;
+}
+.customBTM{
+  margin-left: 15px;
+  color: #a33238;
 }
 </style>

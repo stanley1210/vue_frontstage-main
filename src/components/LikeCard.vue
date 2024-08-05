@@ -60,12 +60,14 @@ function navigateToCar(carId){
 
 <style scoped>
 .card {
+  margin: 0;
   border: unset;
   border-radius: unset;
   margin: 0.8%;
   margin-bottom: 1%;
   background-color: #fff5eb;
   box-sizing: content-box;
+  padding: 0;
 }
 
 .card:hover {
