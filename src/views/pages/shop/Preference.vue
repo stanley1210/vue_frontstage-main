@@ -1,5 +1,5 @@
 <template>
-  <section class="row">
+  <section >
     <!-- 註冊會員按鍵 -->
     <div>
       <el-button class="topBTM" color="#a33238" @click="goToRegister" :dark="isDark" :icon="User" v-if="!isCustomerInfoComplete || !isAuthenticated">註冊會員</el-button>
@@ -207,46 +207,45 @@
       </div>
     </el-drawer>
 <!-- 非會員搜尋 -->
-  <div class="form-container" >
-    <br>
-    <div class="form-group" style="display: flex; align-items: center;">
+  
+    <div class="noLogPage" >
       <label>車輛名稱查詢</label>
       <input type="text" v-model="modelName" placeholder="輸入車輛名稱" />
     </div>
     
-    <div class="form-group">
+    <div class="noLogPage">
       <label>年分</label>
       <input type="text" v-model="productionYear" placeholder="輸入年分" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage">
       <label>價格</label>
       <input type="text" v-model="price" placeholder="輸入價格" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage">
       <label>里程數</label>
       <input type="text" v-model="milage" placeholder="輸入里程數" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage">
       <label>車況評分</label>
       <input type="text" v-model="score" placeholder="輸入車況評分" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage">
       <label>馬力</label>
       <input type="text" v-model="hp" placeholder="輸入馬力" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage" style="margin-bottom: 5%;">
       <label>扭力</label>
       <input type="text" v-model="torque" placeholder="輸入扭力" />
     </div>
 
-    <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">查詢</el-button>
-    <el-button type="warning" :icon="Refresh" color="#a33238"  @click="resetForm">重置查詢</el-button>
-  </div>
+    <div ><el-button type="primary" class="underBTM" color="#a33238" :icon="Search" @click="handleSubmit">查詢</el-button></div>
+    <div ><el-button type="warning" class="underBTM" :icon="Refresh" color="#a33238"  @click="resetForm">重置查詢</el-button></div>
+  
 </section>
 </template>
   
@@ -715,8 +714,44 @@ label {
 }
 
 .topBTM{
-  width: 170px; 
+  width: 32.2%; 
   border-radius: unset;
 }
 
+.noLogPage{
+  border-bottom: 1px solid #a33238; /* 添加底部边框 */
+  padding: 0 ;
+  margin: 0 0 10px 0;
+  padding-bottom: 10px; /* 调整内边距 */
+  display: flex; 
+  align-items: center;
+  
+ 
+}
+
+.noLogPage input {
+  padding: 5px 15px;
+  border: 1px solid #ffffff;
+  border-radius: 30px;
+  width: 75%; /* 調整輸入框的寬度 */
+  font-weight: bold;/* 調整輸入字體變粗體 */
+  outline: white 1px solid;
+  color: #a33238 ;
+}
+.noLogPage input:focus {
+  outline: #a33238 3px solid;
+}
+
+.noLogPage label {
+  width: 25%;
+  margin-top: 5px;
+  color: #a33238; /* 改变标签的文本颜色 */
+  font-weight: 900;/* 調整字體變粗體 */
+}
+
+.underBTM {
+  margin-bottom: 10px;
+  border-radius: unset;
+  width: 100%;
+}
 </style>
