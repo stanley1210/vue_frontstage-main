@@ -1,10 +1,18 @@
 <template>
-  <br>
-  <div class="homepageSlogan">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reservation
-    info</div>
-  <p>__________________________________________________________________________________________________________________
-  </p>
+  <div class="row">
+        <div class="col-2">
+            <font-awesome-icon 
+                :icon="['fas', 'star-of-life']" 
+                style="color: #a33238; margin-top: 8px;" 
+                size="2xl"/>
+        </div>
+        <div class="col-10" style="display: flex; justify-content: flex-end;">
+            <h1>Sparkling List</h1>
+        </div>
+        <el-divider color="#a33238;"></el-divider>
+    </div>
+
+    
   <br>
   <div>
     <div v-for="viewCar in viewCars" :key="viewCar.id" class="custom-card mb-3">
