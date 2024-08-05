@@ -2,7 +2,7 @@
     <section>
         <!-- ------------------------------------------大圖------------------------------------------ -->
         <Navigation></Navigation>
-        <CarImage :images="images"></CarImage>
+        <CarImage :images="images" style="height: 30%; width: auto; overflow: hidden;"></CarImage>
 
 
     <!-- ------------------------------------------資料行 ------------------------------------------ -->
@@ -12,10 +12,6 @@
 
         <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
         <div class="p-2 flex-fill navbarBody">
-            <div>
-                <p>3,000,000</p>
-                <p>NTD</p>
-            </div>
             <div>
                 <el-icon :size="16" class="likeLogo" @click="callLikeCreate(selectedCarId)">
                     <Star />
@@ -78,7 +74,6 @@ axiosapi.get(`/car/find/${carId}`)
             console.log("response", response);
             carDatas.value = response.data.list;
             carDatas.value.forEach(imageId => {
-                console.log("0000000000大中天＝",imageId.id);
             });
             if (carDatas.value.length > 0) {
                 selectedCarId.value = carDatas.value[0].id; // 假设你选择了第一个汽车
@@ -86,7 +81,7 @@ axiosapi.get(`/car/find/${carId}`)
             }
  
             // 搜索图片信息
-            return axiosapi.get(`/image/getCarIdImage/${carId}`);//給car的id
+            return axiosapi.get(`/image/isListPic/${carId}`);//給car的id
         } else {
             console.error("Invalid response data structure:", response);
             throw new Error("Invalid car data response");
@@ -95,7 +90,8 @@ axiosapi.get(`/car/find/${carId}`)
     .then(function (response) {
         if (response && response.data) {
             console.log("response", response);
-            images.value = response.data.CarIdImageList;
+            images.value = response.data.isListPic;
+            
         } else {
             console.error("Invalid response data structure:", response);
         }
