@@ -24,20 +24,15 @@
 
 
 
-
+              
 
                 <div>
-          <el-button color="#626aef" plain @click="dialogVisible = true" :click=toggleViewCar()>預約賞車</el-button>
-          <el-dialog v-model="dialogVisible" title="預約賞車" width="500" :before-close="handleClose">
-            <ViewCar :carId="selectedCarId" :customerId="customerInfo.id" @hide-view-car="hideViewCar" />
-            <template #footer>
-              <div class="dialog-footer">
-                <el-button @click="dialogVisible = false">取消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">確認</el-button>
-              </div>
-            </template>
-          </el-dialog>
-        </div>
+                    <el-button color="#626aef" plain @click="toggleViewCar(selectedCarId, customerInfo.id)">預約賞車
+                    </el-button>
+                    <el-dialog v-model="dialogVisible" title="" width="500" class="form-wrapper">
+                        <ViewCar :carId="selectedCarId" :customerId="customerInfo.id" @hide-view-car="hideViewCar" />
+                    </el-dialog>
+                </div>
 
 
 
@@ -168,15 +163,23 @@ import ViewCar from './ViewCar.vue';
 const showViewCar = ref(false);
 const dialogVisible = ref(false);
 function toggleViewCar(carId, customerId) {
+    dialogVisible.value=true;
     selectedCarId.value = carId;
-    
     console.log("Toggled Car ID:", selectedCarId.value, "Customer ID:", customerId);
 }
 function hideViewCar() {
-    showViewCar.value = false;
+    dialogVisible.value = false;
 }
 //=========ViewCar========
 
 </script>
 
-<style></style>
+<style scoped>
+.form-wrapper {
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  width: 70%;
+  padding: 6px;
+  background-color: #f9f9f9;
+}
+</style>

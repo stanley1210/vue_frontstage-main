@@ -7,7 +7,14 @@
         <!-- 日历选择器 -->
         <div class="col-12 mb-2">
           <div class="demo-date-picker">
-            <el-calendar v-model="value" class="calendar" />
+            <el-calendar v-model="value" class="calendar">
+              <template #date-cell="{ data }">
+                <p :class="data.isSelected ? 'is-selected' : ''">
+                  {{ data.day.split('-').slice(1).join('-') }}
+                  {{ data.isSelected ? '✔️' : '' }}
+                </p>
+              </template>
+            </el-calendar>
           </div>
         </div>
 
@@ -15,7 +22,7 @@
         <div class="col-12 mb-2">
           <div class="demo-time-picker">
             <el-select v-model="timeValue" placeholder="Time Slot" style="width: 100%">
-              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+              <el-option class="demo-time-picker" v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </div>
         </div>
@@ -23,10 +30,12 @@
 
       <!-- 提交按钮 -->
       <div class="text-left mt-2">
-        <el-button type="warning" @click="handleSubmit">Submit</el-button>
+        <el-button size="large" type="warning" @click="handleSubmit">Submit</el-button>
       </div>
     </div>
+    
   </div>
+  
 </template>
 
 <script setup lang="ts">
@@ -66,7 +75,15 @@ function handleSubmit() {
   axios.post('http://localhost:8080/kajarta/front/viewCar/create', payload)
     .then(response => {
       console.log("提交成功", response);
-      emit('hide-view-car');
+      emit('hide-view-car'); // 触发关闭对话框事件
+      Swal.fire({
+        title: '成功!',
+        text: '您的預約已成功提交。',
+        icon: 'success',
+        confirmButtonText: '確定'
+      }).then(() => {
+       
+      });
     })
     .catch(error => {
       console.error("Error fetching data:", error);
@@ -78,7 +95,7 @@ function handleSubmit() {
 }
 </script>
 
-<style>
+<style scope>
 .container {
   padding: 20px;
 }
@@ -86,6 +103,7 @@ function handleSubmit() {
 .form-wrapper {
   border: 1px solid #dcdcdc;
   border-radius: 8px;
+  width: 100%;
   padding: 16px;
   background-color: #f9f9f9;
 }
@@ -95,19 +113,22 @@ function handleSubmit() {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 100%;
+  width: 80%;
+  font-size: 21px;
 }
 
 .demo-date-picker .calendar {
-  width: 100%; /* 让日历适应容器宽度 */
-  max-width: 100%;
+  width: 100%;
+  /* 让日历适应容器宽度 */
+  max-width: 120%;
   box-sizing: border-box;
+  font-size: 21px;
 }
 
 .demo-time-picker .el-select {
   width: 100%;
   padding: 10px;
-  font-size: 16px;
+  font-size: 24px;
   height: 50px;
 }
 
