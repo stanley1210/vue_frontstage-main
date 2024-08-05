@@ -1,9 +1,32 @@
 <template>
+<<<<<<< HEAD
 
   <div class="row">
     <div class="col-2"></div>
         <div class="col-10" style="display: flex; justify-content: flex-end;">
             <h1>Reservation Info</h1>
+=======
+  <div class="row">
+        <div class="col-2">
+            <font-awesome-icon 
+                :icon="['fas', 'star-of-life']" 
+                style="color: #a33238; margin-top: 8px;" 
+                size="2xl"/>
+        </div>
+        <div class="col-10" style="display: flex; justify-content: flex-end;">
+            <h1>Sparkling List</h1>
+        </div>
+        <el-divider color="#a33238;"></el-divider>
+    </div>
+
+    
+  <br>
+  <div>
+    <div v-for="viewCar in viewCars" :key="viewCar.id" class="custom-card mb-3">
+      <div class="row g-0">
+        <div class="col-md-7">
+          <img :src="`${path}${viewCar.isMainPic}`" class="img-fluid rounded-start" alt="Car Image">
+>>>>>>> d5b85a2aa60059eee8bc4aca40a9ecd466698bc6
         </div>
         <el-divider color="#a33238;"></el-divider>
     </div>

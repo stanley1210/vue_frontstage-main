@@ -15,7 +15,7 @@
             <div 
             :class="['carousel-item', {active:index===0}]" 
             v-for="(image,index) in images" :key="index">
-                <img :src="`${path}${image.id}`" class="d-block w-100" >
+                <img :src="`${path}${image.imageId}`" class="d-block w-100" >
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -37,6 +37,7 @@
     required: true
         }
         })
+
 </script>
     
 <style>
