@@ -13,17 +13,19 @@
   </el-button>
 
   <!-- 搜尋過紀錄 -->
-  <el-drawer v-model="drawer2" :direction="direction" style="background-color:#fff5eb">
-      <div v-if="savedSearches.length" >
+  <h3 style="color:#fff5eb; font-weight: bold;">心儀車輛查詢條件</h3>
+  <el-drawer v-model="drawer2" :direction="direction" style="background-color:#a33238">
+      <div v-if="savedSearches.length" class="drawer-content" >
+      <h3 style="color:#fff5eb; font-weight: bold;">心儀車輛查詢條件</h3>
       <div v-for="search in savedSearches" :key="search.id" :search=search class="card" style="background-color:#fff5eb">
-        <p class="search-item">車輛名稱: {{ search.selectName || '未填入搜尋條件' }}</p>
-        <p class="search-item">年分: {{ search.productionYear || '未填入搜尋條件' }}</p>
-        <p class="search-item">價格: {{ search.price || '未填入搜尋條件' }}</p>
-        <p class="search-item">里程數: {{ search.milage || '未填入搜尋條件' }}</p>
-        <p class="search-item">車況評分: {{ search.score || '未填入搜尋條件' }}</p>
-        <p class="search-item">馬力: {{ search.hp || '未填入搜尋條件' }}</p>
-        <p class="search-item">扭力: {{ search.torque || '未填入搜尋條件' }}</p>
-        <p class="search-item">車輛型號:{{search.carinfoModelName }}</p>
+        <p class="search-item">車輛名稱: {{ search.selectName || '未填入查詢條件' }}</p>
+        <p class="search-item">年分: {{ search.productionYear || '未填入查詢條件' }}</p>
+        <p class="search-item">價格: {{ search.price || '未填入查詢條件' }}</p>
+        <p class="search-item">里程數: {{ search.milage || '未填入查詢條件' }}</p>
+        <p class="search-item">車況評分: {{ search.score || '未填入查詢條件' }}</p>
+        <p class="search-item">馬力: {{ search.hp || '未填入查詢條件' }}</p>
+        <p class="search-item">扭力: {{ search.torque || '未填入查詢條件' }}</p>
+        <p class="search-item">車輛型號:{{search.carinfoModelName || '未填入查詢條件'  }}</p>
         <p class="search-item">品牌: {{ getBrandName(search.brand)}}</p>
         <p class="search-item">車型: {{ getSuspensionName(search.suspension) }}</p>
         <p class="search-item">車門數: {{getDoorName(search.door )}}</p>
@@ -47,7 +49,7 @@
       <br>
     <br>
     <div class="form-group">
-      <label>車輛名稱搜尋</label>
+      <label>車輛名稱查詢</label>
       <input type="text" v-model="modelName" placeholder="輸入車輛名稱" :disabled="isDisabled" />
     </div>
     
@@ -88,7 +90,7 @@
             name="carinfoId"  class="custom-select"
             required
             @change="onCarinfoChange" >
-            <option value="" disabled>選擇你要的車型</option>
+            <option value="" disabled>選擇車輛型號</option>
               <option 
                 v-for="carinfoData in carinfoDatas"
                 :key="carinfoData.id"
@@ -207,7 +209,7 @@
   <div class="form-container">
     <br>
     <div class="form-group">
-      <label>車輛名稱搜尋</label>
+      <label>車輛名稱查詢</label>
       <input type="text" v-model="modelName" placeholder="輸入車輛名稱" />
     </div>
     
@@ -538,7 +540,7 @@ const getBrandName = (value) => {
     8: 'NISSAN',
     9: 'SUBARU'
   }
-  return brand[value] || '未填入搜尋條件'
+  return brand[value] || '未填入查詢條件'
 }
 
 const getSuspensionName = (value)=> {
@@ -550,7 +552,7 @@ const getSuspensionName = (value)=> {
     5: '吉普車',
     6: '掀背車'
   }
-  return Suspension[value] || '未填入搜尋條件'
+  return Suspension[value] || '未填入查詢條件'
 }
 
 const getDoorName = (value)=> {
@@ -561,7 +563,7 @@ const getDoorName = (value)=> {
     4: '五門',
     5: '六門',
   }
-  return door[value] || '未填入搜尋條件'
+  return door[value] || '未填入查詢條件'
 }
 
 const getPassengerName = (value)=> {
@@ -572,7 +574,7 @@ const getPassengerName = (value)=> {
     4: '七人座以上'
     
   }
-  return passenger[value] || '未填入搜尋條件'
+  return passenger[value] || '未填入查詢條件'
 }
 
 const getRearWheelName = (value)=> {
@@ -581,7 +583,7 @@ const getRearWheelName = (value)=> {
     2: '後驅',
     3: '四驅'
   }
-  return rearWheel[value] || '未填入搜尋條件'
+  return rearWheel[value] || '未填入查詢條件'
 }
 
 const getGasolineName = (value)=> {
@@ -591,7 +593,7 @@ const getGasolineName = (value)=> {
     3: '油電複合',
     4: '純電'
   }
-  return gasoline[value] || '未填入搜尋條件'
+  return gasoline[value] || '未填入查詢條件'
 }
 
 const getTransmissionName = (value)=> {
@@ -601,7 +603,7 @@ const getTransmissionName = (value)=> {
     3: '手自排',
     4: '自手排'
   }
-  return transmission[value] || '未填入搜尋條件'
+  return transmission[value] || '未填入查詢條件'
 }
 
 const getCcName = (value)=> {
@@ -614,7 +616,7 @@ const getCcName = (value)=> {
     6: '4201-5400',
     7: '5401以上',
   }
-  return cc[value] || '未填入搜尋條件'
+  return cc[value] || '未填入查詢條件'
 }
 
 </script>
@@ -622,8 +624,10 @@ const getCcName = (value)=> {
 <style >
 
 .form-container {
-  margin-bottom: 20px; /* 调整每个表单之间的间距 */
+  margin-bottom: 15px; /* 调整每个表单之间的间距 */
   width: 350px;
+  margin-top: -35px; /* 調整此值以上移表單 */
+
 }
 
 .form-group {
@@ -634,7 +638,7 @@ const getCcName = (value)=> {
 }
 
 .form-group input {
-  padding: 8px;
+  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 350px; /* 調整輸入框的寬度 */
@@ -655,7 +659,7 @@ const getCcName = (value)=> {
 
 .custom-select {
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #f9f9f9;
@@ -693,6 +697,20 @@ label {
   font-weight: bold;
   margin-bottom: 5px;
   color: #333;
+}
+
+.drawer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.card {
+  max-width: 500px; /* 你可以調整這個值來改變卡片的最大寬度 */
+  width: 100%;
+  margin-bottom: 15px; /* 調整卡片之間的距離 */
+  padding: 15px; /* 調整卡片內的間距 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加陰影效果 */
+  border-radius: 8px; /* 調整邊框圓角 */
 }
 
 </style>
