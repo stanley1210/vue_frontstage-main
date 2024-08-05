@@ -1,13 +1,13 @@
 <template>
   <section>
-  <Navigation></Navigation>
+  <Navigation v-if="props.showNavigation"></Navigation>
   <br />
   <!-- 顯示查詢結果 -->
-  <h3 style="color: #a33238;">顯示搜尋車輛結果</h3>
+  <h3 style="color: #a33238; font-weight: bold;">車輛查詢結果</h3>
   <div v-if="paginatedResults.length > 0" class="card-container">
     <div class="card" v-for="data in paginatedResults" :key="data.id" :data="data">
     <img class="card-img-top" :src="photoSrc(data)" :alt="data.modelName" :id="data.id"> 
-    <h5 class="card-title">ID.{{ data.id }}</h5>
+    <h5 class="card-title" style="display: none;">ID.{{ data.id }}</h5>
       <div class="card-body navbarBody">
         <h5 class="card-title">{{ data.modelName }}</h5>
         <p class="card-text">
@@ -26,13 +26,13 @@
           變速系統: {{ data.transmission }} <br />
           排氣量: {{ data.cc }} <br />
         </p>
-        <el-button type="primary" @click="cardetail(data)">車輛詳細資訊</el-button>
+        <el-button type="primary"  color="#a33238" @click="cardetail(data)">車輛詳細資訊</el-button>
       </div>
     </div>
   </div>
   <div v-else>
     <br>
-  <p style="color: #a33238;">未查詢到車輛</p>
+  <p style="color: #a33238; font-weight: bold; ">未查詢到車輛</p>
 </div>
 <br>
 <!-- 分頁效果(上下頁) -->
@@ -67,7 +67,7 @@ import { useRoute,useRouter  } from 'vue-router';
 import Navigation from '@/views/Navigation.vue';
 import axios from 'axios';
 
-
+const showNavigation = ref(true);
 const path =import.meta.env.VITE_PHOTO;
 const route = useRoute();
 const router = useRouter();
@@ -77,6 +77,8 @@ const currentPage = ref(1);
 const pageSize = ref(4);
 const isMainPicDatas=ref([]);
 const kajartaUrl = import.meta.env.VITE_API_URL;
+
+
 // 分頁
 const paginatedResults = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value;
@@ -178,6 +180,14 @@ onMounted(() => {
   handleSearchByNoMemSearch();
   // console.log('query=' + query);
   // callImageFindByCarId();
+});
+
+//控制該死的Navigation不要在父元件顯示
+const props = defineProps({
+  showNavigation: {
+    type: Boolean,
+    default: true
+  }
 });
 </script>
 
