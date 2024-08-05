@@ -189,11 +189,14 @@ const handleMouseLeave = () => {
 <style scoped>
 .card {
     border: unset;
+    margin: 0;
     border-radius: unset;
     margin: 0.8%;
     margin-bottom: 1%;
     background-color: #fff5eb;
     box-sizing: content-box;
+    padding: 0;
+    
 }
 
 .card:hover {
