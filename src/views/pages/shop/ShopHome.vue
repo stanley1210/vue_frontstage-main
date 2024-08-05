@@ -4,10 +4,9 @@
         <!-- ------------------------------------------心儀條件------------------------------------------ -->
 
         <div class="row align-items-start" style="background-color:#fff5eb;">
-            <div class="col-4">
-                <br>
-                <h3 style="color: #a33238; font-weight: bold;">選擇您的理想車輛查詢</h3>
-                <br>
+            <div class="col-4 " style="padding: 35px;padding-left: 70px;">  
+                <h5 style="color: #a33238; font-weight: bold;padding: 0;margin: 0;">Shop Cars For Sell</h5>
+                <h1 style="color: #a33238; font-weight: bold; margin-bottom: 30px;">Enter what you want</h1>
                 <Preference />
             </div>
 

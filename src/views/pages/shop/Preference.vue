@@ -1,17 +1,18 @@
 <template>
-  <section>
-  <!-- 註冊會員按鍵 -->
-<el-button color="#a33238" @click="goToRegister" :dark="isDark" :icon="User" v-if="!isCustomerInfoComplete || !isAuthenticated">註冊會員</el-button>
-
-<!-- 會員進階搜尋按鈕 -->
-<el-button  type="primary" color="#a33238" :icon="Search" @click="handleClick" :disabled="false" >
-  會員進階查詢
-  </el-button>
-
-  <!-- 會員心儀列表按鈕 -->
-  <el-button  type="warning" color="#a33238" :icon="Star" :disabled="false" @click="openSavedSearches">會員喜好清單
-  </el-button>
-
+  <section class="row">
+    <!-- 註冊會員按鍵 -->
+    <div>
+      <el-button class="topBTM" color="#a33238" @click="goToRegister" :dark="isDark" :icon="User" v-if="!isCustomerInfoComplete || !isAuthenticated">註冊會員</el-button>
+        
+        <!-- 會員進階搜尋按鈕 -->
+        <el-button class="topBTM" type="primary" color="#a33238" :icon="Search" @click="handleClick" :disabled="false" >
+          會員進階查詢
+        </el-button>
+        
+        <!-- 會員心儀列表按鈕 -->
+        <el-button class="topBTM" type="warning" color="#a33238" :icon="Star" :disabled="false" @click="openSavedSearches">會員喜好清單
+        </el-button>
+    </div>
   <!-- 搜尋過紀錄 -->
   <h3 style="color:#fff5eb; font-weight: bold;">心儀車輛查詢條件</h3>
   <el-drawer v-model="drawer2" :direction="direction" style="background-color:#a33238">
@@ -206,9 +207,9 @@
       </div>
     </el-drawer>
 <!-- 非會員搜尋 -->
-  <div class="form-container">
+  <div class="form-container" >
     <br>
-    <div class="form-group">
+    <div class="form-group" style="display: flex; align-items: center;">
       <label>車輛名稱查詢</label>
       <input type="text" v-model="modelName" placeholder="輸入車輛名稱" />
     </div>
@@ -621,7 +622,7 @@ const getCcName = (value)=> {
 
 </script>
     
-<style >
+<style scoped>
 
 .form-container {
   margin-bottom: 15px; /* 调整每个表单之间的间距 */
@@ -641,7 +642,7 @@ const getCcName = (value)=> {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 350px; /* 調整輸入框的寬度 */
+  width: 150px; /* 調整輸入框的寬度 */
   font-weight: bold;/* 調整輸入字體變粗體 */
 }
 
@@ -711,6 +712,11 @@ label {
   padding: 15px; /* 調整卡片內的間距 */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加陰影效果 */
   border-radius: 8px; /* 調整邊框圓角 */
+}
+
+.topBTM{
+  width: 170px; 
+  border-radius: unset;
 }
 
 </style>
