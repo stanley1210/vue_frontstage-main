@@ -267,67 +267,6 @@ axiosapi.put(`/customer/modify/${customerInfo.value.id}`, request).then(function
 
 
 
-const updatePassword = async () => {
-  if (!oldPassword.value.trim()) {
-    Swal.fire({
-      icon: "warning",
-      text: "原密碼不可為空",
-    });
-    return;
-  }
-  if (!password.value.trim()) {
-    Swal.fire({
-      icon: "warning",
-      text: "新密碼不可為空",
-    });
-    return;
-  }
-
-  Swal.fire({
-    text: "執行中......",
-    allowOutsideClick: false,
-    showConfirmButton: false,
-  });
-
-  const request = {
-
-   "password": password.value  // 如果需要旧密码进行验证
-  };
-
-  const customerId = customerInfo.value.id; // 确保 customerInfo.value 和 id 是有效的
-
-  try {
-    const response = await axiosapi.put(`/customer/modify/${customerId}`, request);
-    if (response.data.success) {
-      Swal.fire({
-        icon: "success",
-        title: "密碼已更新",
-        showConfirmButton: false,
-        timer: 1000,
-      });
-      // 清除密码输入框
-      password.value = '';
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "更新失敗",
-        text: response.data.msg,
-      });
-    }
-  } catch (error) {
-    console.error("Error during password update:", error);
-    Swal.fire({
-      icon: "error",
-      title: "更新失敗",
-      text: "請稍後再試",
-    });
-  } finally {
-    Swal.close();
-  }
-};
-  
-
-
 
 const callModify = async () => {
   
