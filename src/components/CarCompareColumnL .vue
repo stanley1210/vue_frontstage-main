@@ -79,6 +79,9 @@
     <div class="outsideP"><p>{{ carData.remark }}&emsp;&emsp;&emsp;&emsp;是否</p></div>
     <div class="outsideP"><p>{{ carData.launchDate }}&emsp;&emsp;&emsp;&emsp;上架</p></div>
     <div class="outsideP" style="border-bottom: unset;"><p>{{ carData.branch }}&emsp;&emsp;&emsp;&emsp;停放</p></div>
+    <br>
+    <div ><el-button type="warning" :icon="Refresh"  color="#a33238"  @click="resetCarCompare">重置比較車輛</el-button></div>
+
     <!-- <p>品牌：{{ carData.carinfoBrand }}</p>-->
     <!--<p>車名：{{ carData.carinfoModelName }} </p> -->
     <!-- <p>議價空間：{{ carData.negotiable }}</p> -->
@@ -100,7 +103,38 @@
 </template>
 
 <script setup>
+
+
     const props = defineProps(["carData"]);
+
+
+
+    const resetCarCompare = () => {
+    carData.value = {
+    id: '',
+    carinfoBrand: '',
+    carinfoModelName: '',
+    productionYear: '',
+    color: '',
+    price: '',
+    milage: '',
+    carinfoDoor: '',
+    carinfoPassenger: '',
+    carinfoSuspension: '',
+    carinfoRearWheel: '',
+    carinfoTransmission: '',
+    carinfoGasoline: '',
+    carinfoCc: '',
+    carinfoHp: '',
+    carinfoTorque: '',
+    conditionScore: '',
+    remark: '',
+    launchDate: '',
+    branch: ''
+  }; 
+    }
+
+
 
 
 </script>
