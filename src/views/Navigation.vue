@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbarBody">
     <div class="container-fluid navbar-margin">
       <RouterLink class="navbar-brand nav-link active" :to="{ name: 'home-link' }">
-        <img src="/Kajarta_LOGO_03.svg" class="kajartaLogo" style="width: 65%;padding-top: 3px;padding-left: 10px;" />
+        <img src="/Kajarta_LOGO_03.svg" class="kajartaLogo" style="width: 65%;padding-top: 3px;padding-left: 50px;" />
       </RouterLink>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@
             </div>
           </li>
           <li>
-            <div>
+            <div style="margin-top: 10px;margin-right: 20px;margin-left: 20px;">
               <Notices :filteredViewCars="filteredViewCars" :newCarIds="matchingIds" @clear-notices="clearNotices">
               </Notices>
             </div>
