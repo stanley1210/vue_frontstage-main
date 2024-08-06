@@ -19,7 +19,7 @@
           <li class="nav-item col">
             <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink>
           </li>
-          <li class="nav-item col">
+          <li class="nav-item col" v-if="customerInfo.accountType == 1 || customerInfo.accountType == 2">
             <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-memberArea-link' }"
               style="margin-right: 35px;">MemberArea</RouterLink>
           </li>
@@ -96,7 +96,7 @@ const logout = async () => {
 const fetchViewCars = async () => {
   if (customerInfo.value.id) {
     try {
-      const response = await axiosapi.get(`http://localhost:8080/kajarta/front/viewCar/findByCustomer/${customerInfo.value.id}`);
+      const response = await axiosapi.get(`/front/viewCar/findByCustomer/${customerInfo.value.id}`);
       const data = response.data;
       viewCars.value = data.list;
 
@@ -134,7 +134,7 @@ const fetchNewCars = async () => {
     // console.log('since=' + since);
 
     // 发起请求获取新车
-    const responseNewCars = await axiosapi.get('http://localhost:8080/kajarta/front/notice/new-cars', { params: { since } });
+    const responseNewCars = await axiosapi.get('/front/notice/new-cars', { params: { since } });
     const newCarsData = responseNewCars.data;  // 已经是对象，不需要再次解析
 
     if (newCarsData.length > 0) {
@@ -163,7 +163,7 @@ const fetchNewCars = async () => {
 const fetchCarIdsByCustomer = async (customerId) => {
   try {
     // 发起请求获取符合条件的车辆
-    const response = await axiosapi.get(`http://localhost:8080/kajarta/front/notice/findPreferenceDatasId/${customerId}`);
+    const response = await axiosapi.get(`/front/notice/findPreferenceDatasId/${customerId}`);
 // console.log('fetchCarIdsByCustomer response.data.list=====',response.data.list)
     // 处理响应数据
     const data = response.data.list; // 解析出符合条件的车辆列表

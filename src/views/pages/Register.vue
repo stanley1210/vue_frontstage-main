@@ -1,4 +1,5 @@
 <template>
+  <section>
   <Navigation></Navigation>
   <div class="card-wrapper">
     <el-card class="card">
@@ -103,6 +104,7 @@
       </div>
     </el-card>
   </div>
+</section>
 </template>
 
 <script setup>
@@ -199,6 +201,8 @@ const callCreate = async () => {
           icon: "error",
           title: "CustomerRecord 註冊失敗",
           text: customerRecordResponse.data.message,
+          showConfirmButton: false, 
+					timer: 1000, 
         });
       }
     } else {
@@ -206,6 +210,8 @@ const callCreate = async () => {
         icon: "error",
         title: "註冊失敗",
         text: customerResponse.data.msg,
+        showConfirmButton: false, 
+        timer: 1000, 
       });
     }
   } catch (error) {

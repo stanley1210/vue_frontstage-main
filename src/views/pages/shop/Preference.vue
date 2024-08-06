@@ -1,18 +1,20 @@
 <template>
-  <section>
-  <!-- 註冊會員按鍵 -->
-<el-button color="#a33238" @click="goToRegister" :dark="isDark" :icon="User" v-if="!isCustomerInfoComplete || !isAuthenticated">註冊會員</el-button>
-
-<!-- 會員進階搜尋按鈕 -->
-<el-button  type="primary" color="#a33238" :icon="Search" @click="handleClick" :disabled="false" >
-  會員進階查詢
-  </el-button>
-
-  <!-- 會員心儀列表按鈕 -->
-  <el-button  type="warning" color="#a33238" :icon="Star" :disabled="false" @click="openSavedSearches">會員喜好清單
-  </el-button>
-
+  <section >
+    <!-- 註冊會員按鍵 -->
+    <div>
+      <el-button class="topBTM" color="#a33238" @click="goToRegister" :dark="isDark" :icon="User" v-if="!isCustomerInfoComplete || !isAuthenticated">註冊會員</el-button>
+        
+        <!-- 會員進階搜尋按鈕 -->
+        <el-button class="topBTM" type="primary" color="#a33238" :icon="Search" @click="handleClick" :disabled="false" >
+          會員進階查詢
+        </el-button>
+        
+        <!-- 會員心儀列表按鈕 -->
+        <el-button class="topBTM" type="warning" color="#a33238" :icon="Star" :disabled="false" @click="openSavedSearches">會員喜好清單
+        </el-button>
+    </div>
   <!-- 搜尋過紀錄 -->
+
   <h3 style="color:#fff5eb; font-weight: bold;">心儀車輛查詢條件</h3>
   <el-drawer v-model="drawer2" :direction="direction" style="background-color:#a33238">
       <div v-if="savedSearches.length" class="drawer-content" >
@@ -43,6 +45,7 @@
   </el-drawer>
 
   <!-- 進階搜尋功能 -->
+
   <el-drawer v-model="drawer" title="進階搜尋功能" :with-header="false" style="background-color:#fff5eb"  >
     <span style="color: #a33238; font-weight: bold; font-size: 20px;">選擇你想要的車輛條件</span>
     <div class="form-container" >
@@ -205,57 +208,58 @@
         </el-button>    
       </div>
     </el-drawer>
+
 <!-- 非會員搜尋 -->
-  <div class="form-container">
-    <br>
-    <div class="form-group">
+  
+    <div class="noLogPage" >
       <label>車輛名稱查詢</label>
       <input type="text" v-model="modelName" placeholder="輸入車輛名稱" />
     </div>
     
-    <div class="form-group">
+    <div class="noLogPage">
       <label>年分</label>
       <input type="text" v-model="productionYear" placeholder="輸入年分" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage">
       <label>價格</label>
       <input type="text" v-model="price" placeholder="輸入價格" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage">
       <label>里程數</label>
       <input type="text" v-model="milage" placeholder="輸入里程數" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage">
       <label>車況評分</label>
       <input type="text" v-model="score" placeholder="輸入車況評分" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage">
       <label>馬力</label>
       <input type="text" v-model="hp" placeholder="輸入馬力" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage" style="margin-bottom: 5%;">
       <label>扭力</label>
       <input type="text" v-model="torque" placeholder="輸入扭力" />
     </div>
 
-    <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">查詢</el-button>
-    <el-button type="warning" :icon="Refresh" color="#a33238"  @click="resetForm">重置查詢</el-button>
-  </div>
+    <div ><el-button type="primary" class="underBTM" color="#a33238" :icon="Search" @click="handleSubmit" >查詢</el-button></div>
+    <div ><el-button type="warning" class="underBTM" :icon="Refresh" color="#a33238"  @click="resetForm">重置查詢</el-button></div>
+  
 </section>
 </template>
   
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
+import axiosapi from '@/plugins/axios'
 import { Search,Star,Edit,FolderAdd,Refresh,User} from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
+import Swal from 'sweetalert2';
 
 const saveValidate=ref(false);
 const updateValidate=ref(false);
@@ -306,7 +310,7 @@ const kajartaUrl = import.meta.env.VITE_API_URL;
 
 function callCarinfoFind() {
   //搜尋單筆carinfo資訊
-  axios.get(`${kajartaUrl}/carinfo/list`)
+  axiosapi.get(`/carinfo/list`)
         .then(function (response) {
             if (response && response.data) {
                 console.log("response", response);
@@ -327,6 +331,7 @@ function callCarinfoFind() {
 
 //搜尋條件頁面跳轉到結果
 const handleSubmit = () => {
+  if (carinfoId.value || modelName.value || productionYear.value || price.value || milage.value || score.value || hp.value || torque.value || brand.value || suspension.value || door.value || passenger.value || rearwheel.value || gasoline.value || transmission.value || cc.value) {
   router.push({
     name: 'pages-shop-PreferenceSearch-link',
     query: {
@@ -348,6 +353,14 @@ const handleSubmit = () => {
       cc: cc.value,
     },
   });
+} else {
+  Swal.fire({
+      title: '提醒！',
+      text: '至少一個填寫查詢條件',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    });
+  }
 };
 
 //打開儲存心儀條件搜尋紀錄
@@ -401,7 +414,7 @@ const handleUpdate = async () => {
     };
     console.log('Sending data:', updateData);
 
-    await axios.put(`http://localhost:8080/kajarta/preference/modify/${id.value}`, updateData);
+    await axiosapi.put(`/preference/modify/${id.value}`, updateData);
     ElMessage({
       message: '搜尋條件已成功更新!',
       type: 'success',
@@ -441,7 +454,7 @@ const saveSearchRecord = async () => {
       preferences_lists: 1,
     };
 
-    const response = await axios.post('http://localhost:8080/kajarta/preference/create', searchRecord);
+    const response = await axiosapi.post('/preference/create', searchRecord);
     ElMessageBox.alert('搜尋條件已成功儲存!', '成功', {
       confirmButtonText: '確定',
       type: 'success',
@@ -457,7 +470,7 @@ const saveSearchRecord = async () => {
 //列出心儀TABLE的結果
 const fetchSavedSearches = async () => {
   try {
-    const response = await axios.get(`http://localhost:8080/kajarta/preference/findByCustomerId/${customerInfo.value.id}`)
+    const response = await axiosapi.get(`/preference/findByCustomerId/${customerInfo.value.id}`)
     savedSearches.value = response.data.list
     console.log("喜好清單資訊="+savedSearches.value[0].carinfo_id)
   } catch (error) {
@@ -471,29 +484,49 @@ const fetchSavedSearches = async () => {
 // 會員喜好清單驗證
 const openSavedSearches = () => {
   if (!isAuthenticated.value) {
-    alert("請先登入會員！");
-  }
-   else if(!isCustomerInfoComplete.value) {
-    alert("會員訊息不完整 麻煩檢查！");
-  }else{
+    Swal.fire({
+      title: '提醒！',
+      text: '請先登入會員',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    });
+  } else if (!isCustomerInfoComplete.value) {
+    Swal.fire({
+      title: '提醒！',
+      text: '會員訊息不完整，麻煩檢查！',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    });
+  } else {
     fetchSavedSearches();
     drawer2.value = true;
   }
-}
+};
 
 // 會員進階搜尋驗證
 const handleClick = () => {
   if (!isAuthenticated.value) {
-    alert("請先登入會員！");
+    Swal.fire({
+      title: '提醒！',
+      text: '請先登入會員',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    });
   } else if (!isCustomerInfoComplete.value) {
-    alert("會員訊息不完整 麻煩檢查！");
+    Swal.fire({
+      title: '提醒！',
+      text: '會員訊息不完整，麻煩檢查！',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    });
   } else {
     drawer.value = true;
-    saveValidate.value=true;
-    updateValidate.value=false;
+    saveValidate.value = true;
+    updateValidate.value = false;
   }
-  console.log("customerId="+customerId);
-  console.log("customerInfo.value.id="+customerInfo.value.id);
+  // 檢查有沒有抓到用
+  console.log("customerId=" + customerId.value);
+  console.log("customerInfo.value.id=" + customerInfo.value.id);
 };
 
 // 註冊會員跳轉頁面
@@ -621,7 +654,7 @@ const getCcName = (value)=> {
 
 </script>
     
-<style >
+<style scoped>
 
 .form-container {
   margin-bottom: 15px; /* 调整每个表单之间的间距 */
@@ -641,7 +674,7 @@ const getCcName = (value)=> {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 350px; /* 調整輸入框的寬度 */
+  width: 150px; /* 調整輸入框的寬度 */
   font-weight: bold;/* 調整輸入字體變粗體 */
 }
 
@@ -713,4 +746,45 @@ label {
   border-radius: 8px; /* 調整邊框圓角 */
 }
 
+.topBTM{
+  width: 32.2%; 
+  border-radius: unset;
+}
+
+.noLogPage{
+  border-bottom: 1px solid #a33238; /* 添加底部边框 */
+  padding: 0 ;
+  margin: 0 0 10px 0;
+  padding-bottom: 10px; /* 调整内边距 */
+  display: flex; 
+  align-items: center;
+  
+ 
+}
+
+.noLogPage input {
+  padding: 5px 15px;
+  border: 1px solid #ffffff;
+  border-radius: 30px;
+  width: 75%; /* 調整輸入框的寬度 */
+  font-weight: bold;/* 調整輸入字體變粗體 */
+  outline: white 1px solid;
+  color: #a33238 ;
+}
+.noLogPage input:focus {
+  outline: #a33238 3px solid;
+}
+
+.noLogPage label {
+  width: 25%;
+  margin-top: 5px;
+  color: #a33238; /* 改变标签的文本颜色 */
+  font-weight: 900;/* 調整字體變粗體 */
+}
+
+.underBTM {
+  margin-bottom: 10px;
+  border-radius: unset;
+  width: 100%;
+}
 </style>

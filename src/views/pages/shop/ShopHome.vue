@@ -3,11 +3,10 @@
         <Navigation></Navigation>
         <!-- ------------------------------------------心儀條件------------------------------------------ -->
 
-        <div class="row align-items-start" style="background-color:#fff5eb;">
-            <div class="col-4">
-                <br>
-                <h3 style="color: #a33238; font-weight: bold;">選擇您的理想車輛查詢</h3>
-                <br>
+        <div class="row align-items-start" style="background-color:#fff5eb;height: 85vh;">
+            <div class="col-4 " style="padding: 35px;padding-left: 70px;">  
+                <h5 style="color: #a33238; font-weight: bold;padding: 0;margin: 0;">Shop Cars For Sell</h5>
+                <h1 style="color: #a33238; font-weight: bold; margin-bottom: 30px;">Enter what you want</h1>
                 <Preference />
             </div>
 
@@ -23,13 +22,13 @@
                 </div>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="../../../../public/supra1.png" class="d-block w-100">
+                        <img src="../../../../public/img/shoo_img-01.png" class="d-block w-100">
                     </div>
                     <div class="carousel-item">
-                        <img src="../../../../public/supra2.jpeg" class="d-block w-100">
+                        <img src="../../../../public/img/shoo_img-02.png" class="d-block w-100">
                     </div>
                     <div class="carousel-item">
-                        <img src="../../../../public/supra3.jpeg" class="d-block w-100">
+                        <img src="../../../../public/img//shoo_img-03.png" class="d-block w-100">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
@@ -153,7 +152,7 @@ function callFind(page) {
 
 </script>
 
-<style>
+<style >
 .imageWidth {
     width: 1000px;
 }
@@ -166,5 +165,57 @@ fieldset {
 fieldset {
     width: 500px;
     margin: 15px
+}
+
+.carousel-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.carousel-item {
+    height: 85vh; /* 設定輪播項目的高度 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.carousel-img {
+    width: 100%;
+    height: auto;
+    
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+  overflow-x: auto;
+}
+
+/* 分頁效果格式 */
+.pagination-container {
+  display: flex;
+  align-items: center;
+  gap: 16px; 
+
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  font-size: 1rem;
+  line-height: 1.5;
 }
 </style>

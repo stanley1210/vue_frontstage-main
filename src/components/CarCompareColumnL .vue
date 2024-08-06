@@ -79,6 +79,16 @@
     <div class="outsideP"><p>{{ carData.remark }}&emsp;&emsp;&emsp;&emsp;是否</p></div>
     <div class="outsideP"><p>{{ carData.launchDate }}&emsp;&emsp;&emsp;&emsp;上架</p></div>
     <div class="outsideP" style="border-bottom: unset;"><p>{{ carData.branch }}&emsp;&emsp;&emsp;&emsp;停放</p></div>
+    <br>
+
+    <div class="button-container">
+    <el-button type="primary" :icon="Refresh"  color="#a33238" class="custom-button"  @click="resetCarCompare">重置比較車輛</el-button>
+    <el-button type="primary" :icon="Refresh"  color="#a33238"  class="custom-button" @click="goBack">返回車輛查詢</el-button>
+    </div>
+  
+ 
+
+
     <!-- <p>品牌：{{ carData.carinfoBrand }}</p>-->
     <!--<p>車名：{{ carData.carinfoModelName }} </p> -->
     <!-- <p>議價空間：{{ carData.negotiable }}</p> -->
@@ -100,9 +110,48 @@
 </template>
 
 <script setup>
-    const props = defineProps(["carData"]);
+import { useRouter } from 'vue-router';
 
 
+const router = useRouter();
+const props = defineProps(["carData"]);
+
+// 重置比較資訊
+  const resetCarCompare = () => {
+  
+  props.carData.id = '';
+  props.carData.carinfoBrand = '';
+  props.carData.carinfoModelName = '';
+  props.carData.productionYear = '';
+  props.carData.color = '';
+  props.carData.price = '';
+  props.carData.milage = '';
+  props.carData.carinfoDoor = '';
+  props.carData.carinfoPassenger = '';
+  props.carData.carinfoSuspension = '';
+  props.carData.carinfoRearWheel = '';
+  props.carData.carinfoTransmission = '';
+  props.carData.carinfoGasoline = '';
+  props.carData.carinfoCc = '';
+  props.carData.carinfoHp = '';
+  props.carData.carinfoTorque = '';
+  props.carData.conditionScore = '';
+  props.carData.remark = '';
+  props.carData.launchDate = '';
+  props.carData.branch = '';
+};
+
+function resetImage() {
+  
+}
+// 返回shophome
+const goBack = () => {
+  router.push({name:'pages-shop-home-link'}); 
+};
+
+
+  
+    
 </script>
 
 <style scoped>
@@ -136,6 +185,17 @@ h1 {
     /* color: #a33238; */
     font-weight: 900;
     text-decoration: underline #a33238 3px;
+}
+
+.button-container {
+  display: flex;
+  
+}
+
+.custom-button {
+  width: 100px; /* 调整宽度 */
+  height: 30px; /* 调整高度 */
+  font-size: 15px; /* 调整字体大小 */
 }
 
 

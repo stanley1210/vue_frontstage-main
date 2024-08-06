@@ -49,7 +49,7 @@
             </div>
 
             <div class="pageCON">
-              <el-pagination size="small" background layout="prev, pager, next" :total="totalElements"
+              <el-pagination size="small" background layout="prev, next" :total="totalElements"
                 :current-page="currentPage" :page-size="1" @current-change="handlePageChange" />
             </div>
           </div>
@@ -61,7 +61,6 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import axios from 'axios';
 import axiosapi from '@/plugins/axios';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from 'vuex';
@@ -264,7 +263,7 @@ function findEmployee(viewCarId) {
     "dir": false,
     "order": "updateTime"
   }
-  axiosapi.post("/kajarta/viewCarAssigned/findByHQL", request).then(function (response) {
+  axiosapi.post("/viewCarAssigned/findByHQL", request).then(function (response) {
     console.log(response.data.data);
     if (response.data.data.length == 0) {
       // console.log("no單");

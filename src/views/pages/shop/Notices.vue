@@ -86,7 +86,7 @@ import { ElButton, ElDrawer } from 'element-plus';
 import { CircleCloseFilled, Bell } from '@element-plus/icons-vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router'; // 引入 useRouter
-import axios from 'axios';
+import axiosapi from '@/plugins/axios';
 const router = useRouter(); // 使用 useRouter
 const path = import.meta.env.VITE_PHOTO;
 const store = useStore();
@@ -173,7 +173,7 @@ onMounted(() => {
 // var photoId = null;
 const fetchImageId = async (viewCar) => {
   try {
-    const response = await axios.get(`http://localhost:8080/kajarta/image/isMainPic/${viewCar.car}`);
+    const response = await axiosapi.get(`/image/isMainPic/${viewCar.car}`);
     // console.log(`记录返回的数据 ${viewCar.car}: ${response.data.isMainPic}`); 
     document.getElementById(viewCar.id).src = path + response.data.isMainPic;
   } catch (error) {
@@ -184,7 +184,7 @@ const fetchImageId = async (viewCar) => {
 
 const fetchNewCarImageId = async (car) => {
   try {
-    const response = await axios.get(`http://localhost:8080/kajarta/image/isMainPic/${car.id}`);
+    const response = await axiosapi.get(`/image/isMainPic/${car.id}`);
     // console.log(`记录返回的数据 ${viewCar.car}: ${response.data.isMainPic}`); 
     document.getElementById(car.id).src = path + response.data.isMainPic;
   } catch (error) {
@@ -230,7 +230,7 @@ const fetchNewCarData = async (newCarIds) => {
   try {
     // console.log('Fetching new car data for IDs:', newCarIds);
     const carDataPromises = newCarIds.flat().map(carId =>
-      axios.get(`http://localhost:8080/kajarta/car/find/${carId}`)
+    axiosapi.get(`/car/find/${carId}`)
     );
     const carDataResponses = await Promise.all(carDataPromises);
     newCarData.value = carDataResponses.flatMap(response => response.data.list);
