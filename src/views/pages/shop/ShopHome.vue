@@ -152,7 +152,7 @@ function callFind(page) {
 
 </script>
 
-<style>
+<style scoped>
 .imageWidth {
     width: 1000px;
 }
