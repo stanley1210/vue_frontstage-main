@@ -65,7 +65,7 @@
 import { onMounted, ref,computed } from 'vue';
 import { useRoute,useRouter  } from 'vue-router';
 import Navigation from '@/views/Navigation.vue';
-import axios from 'axios';
+import axiosapi from '@/plugins/axios';
 
 const showNavigation = ref(true);
 const path =import.meta.env.VITE_PHOTO;
@@ -90,7 +90,7 @@ const paginatedResults = computed(() => {
 // 搜尋結果
 const handleSearchByNoMemSearch = async () => {
   try { 
-    const response = await axios.get('http://localhost:8080/kajarta/preference/searchMore', {
+    const response = await axiosapi.get('/preference/searchMore', {
       params: {
         carinfoId: query.carinfoId,
         brand:  query.brand,
@@ -112,7 +112,7 @@ const handleSearchByNoMemSearch = async () => {
     });
     results.value = response.data.preferenceCarList;
     results.value.forEach(cars => {
-      axios.get(`${kajartaUrl}/image/isMainPic/${cars.id}`)
+      axiosapi.get(`/image/isMainPic/${cars.id}`)
         .then(function (response) {
             if (response && response.data) {
               
@@ -142,7 +142,7 @@ const handleSearchByNoMemSearch = async () => {
 const photoSrc = async(data) =>{
   // console.log("data.carId",data.id)
 try{
-const response = await axios.get(`http://localhost:8080/kajarta/image/isMainPic/${data.id}`);
+const response = await axiosapi.get(`/image/isMainPic/${data.id}`);
 // console.log("response.data.isMainPic===========",response.data.isMainPic)
 document.getElementById(data.id).src = path+response.data.isMainPic;
 // console.log("data.carId",data.id)

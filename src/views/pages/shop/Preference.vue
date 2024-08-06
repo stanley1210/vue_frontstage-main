@@ -14,6 +14,7 @@
         </el-button>
     </div>
   <!-- 搜尋過紀錄 -->
+
   <h3 style="color:#fff5eb; font-weight: bold;">心儀車輛查詢條件</h3>
   <el-drawer v-model="drawer2" :direction="direction" style="background-color:#a33238">
       <div v-if="savedSearches.length" class="drawer-content" >
@@ -44,6 +45,7 @@
   </el-drawer>
 
   <!-- 進階搜尋功能 -->
+
   <el-drawer v-model="drawer" title="進階搜尋功能" :with-header="false" style="background-color:#fff5eb"  >
     <span style="color: #a33238; font-weight: bold; font-size: 20px;">選擇你想要的車輛條件</span>
     <div class="form-container" >
@@ -206,6 +208,7 @@
         </el-button>    
       </div>
     </el-drawer>
+
 <!-- 非會員搜尋 -->
   
     <div class="noLogPage" >
@@ -243,7 +246,7 @@
       <input type="text" v-model="torque" placeholder="輸入扭力" />
     </div>
 
-    <div ><el-button type="primary" class="underBTM" color="#a33238" :icon="Search" @click="handleSubmit">查詢</el-button></div>
+    <div ><el-button type="primary" class="underBTM" color="#a33238" :icon="Search" @click="handleSubmit" >查詢</el-button></div>
     <div ><el-button type="warning" class="underBTM" :icon="Refresh" color="#a33238"  @click="resetForm">重置查詢</el-button></div>
   
 </section>
@@ -251,11 +254,12 @@
   
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
+import axiosapi from '@/plugins/axios'
 import { Search,Star,Edit,FolderAdd,Refresh,User} from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
+import Swal from 'sweetalert2';
 
 const saveValidate=ref(false);
 const updateValidate=ref(false);
@@ -306,7 +310,7 @@ const kajartaUrl = import.meta.env.VITE_API_URL;
 
 function callCarinfoFind() {
   //搜尋單筆carinfo資訊
-  axios.get(`${kajartaUrl}/carinfo/list`)
+  axiosapi.get(`/carinfo/list`)
         .then(function (response) {
             if (response && response.data) {
                 console.log("response", response);
@@ -327,6 +331,7 @@ function callCarinfoFind() {
 
 //搜尋條件頁面跳轉到結果
 const handleSubmit = () => {
+  if (carinfoId.value || modelName.value || productionYear.value || price.value || milage.value || score.value || hp.value || torque.value || brand.value || suspension.value || door.value || passenger.value || rearwheel.value || gasoline.value || transmission.value || cc.value) {
   router.push({
     name: 'pages-shop-PreferenceSearch-link',
     query: {
@@ -348,6 +353,14 @@ const handleSubmit = () => {
       cc: cc.value,
     },
   });
+} else {
+  Swal.fire({
+      title: '提醒！',
+      text: '至少一個填寫查詢條件',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    });
+  }
 };
 
 //打開儲存心儀條件搜尋紀錄
@@ -401,7 +414,7 @@ const handleUpdate = async () => {
     };
     console.log('Sending data:', updateData);
 
-    await axios.put(`http://localhost:8080/kajarta/preference/modify/${id.value}`, updateData);
+    await axiosapi.put(`/preference/modify/${id.value}`, updateData);
     ElMessage({
       message: '搜尋條件已成功更新!',
       type: 'success',
@@ -441,7 +454,7 @@ const saveSearchRecord = async () => {
       preferences_lists: 1,
     };
 
-    const response = await axios.post('http://localhost:8080/kajarta/preference/create', searchRecord);
+    const response = await axiosapi.post('/preference/create', searchRecord);
     ElMessageBox.alert('搜尋條件已成功儲存!', '成功', {
       confirmButtonText: '確定',
       type: 'success',
@@ -457,7 +470,7 @@ const saveSearchRecord = async () => {
 //列出心儀TABLE的結果
 const fetchSavedSearches = async () => {
   try {
-    const response = await axios.get(`http://localhost:8080/kajarta/preference/findByCustomerId/${customerInfo.value.id}`)
+    const response = await axiosapi.get(`/preference/findByCustomerId/${customerInfo.value.id}`)
     savedSearches.value = response.data.list
     console.log("喜好清單資訊="+savedSearches.value[0].carinfo_id)
   } catch (error) {
@@ -471,29 +484,49 @@ const fetchSavedSearches = async () => {
 // 會員喜好清單驗證
 const openSavedSearches = () => {
   if (!isAuthenticated.value) {
-    alert("請先登入會員！");
-  }
-   else if(!isCustomerInfoComplete.value) {
-    alert("會員訊息不完整 麻煩檢查！");
-  }else{
+    Swal.fire({
+      title: '提醒！',
+      text: '請先登入會員',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    });
+  } else if (!isCustomerInfoComplete.value) {
+    Swal.fire({
+      title: '提醒！',
+      text: '會員訊息不完整，麻煩檢查！',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    });
+  } else {
     fetchSavedSearches();
     drawer2.value = true;
   }
-}
+};
 
 // 會員進階搜尋驗證
 const handleClick = () => {
   if (!isAuthenticated.value) {
-    alert("請先登入會員！");
+    Swal.fire({
+      title: '提醒！',
+      text: '請先登入會員',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    });
   } else if (!isCustomerInfoComplete.value) {
-    alert("會員訊息不完整 麻煩檢查！");
+    Swal.fire({
+      title: '提醒！',
+      text: '會員訊息不完整，麻煩檢查！',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    });
   } else {
     drawer.value = true;
-    saveValidate.value=true;
-    updateValidate.value=false;
+    saveValidate.value = true;
+    updateValidate.value = false;
   }
-  console.log("customerId="+customerId);
-  console.log("customerInfo.value.id="+customerInfo.value.id);
+  // 檢查有沒有抓到用
+  console.log("customerId=" + customerId.value);
+  console.log("customerInfo.value.id=" + customerInfo.value.id);
 };
 
 // 註冊會員跳轉頁面
