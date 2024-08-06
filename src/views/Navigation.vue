@@ -19,7 +19,7 @@
           <li class="nav-item col">
             <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-home-link' }">Shop</RouterLink>
           </li>
-          <li class="nav-item col">
+          <li class="nav-item col" v-if="customerInfo.accountType == 1 || customerInfo.accountType == 2">
             <RouterLink class="nav-link navbtm" :to="{ name: 'pages-shop-memberArea-link' }"
               style="margin-right: 35px;">MemberArea</RouterLink>
           </li>
