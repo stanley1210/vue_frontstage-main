@@ -1,4 +1,5 @@
 <template>
+  <section>
   <Navigation></Navigation>
   <div class="card-wrapper">
     <el-card class="card">
@@ -103,6 +104,7 @@
       </div>
     </el-card>
   </div>
+</section>
 </template>
 
 <script setup>
