@@ -4,13 +4,14 @@
   <br />
   <!-- 顯示查詢結果 -->
   <h3 style="color: #a33238; font-weight: bold;">車輛查詢結果</h3>
-  <div v-if="paginatedResults.length > 0" class="card-container">
+  <br>
+  <div v-if="paginatedResults.length > 0" class="card-container" >
     <div class="card" v-for="data in paginatedResults" :key="data.id" :data="data">
     <img class="card-img-top" :src="photoSrc(data)" :alt="data.modelName" :id="data.id"> 
     <h5 class="card-title" style="display: none;">ID.{{ data.id }}</h5>
-      <div class="card-body navbarBody">
-        <h5 class="card-title">{{ data.modelName }}</h5>
-        <p class="card-text">
+      <div class="card-body navbarBody" style="border: unset;">
+        <h5 class="card-title" style="padding-left: 0; color: #a33238; font-weight: bold; padding-right: 0;">{{ data.modelName }}</h5>
+        <p class="card-text" style="padding-left: 0;  color: #a33238;  font-weight: bold; padding-right: 0;">
           年分: {{ data.productionYear }}<br />
           價格: {{ data.price }} <br />
           里程數: {{ data.milage }} <br />
@@ -193,11 +194,20 @@ const props = defineProps({
 
 <style scoped>
 
+/* 結果並排顯示 */
 .card-container {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 16px;
-  overflow-x: auto;
+  margin: 0;
+  border: unset;
+  border-radius: unset;
+  margin: 0.8%;
+  margin-bottom: 1%;
+  box-sizing: content-box;
+  padding: 0;
+}
+
+/* 陰影效果 */
+.card:hover {
+  box-shadow: 8px 8px 15px #d8d8d8;
 }
 
 /* 分頁效果格式 */
@@ -223,4 +233,8 @@ const props = defineProps({
   font-size: 1rem;
   line-height: 1.5;
 }
+
+
+
+
 </style>
