@@ -182,6 +182,8 @@ const fetchAllViewCars = async () => {
             const response = await axiosapi.get(`/image/isMainPic/${viewCar.car}`);
             if (response && response.data) {
               viewCar.isMainPic = response.data.isMainPic;
+              console.log("==============",viewCar.isMainPic);
+              
             }
           } catch (error) {
             console.error(`Error fetching isMainPic for car ${viewCar.car}:`, error);
