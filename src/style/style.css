@@ -61,3 +61,7 @@
     display: grid;
     place-items: center;
   }
+
+  .image{
+    transform: translate(0%, -15%); 
+  }
