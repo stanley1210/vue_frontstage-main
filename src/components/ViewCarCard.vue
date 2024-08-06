@@ -49,7 +49,7 @@
             </div>
 
             <div class="pageCON">
-              <el-pagination size="small" background layout="prev, pager, next" :total="totalElements"
+              <el-pagination size="small" background layout="prev, next" :total="totalElements"
                 :current-page="currentPage" :page-size="1" @current-change="handlePageChange" />
             </div>
           </div>
