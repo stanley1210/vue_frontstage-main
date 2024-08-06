@@ -201,6 +201,8 @@ if (!oldPassword.value.trim()) {
     Swal.fire({
         icon: "warning",
         text: "原密碼不可為空",
+        showConfirmButton: false,
+        timer: 1000
     });
     return;
 }
@@ -208,6 +210,8 @@ if (!password.value.trim()) {
     Swal.fire({
         icon: "warning",
         text: "新密碼不可為空",
+        showConfirmButton: false,
+        timer: 1000
     });
     return;
 }
@@ -241,6 +245,7 @@ axiosapi.put(`/customer/modify/${customerInfo.value.id}`, request).then(function
             icon: "success",
             text: response.data.message,
             showConfirmButton: false,
+            timer: 1000,
         },700).then(() => {
             setTimeout(() => {
                 window.location.reload();  // 自动刷新页面
