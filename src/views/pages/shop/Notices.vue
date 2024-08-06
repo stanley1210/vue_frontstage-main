@@ -1,7 +1,8 @@
 <template>
-  <el-icon :size="20" @click="visible = true" class="noticeButton">
+  <!-- <el-icon :size="20" @click="visible = true" class="noticeButton">
     <Bell />
-  </el-icon>
+  </el-icon> -->
+  <font-awesome-icon :icon="['fas', 'bell']" style="color:#a33238;" size="lg" @click="visible = true"/>
   <el-drawer v-model="visible" :show-close="false" class="custom-drawer">
     <template #header="{ close, titleId, titleClass }">
       <div class="drawer-header">

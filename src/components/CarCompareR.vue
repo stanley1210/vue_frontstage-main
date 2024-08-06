@@ -234,7 +234,7 @@ function handleCarNewId(payload) {
 
 </script>
     
-<style>
+<style setup>
     .el-button + .el-button {
   margin-left: 8px;
 }
