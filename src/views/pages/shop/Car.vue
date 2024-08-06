@@ -22,10 +22,6 @@
                         @click="callLikeCreate(selectedCarId)" />
                 </div>
 
-
-
-              
-
                 <div>
                     <el-button color="#626aef" plain @click="toggleViewCar(selectedCarId, customerInfo.id)">預約賞車
                     </el-button>
@@ -41,11 +37,7 @@
             </div>
         </div>
         <!-- ------------------------------------------字---------------------------------------------------------- -->
-        <div>
-            ~ {{ customerInfo.name || '用户名' }}
-            ~ {{ customerInfo.id || '用户ID' }}
-            ~ {{ customerInfo.account || '帳號' }}
-        </div>
+
         <SuggestTable></SuggestTable>
         <Footer></Footer>
     </section>
