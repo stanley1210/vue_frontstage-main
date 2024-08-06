@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import axios from 'axios';
+import axiosapi from '@/plugins/axios';
 import { ref, onMounted, watch, computed } from 'vue';
 import Swal from 'sweetalert2';
 import Paginate from 'vuejs-paginate-next';
@@ -93,7 +93,7 @@ function callFind(page = 1) {
         customerId: customerInfo.value.id
     };
 
-    axios.get('http://localhost:8080/kajarta/front/like/findByCustomerId', { params: request })
+    axiosapi.get('/front/like/findByCustomerId', { params: request })
         .then(response => {
             if (response && response.data) {
                 likes.value = response.data.list;
@@ -115,7 +115,7 @@ function callFind(page = 1) {
 
 function callRemove(id) {
     if (id) {
-        axios.delete(`http://localhost:8080/kajarta/front/like/delete/${id}`)
+        axiosapi.delete(`/front/like/delete/${id}`)
             .then(response => {
                 console.log("response", response);
                 if (response.data.success) {

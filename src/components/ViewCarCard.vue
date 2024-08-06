@@ -62,6 +62,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
+import axiosapi from '@/plugins/axios';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from 'vuex';
 import ViewCarDrawer from './ViewCarDrawer.vue';
@@ -122,7 +123,7 @@ const fetchViewCars = async (page = 1) => {
 
   if (page === undefined) page = 1;
   try {
-    const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/findPageByCustomerId', {
+    const response = await axiosapi.get('/front/viewCar/findPageByCustomerId', {
       params: { customerId: customerInfo.value.id, pageNumber: page, max: 1 }
     });
 
@@ -137,7 +138,7 @@ const fetchViewCars = async (page = 1) => {
 
     // Iterate over viewCars to fetch car images
     viewCars.value.forEach(function(viewCar) {
-      axios.get(`http://localhost:8080/kajarta/image/isMainPic/${viewCar.car}`)
+      axiosapi.get(`/image/isMainPic/${viewCar.car}`)
         .then(function(response) {
           if (response && response.data) {
             viewCar.isMainPic = response.data.isMainPic;
@@ -164,7 +165,7 @@ const fetchAllViewCars = async () => {
     let found = false;
 
     while (!found) {
-      const response = await axios.get('http://localhost:8080/kajarta/front/viewCar/findPageByCustomerId', {
+      const response = await axiosapi.get('/front/viewCar/findPageByCustomerId', {
         params: { customerId: customerInfo.value.id, pageNumber, max: 1 }
       });
 
@@ -179,7 +180,7 @@ const fetchAllViewCars = async () => {
         // Fetch isMainPic for each viewCar
         await Promise.all(viewCars.value.map(async (viewCar) => {
           try {
-            const response = await axios.get(`http://localhost:8080/kajarta/image/isMainPic/${viewCar.car}`);
+            const response = await axiosapi.get(`/image/isMainPic/${viewCar.car}`);
             if (response && response.data) {
               viewCar.isMainPic = response.data.isMainPic;
             }
@@ -261,7 +262,7 @@ function findEmployee(viewCarId) {
     "dir": false,
     "order": "updateTime"
   }
-  axios.post("http://localhost:8080/kajarta/viewCarAssigned/findByHQL", request).then(function (response) {
+  axiosapi.post("/viewCarAssigned/findByHQL", request).then(function (response) {
     console.log(response.data.data);
     if (response.data.data.length == 0) {
       // console.log("no單");
@@ -280,7 +281,7 @@ function findEmployee(viewCarId) {
 
 const callRemove = async function(id, car, viewCarDate, viewTimeSectionNb) {
   try {
-    const response = await axios.put(`http://localhost:8080/kajarta/front/viewCar/update/${id}`, {
+    const response = await axiosapi.put(`/front/viewCar/update/${id}`, {
       viewCarStatus: 3, // 將 viewCarStatus 設置為 3 表示註銷
       id: id,
       carId: car,

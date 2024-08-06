@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import axios from 'axios';
+import axiosapi from '@/plugins/axios';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router'; // 引入 useRouter
 const router = useRouter(); // 使用 useRouter
@@ -36,7 +36,7 @@ const path = import.meta.env.VITE_PHOTO;
 const isMainPic = ref('');
 
 onMounted(() => {
-  axios.get(`http://localhost:8080/kajarta/image/isMainPic/${props.like.carId}`)
+  axiosapi.get(`/image/isMainPic/${props.like.carId}`)
     .then(function (response) {
       if (response && response.data) {
         // console.log("response", response);

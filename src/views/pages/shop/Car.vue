@@ -55,7 +55,6 @@
 import SuggestTable from "@/components/SuggestTable.vue";
 import Navigation from '@/views/Navigation.vue';
 import Footer from "@/views/Footer.vue"
-import axios from 'axios';
 import axiosapi from "@/plugins/axios";
 import Swal from 'sweetalert2';
 import { ref, computed, onMounted, watch } from 'vue';
@@ -145,7 +144,7 @@ function callLikeCreate(carId) {
         customerId: customerInfo.value.id
     };
     console.log("likeData=", likeData);
-    axios.post('http://localhost:8080/kajarta/front/like/create', likeData)
+    axiosapi.post('/front/like/create', likeData)
         .then(function (response) {
             console.log('response=', response);
             Swal.fire({

@@ -29,7 +29,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
 import axiosapi from '@/plugins/axios.js';
 import Swal from 'sweetalert2';
 import { Star } from '@element-plus/icons-vue';
@@ -70,7 +69,7 @@ onMounted(async () => {
     } else {
         console.warn('customer info not loaded yet');
     }
-    axios.get(`http://localhost:8080/kajarta/image/isMainPic/${props.shopHomeCard.id}`)
+    axiosapi.get(`/image/isMainPic/${props.shopHomeCard.id}`)
         .then(function (response) {
             if (response && response.data) {
                 console.log("response", response);
@@ -94,7 +93,7 @@ function handleLikeCreate() {
             carId: props.shopHomeCard.id,
             customerId: customerId.value
         };
-        axios.post('http://localhost:8080/kajarta/front/like/create', likeData)
+        axiosapi.post('/front/like/create', likeData)
             .then(function (response) {
                 ElMessage({
                     message: '已成功加入心儀清單！',

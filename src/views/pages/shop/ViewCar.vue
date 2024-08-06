@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits } from 'vue';
-import axios from 'axios';
+import axiosapi from '@/plugins/axios';
 import Swal from 'sweetalert2';
 
 const props = defineProps<{
@@ -72,7 +72,7 @@ function handleSubmit() {
   };
   console.log(payload);
 
-  axios.post('http://localhost:8080/kajarta/front/viewCar/create', payload)
+  axiosapi.post('/front/viewCar/create', payload)
     .then(response => {
       console.log("提交成功", response);
       emit('hide-view-car'); // 触发关闭对话框事件

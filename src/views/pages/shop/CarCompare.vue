@@ -110,7 +110,7 @@
 import SuggestTable from "@/components/SuggestTable.vue";
 import Navigation from '@/views/Navigation.vue';
 import Footer from "@/views/Footer.vue"
-import axios from 'axios';
+import axiosapi from "@/plugins/axios";
 import Swal from 'sweetalert2';
 import { ref, computed, onMounted, watch } from 'vue';
 import CarCompareR from '@/components/CarCompareR.vue';
@@ -143,7 +143,7 @@ const selectedCarId = ref(null); // 当前选择的汽车 ID
     const images = ref([]); // 資料列表
 const isMainPic=ref(null);
 //搜尋單筆car資訊=============================================================
-axios.get(`http://localhost:8080/kajarta/car/find/${carId}`)
+axiosapi.get(`/car/find/${carId}`)
     .then(function (response) {
         if (response && response.data) {
             console.log("compareResponse", response);
@@ -154,7 +154,7 @@ axios.get(`http://localhost:8080/kajarta/car/find/${carId}`)
             }
  
             // 搜索图片信息
-            return axios.get(`http://localhost:8080/kajarta/image/isMainPic/${carId}`);
+            return axiosapi.get(`/image/isMainPic/${carId}`);
         } else {
             console.error("Invalid response data structure:", response);
             throw new Error("Invalid car data response");
@@ -216,7 +216,7 @@ onMounted(function () {
     };
 
     //搜尋單筆car資訊
-    axios.get(`${kajartaUrl}/car/findAll`, { params: request })
+    axiosapi.get(`/car/findAll`, { params: request })
         .then(function (response) {
             if (response && response.data) {
                 console.log("response", response);
@@ -242,13 +242,13 @@ onMounted(function () {
 
 function handleCarNewId(payload) {
   CarNewId.value=payload.carId;
-  axios.get(`http://localhost:8080/kajarta/car/find/${CarNewId.value}`)
+  axiosapi.get(`/car/find/${CarNewId.value}`)
     .then(function (response) {
         if (response && response.data) {
             console.log("response", response);
             carCompareDatas.value = response.data.list;
             // 搜索图片信息
-            return axios.get(`http://localhost:8080/kajarta/image/isMainPic/${CarNewId.value}`);
+            return axiosapi.get(`/image/isMainPic/${CarNewId.value}`);
         } else {
             console.error("Invalid response data structure:", response);
             throw new Error("Invalid car data response");
