@@ -73,7 +73,9 @@ const handleSubmit = () => {
 				Swal.fire({
 					icon: 'error',
 					title: '登入失敗',
-					text: data.msg || '帳號或密碼錯誤'
+					text: data.msg || '帳號或密碼錯誤',
+					showConfirmButton: false, // 隐藏确认按钮
+					timer: 1000, 
 				});
 			}
 		})
