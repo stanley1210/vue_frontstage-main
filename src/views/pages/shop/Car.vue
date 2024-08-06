@@ -110,7 +110,7 @@
                     <div class="p-2 ">
                         <div class="d-flex align-items-end flex-column mb-3" style="height: 50px;">
                             <div class="p-2">
-                                <el-button color="#a33238" size="large"
+                                <el-button color="#a33238" size="large" class="custom-text-color-button"
                                     @click="toggleViewCar(selectedCarId, customerInfo.id)">預約賞車
                                 </el-button>
                                 <el-dialog v-model="dialogVisible" title="" width="500" class="form-wrapper">
@@ -119,7 +119,7 @@
                                 </el-dialog>
                             </div>
                             <div class="mt-auto p-2">
-                                <el-button color="#a33238" size="large"
+                                <el-button color="#a33238" size="large" class="custom-text-color-button"
                                     @click="ChangePage(selectedCarId)">開啟比較</el-button>
                             </div>
                         </div>
@@ -309,6 +309,14 @@ function ChangePage(carId) {
     padding-top: 20px;
     letter-spacing: 2px
 }
+
+.custom-text-color-button {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 2px
+}
+
 
 .custom-padding {
     padding-left: 150px;
