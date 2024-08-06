@@ -1,5 +1,8 @@
 <template>
-    <el-button round @click="dialog = true" size="small" class="custom-button">
+    <el-button round v-if="props.viewCarStatus!=3" @click="dialog = true" size="small" class="custom-button">
+      賞車評價
+    </el-button>
+    <el-button round v-if="props.viewCarStatus===3" disabled @click="dialog = true" size="small" class="custom-button">
       賞車評價
     </el-button>
     <el-drawer v-model="dialog" title="留下您寶貴的評分吧!" :before-close="handleClose" direction="rtl" class="demo-drawer">
@@ -37,7 +40,8 @@ const props = defineProps({
   timeSection: String,
   viewCarId: Number,
   customerId: Number,
-  carId: Number
+  carId: Number,
+  viewCarStatus:Number
 });
 
 const employeeScore = ref(0)
@@ -117,7 +121,7 @@ const handleClose = (done) => {
   if (loading.value) {
     return
   }
-  ElMessageBox.confirm('你确定要提交吗?')
+  ElMessageBox.confirm('確定要提交嗎?')
     .then(() => {
       loading.value = true
       timer = setTimeout(() => {

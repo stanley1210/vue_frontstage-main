@@ -3,9 +3,9 @@
                 <Navigation></Navigation>
                 <MemberAreaNav :name="customerInfo.name"></MemberAreaNav>
                 <br><br>
-                <ViewCarCard></ViewCarCard>
+                <ViewCarCard :viewCarId="carId"></ViewCarCard>
                 <Like></Like>
-                <PreferenceSearch></PreferenceSearch>
+                <PreferenceSearch :showNavigation="false"></PreferenceSearch>
                 <MemberInfo></MemberInfo>
                 <Footer></Footer>
         </section>
@@ -19,10 +19,15 @@ import ViewCarCard from '@/components/ViewCarCard.vue';
 import MemberAreaNav from '@/components/MemberAreaNav.vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 import MemberInfo from '@/components/MemberInfo.vue';
+import ViewCar from './ViewCar.vue';
+const route = useRoute();
+const carId = route.query.id;
 import PreferenceSearch from './PreferenceSearch.vue';
 let customerInfo = ref({});
 const store = useStore();
+
 onMounted(() => {
         const username = localStorage.getItem('username');
         if (username) {

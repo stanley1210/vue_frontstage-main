@@ -1,88 +1,109 @@
 <template>
-  <section>
-  <!-- 註冊會員按鍵 -->
-<el-button color="#a33238" @click="goToRegister" :dark="isDark" :icon="User" v-if="!isCustomerInfoComplete || !isAuthenticated">註冊會員</el-button>
-
-<!-- 會員進階搜尋按鈕 -->
-<el-button  type="primary" color="#a33238" :icon="Search" @click="handleClick" :disabled="false" >
-  會員進階查詢
-  </el-button>
-
-  <!-- 會員心儀列表按鈕 -->
-  <el-button  type="warning" color="#a33238" :icon="Star" :disabled="false" @click="openSavedSearches">會員喜好清單
-  </el-button>
-
+  <section >
+    <!-- 註冊會員按鍵 -->
+    <div>
+      <el-button class="topBTM" color="#a33238" @click="goToRegister" :dark="isDark" :icon="User" v-if="!isCustomerInfoComplete || !isAuthenticated">註冊會員</el-button>
+        
+        <!-- 會員進階搜尋按鈕 -->
+        <el-button class="topBTM" type="primary" color="#a33238" :icon="Search" @click="handleClick" :disabled="false" >
+          會員進階查詢
+        </el-button>
+        
+        <!-- 會員心儀列表按鈕 -->
+        <el-button class="topBTM" type="warning" color="#a33238" :icon="Star" :disabled="false" @click="openSavedSearches">會員喜好清單
+        </el-button>
+    </div>
   <!-- 搜尋過紀錄 -->
-  <el-drawer v-model="drawer2" :direction="direction" style="background-color:#fff5eb">
-      <div v-if="savedSearches.length" >
+  <h3 style="color:#fff5eb; font-weight: bold;">心儀車輛查詢條件</h3>
+  <el-drawer v-model="drawer2" :direction="direction" style="background-color:#a33238">
+      <div v-if="savedSearches.length" class="drawer-content" >
+      <h3 style="color:#fff5eb; font-weight: bold;">心儀車輛查詢條件</h3>
       <div v-for="search in savedSearches" :key="search.id" :search=search class="card" style="background-color:#fff5eb">
-        <p>車輛名稱: {{ search.selectName || '未填入搜尋條件' }}</p>
-        <p>年分: {{ search.productionYear || '未填入搜尋條件' }}</p>
-        <p>價格: {{ search.price || '未填入搜尋條件' }}</p>
-        <p>里程數: {{ search.milage || '未填入搜尋條件' }}</p>
-        <p>車況評分: {{ search.score || '未填入搜尋條件' }}</p>
-        <p>馬力: {{ search.hp || '未填入搜尋條件' }}</p>
-        <p>扭力: {{ search.torque || '未填入搜尋條件' }}</p>
-        <p>品牌: {{ getBrandName(search.brand)}}</p>
-        <p>車型: {{ getSuspensionName(search.suspension) }}</p>
-        <p>車門數: {{getDoorName(search.door )}}</p>
-        <p>乘客數: {{ getPassengerName(search.passenger) }}</p>
-        <p>驅動方式: {{ getRearWheelName(search.rearWheel) }}</p>
-        <p>引擎燃料: {{ getGasolineName(search.gasoline) }}</p>
-        <p>變速系統: {{ getTransmissionName(search.transmission) }}</p>
-        <p>排氣量: {{getCcName (search.cc) }}</p> 
+        <p class="search-item">車輛名稱: {{ search.selectName || '未填入查詢條件' }}</p>
+        <p class="search-item">年分: {{ search.productionYear || '未填入查詢條件' }}</p>
+        <p class="search-item">價格: {{ search.price || '未填入查詢條件' }}</p>
+        <p class="search-item">里程數: {{ search.milage || '未填入查詢條件' }}</p>
+        <p class="search-item">車況評分: {{ search.score || '未填入查詢條件' }}</p>
+        <p class="search-item">馬力: {{ search.hp || '未填入查詢條件' }}</p>
+        <p class="search-item">扭力: {{ search.torque || '未填入查詢條件' }}</p>
+        <p class="search-item">車輛型號:{{search.carinfoModelName || '未填入查詢條件'  }}</p>
+        <p class="search-item">品牌: {{ getBrandName(search.brand)}}</p>
+        <p class="search-item">車型: {{ getSuspensionName(search.suspension) }}</p>
+        <p class="search-item">車門數: {{getDoorName(search.door )}}</p>
+        <p class="search-item">乘客數: {{ getPassengerName(search.passenger) }}</p>
+        <p class="search-item">驅動方式: {{ getRearWheelName(search.rearWheel) }}</p>
+        <p class="search-item">引擎燃料: {{ getGasolineName(search.gasoline) }}</p>
+        <p class="search-item">變速系統: {{ getTransmissionName(search.transmission) }}</p>
+        <p class="search-item">排氣量: {{getCcName (search.cc) }}</p> 
         <el-button type="primary" :icon="Edit" color="#a33238" @click="editSearch(search)">編輯</el-button>
       </div> 
     </div>
     <div v-else>
-      <p>沒有儲存的搜尋條件。</p>
+      <p style="color: #a33238; font-weight: bold; ">沒有儲存的搜尋條件。</p>
     </div>
   </el-drawer>
 
   <!-- 進階搜尋功能 -->
-  <el-drawer v-model="drawer" title="進階搜尋功能" :with-header="false" style="background-color:#fff5eb" >
-    <span style="color: #a33238;">選擇你想要的車輛條件</span>
+  <el-drawer v-model="drawer" title="進階搜尋功能" :with-header="false" style="background-color:#fff5eb"  >
+    <span style="color: #a33238; font-weight: bold; font-size: 20px;">選擇你想要的車輛條件</span>
     <div class="form-container" >
       <br>
     <br>
     <div class="form-group">
-      <label>車輛名稱搜尋</label>
-      <input type="text" v-model="modelName" placeholder="輸入車輛名稱" />
+      <label>車輛名稱查詢</label>
+      <input type="text" v-model="modelName" placeholder="輸入車輛名稱" :disabled="isDisabled" />
     </div>
     
     <div class="form-group">
       <label>年分</label>
-      <input type="text" v-model="productionYear" placeholder="輸入年分" />
+      <input type="text" v-model="productionYear" placeholder="輸入年分" :disabled="isDisabled" />
     </div>
 
     <div class="form-group">
       <label>價格</label>
-      <input type="text" v-model="price" placeholder="輸入價格" />
+      <input type="text" v-model="price" placeholder="輸入價格" :disabled="isDisabled"  />
     </div>
 
     <div class="form-group">
       <label>里程數</label>
-      <input type="text" v-model="milage" placeholder="輸入里程數" />
+      <input type="text" v-model="milage" placeholder="輸入里程數" :disabled="isDisabled" />
     </div>
 
     <div class="form-group">
       <label>車況評分</label>
-      <input type="text" v-model="score" placeholder="輸入車況評分" />
+      <input type="text" v-model="score" placeholder="輸入車況評分" :disabled="isDisabled" />
     </div>
 
     <div class="form-group">
       <label>馬力</label>
-      <input type="text" v-model="hp" placeholder="輸入馬力" />
+      <input type="text" v-model="hp" placeholder="輸入馬力" :disabled="isDisabled" />
     </div>
 
     <div class="form-group">
       <label>扭力</label>
-      <input type="text" v-model="torque" placeholder="輸入扭力" />
+      <input type="text" v-model="torque" placeholder="輸入扭力" :disabled="isDisabled" />
     </div>
+
+    <div class="form-group">
+          <label for="carinfoId">車輛型號</label>
+          <select id="carinfoId" 
+            v-model="carinfoId"  
+            name="carinfoId"  class="custom-select"
+            required
+            @change="onCarinfoChange" >
+            <option value="" disabled>選擇車輛型號</option>
+              <option 
+                v-for="carinfoData in carinfoDatas"
+                :key="carinfoData.id"
+                :carinfoData="carinfoData"
+                :value="`${carinfoData.id}`" 
+                >{{ carinfoData.modelName }}</option>
+          </select>
+        </div>
 
         <div class="form-group">
           <label for="brand">品牌</label>
-          <select id="brand" v-model="brand" required>
+          <select id="brand" v-model="brand" class="custom-select" required :disabled="isDisabled">
             <option value="" disabled>選擇你要的品牌</option>
             <option value="1">HONDA</option>
             <option value="2">TOYOTA</option>
@@ -97,24 +118,8 @@
         </div>
 
         <div class="form-group">
-          <label for="carinfoId">車輛型號</label>
-          <select id="carinfoId" 
-            v-model="carinfoId"  
-            name="carinfoId" 
-            required>
-            <option value="" disabled>選擇你要的車型</option>
-              <option 
-                v-for="carinfoData in carinfoDatas"
-                :key="carinfoData.id"
-                :carinfoData="carinfoData"
-                :value="`${carinfoData.id}`" 
-                >{{ carinfoData.modelName }}</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
           <label for="suspension">車型</label>
-          <select id="suspension" v-model="suspension" required>
+          <select id="suspension" v-model="suspension"  class="custom-select" required :disabled="isDisabled">
             <option value="" disabled>選擇你要的車型</option>
             <option value="1">轎車</option>
             <option value="2">休旅車</option>
@@ -127,7 +132,7 @@
 
         <div class="form-group">
           <label for="door">車門數</label>
-          <select id="door" v-model="door" required>
+          <select id="door" v-model="door"  class="custom-select" required :disabled="isDisabled">
             <option value="" disabled>選擇你要的車門數</option>
             <option value="1">二門</option>
             <option value="2">三門</option>
@@ -139,7 +144,7 @@
 
         <div class="form-group">
           <label for="passenger">乘客數</label>
-          <select id="passenger"  v-model="passenger" required>
+          <select id="passenger"  v-model="passenger"  class="custom-select" required :disabled="isDisabled">
             <option value="" disabled>選擇能容納的乘客數</option>
             <option value="1">二人座</option>
             <option value="2">四人座</option>
@@ -150,7 +155,7 @@
 
         <div class="form-group">
           <label for="rearwheel">驅動方式</label>
-          <select id="rearwheel" v-model="rearwheel" required>
+          <select id="rearwheel" v-model="rearwheel"  class="custom-select" required :disabled="isDisabled">
             <option value="" disabled>選擇你要的驅動方式</option>
             <option value="1">前驅</option>
             <option value="2">後驅</option>
@@ -160,7 +165,7 @@
 
         <div class="form-group">
           <label for="gasoline">引擎燃料</label>
-          <select id="gasoline" v-model="gasoline" required>
+          <select id="gasoline" v-model="gasoline"  class="custom-select" required :disabled="isDisabled">
             <option value="" disabled>選擇你要的引擎燃料</option>
             <option value="1">汽油</option>
             <option value="2">柴油</option>
@@ -171,7 +176,7 @@
 
         <div class="form-group">
           <label for="transmission">變速系統</label>
-          <select id="transmission" v-model="transmission" required>
+          <select id="transmission" v-model="transmission"  class="custom-select" required :disabled="isDisabled">
             <option value="" disabled>選擇你要的引擎燃料</option>
             <option value="1">自排</option>
             <option value="2">手排</option>
@@ -182,7 +187,7 @@
 
         <div class="form-group">
           <label for="cc">排氣量</label>
-          <select id="cc" v-model="cc" required>
+          <select id="cc" v-model="cc"  class="custom-select" required :disabled="isDisabled">
             <option value="" disabled>選擇你要的排氣量</option>
             <option value="1">1200cc以下</option>
             <option value="2">1201cc-1800cc</option>
@@ -193,55 +198,54 @@
             <option value="7">5401cc以上</option>
           </select>
         </div>
-        <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">查尋</el-button>
+        <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">查詢</el-button>
         <el-button type="warning" :icon="Refresh" color="#a33238" @click="resetForm">重置查詢</el-button>
-        <el-button type="success" :icon="FolderAdd" color="#a33238" @click="saveSearchRecord">儲存查詢條件</el-button> 
+        <el-button v-if="saveValidate"type="success" :icon="FolderAdd" color="#a33238" @click="saveSearchRecord">儲存查詢條件</el-button> 
        <p></p>
-        <el-button type="primary" :icon="Edit" color="#a33238" @click="handleUpdate">修改查詢條件
+        <el-button v-if="updateValidate" type="primary" :icon="Edit" color="#a33238" @click="handleUpdate">修改查詢條件
         </el-button>    
       </div>
     </el-drawer>
 <!-- 非會員搜尋 -->
-  <div class="form-container">
-    <br>
-    <div class="form-group">
-      <label>車輛名稱搜尋</label>
+  
+    <div class="noLogPage" >
+      <label>車輛名稱查詢</label>
       <input type="text" v-model="modelName" placeholder="輸入車輛名稱" />
     </div>
     
-    <div class="form-group">
+    <div class="noLogPage">
       <label>年分</label>
       <input type="text" v-model="productionYear" placeholder="輸入年分" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage">
       <label>價格</label>
       <input type="text" v-model="price" placeholder="輸入價格" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage">
       <label>里程數</label>
       <input type="text" v-model="milage" placeholder="輸入里程數" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage">
       <label>車況評分</label>
       <input type="text" v-model="score" placeholder="輸入車況評分" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage">
       <label>馬力</label>
       <input type="text" v-model="hp" placeholder="輸入馬力" />
     </div>
 
-    <div class="form-group">
+    <div class="noLogPage" style="margin-bottom: 5%;">
       <label>扭力</label>
       <input type="text" v-model="torque" placeholder="輸入扭力" />
     </div>
 
-    <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">查詢</el-button>
-    <el-button type="warning" :icon="Refresh" color="#a33238"  @click="resetForm">重置查詢</el-button>
-  </div>
+    <div ><el-button type="primary" class="underBTM" color="#a33238" :icon="Search" @click="handleSubmit">查詢</el-button></div>
+    <div ><el-button type="warning" class="underBTM" :icon="Refresh" color="#a33238"  @click="resetForm">重置查詢</el-button></div>
+  
 </section>
 </template>
   
@@ -253,6 +257,8 @@ import { useRouter } from 'vue-router'
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 
+const saveValidate=ref(false);
+const updateValidate=ref(false);
 const store = useStore();
 // Compute the authentication state from Vuex store
 const isAuthenticated = computed(() => store.state.isAuthenticated);
@@ -271,6 +277,7 @@ onMounted(() => {
   callCarinfoFind();
 });
 
+const isDisabled = ref(false);
 const drawer = ref(false)
 const drawer2 = ref(false)
 const router = useRouter()
@@ -307,10 +314,6 @@ function callCarinfoFind() {
             } else {
                 console.error("Invalid response data structure:", response);
             }
-
-            // setTimeout(function () {
-            //     Swal.close();
-            // }, 500);
         })
         .catch(function (error) {
             console.error("Error fetching data:", error, response);
@@ -349,6 +352,7 @@ const handleSubmit = () => {
 
 //打開儲存心儀條件搜尋紀錄
 const editSearch = (search) => {
+  carinfoId.value= search.carinfo_id || ''
   modelName.value = search.selectName || ''
   productionYear.value = search.productionYear || ''
   price.value = search.price || ''
@@ -367,6 +371,8 @@ const editSearch = (search) => {
   id.value = search.id || ''
   // 打開編輯的 drawer
   drawer.value = true
+  updateValidate.value=true
+  saveValidate.value=false
 }
 
 //修改心儀列表table
@@ -390,7 +396,7 @@ const handleUpdate = async () => {
       hp: hp.value ? parseInt(hp.value) : null,
       torque: torque.value ? parseFloat(torque.value) : null,
       customer_id: customerInfo.value.id, 
-      carinfo_id: carinfoId.value,
+      carinfo_id: carinfoId.value ? parseInt(carinfoId.value) : null,
       preferences_lists: 1,
     };
     console.log('Sending data:', updateData);
@@ -421,7 +427,7 @@ const saveSearchRecord = async () => {
       milage: milage.value ? parseInt(milage.value) : null,
       score: score.value ? parseInt(score.value) : null,
       customer_id: customerInfo.value.id,
-      carinfo_id: carinfoId.value,
+      carinfo_id: carinfoId.value?parseInt(carinfoId.value):null,
       brand: brand.value ? parseInt(brand.value) : null,
       suspension: suspension.value ? parseInt(suspension.value) : null,
       door: door.value ? parseInt(door.value) : null,
@@ -453,6 +459,7 @@ const fetchSavedSearches = async () => {
   try {
     const response = await axios.get(`http://localhost:8080/kajarta/preference/findByCustomerId/${customerInfo.value.id}`)
     savedSearches.value = response.data.list
+    console.log("喜好清單資訊="+savedSearches.value[0].carinfo_id)
   } catch (error) {
     ElMessage({
       message: '無法獲取儲存的搜尋條件',
@@ -482,6 +489,8 @@ const handleClick = () => {
     alert("會員訊息不完整 麻煩檢查！");
   } else {
     drawer.value = true;
+    saveValidate.value=true;
+    updateValidate.value=false;
   }
   console.log("customerId="+customerId);
   console.log("customerInfo.value.id="+customerInfo.value.id);
@@ -494,6 +503,7 @@ const goToRegister = () => {
 
 // 重置搜尋條件
 const resetForm = () => {
+  carinfoId.value=''
   brand.value = ''
   suspension.value = ''
   door.value = ''
@@ -509,6 +519,12 @@ const resetForm = () => {
   score.value = ''
   hp.value = ''
   torque.value = ''
+
+  isDisabled.value = false;
+}
+
+function onCarinfoChange() {  // 如果選擇了車輛型號，則禁用所有其他欄位，否則啟用
+  isDisabled.value = !!carinfoId.value;
 }
 
 // 以下都在轉值
@@ -524,7 +540,7 @@ const getBrandName = (value) => {
     8: 'NISSAN',
     9: 'SUBARU'
   }
-  return brand[value] || '未填入搜尋條件'
+  return brand[value] || '未填入查詢條件'
 }
 
 const getSuspensionName = (value)=> {
@@ -536,7 +552,7 @@ const getSuspensionName = (value)=> {
     5: '吉普車',
     6: '掀背車'
   }
-  return Suspension[value] || '未填入搜尋條件'
+  return Suspension[value] || '未填入查詢條件'
 }
 
 const getDoorName = (value)=> {
@@ -547,7 +563,7 @@ const getDoorName = (value)=> {
     4: '五門',
     5: '六門',
   }
-  return door[value] || '未填入搜尋條件'
+  return door[value] || '未填入查詢條件'
 }
 
 const getPassengerName = (value)=> {
@@ -558,7 +574,7 @@ const getPassengerName = (value)=> {
     4: '七人座以上'
     
   }
-  return passenger[value] || '未填入搜尋條件'
+  return passenger[value] || '未填入查詢條件'
 }
 
 const getRearWheelName = (value)=> {
@@ -567,7 +583,7 @@ const getRearWheelName = (value)=> {
     2: '後驅',
     3: '四驅'
   }
-  return rearWheel[value] || '未填入搜尋條件'
+  return rearWheel[value] || '未填入查詢條件'
 }
 
 const getGasolineName = (value)=> {
@@ -577,7 +593,7 @@ const getGasolineName = (value)=> {
     3: '油電複合',
     4: '純電'
   }
-  return gasoline[value] || '未填入搜尋條件'
+  return gasoline[value] || '未填入查詢條件'
 }
 
 const getTransmissionName = (value)=> {
@@ -587,7 +603,7 @@ const getTransmissionName = (value)=> {
     3: '手自排',
     4: '自手排'
   }
-  return transmission[value] || '未填入搜尋條件'
+  return transmission[value] || '未填入查詢條件'
 }
 
 const getCcName = (value)=> {
@@ -600,21 +616,142 @@ const getCcName = (value)=> {
     6: '4201-5400',
     7: '5401以上',
   }
-  return cc[value] || '未填入搜尋條件'
+  return cc[value] || '未填入查詢條件'
 }
 
 </script>
     
-<style >
+<style scoped>
 
 .form-container {
-  margin-bottom: 20px; /* 调整每个表单之间的间距 */
+  margin-bottom: 15px; /* 调整每个表单之间的间距 */
+  width: 350px;
+  margin-top: -35px; /* 調整此值以上移表單 */
+
 }
 
 .form-group {
   border-bottom: 1px solid #a33238; /* 添加底部边框 */
   padding-bottom: 10px; /* 调整内边距 */
   margin-bottom: 10px; /* 调整间距 */
+ 
 }
 
+.form-group input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 150px; /* 調整輸入框的寬度 */
+  font-weight: bold;/* 調整輸入字體變粗體 */
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  color: #a33238; /* 改变标签的文本颜色 */
+  font-weight: bold;/* 調整字體變粗體 */
+}
+
+.search-item {
+  font-weight: bold;
+  color: #a33238; /* 你可以改成任何顏色 */
+  margin-bottom: 8px;
+}
+
+.custom-select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  font-size: 16px;
+  color: #333;
+  appearance: none; /* 去掉原本的下拉箭頭 */
+  -webkit-appearance: none; /* 支援 Safari */
+  -moz-appearance: none; /* 支援 Firefox */
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.custom-select:focus {
+  border-color: #a33238; /* 聚焦時的邊框顏色 */
+  outline: none; /* 去掉聚焦的藍色輪廓 */
+}
+
+.custom-select::after {
+  content: '▼'; /* 自定義下拉箭頭 */
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* 不阻擋選擇操作 */
+  color: #333;
+}
+
+.form-group {
+  position: relative; /* 讓下拉箭頭相對於容器 */
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.drawer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.card {
+  max-width: 500px; /* 你可以調整這個值來改變卡片的最大寬度 */
+  width: 100%;
+  margin-bottom: 15px; /* 調整卡片之間的距離 */
+  padding: 15px; /* 調整卡片內的間距 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加陰影效果 */
+  border-radius: 8px; /* 調整邊框圓角 */
+}
+
+.topBTM{
+  width: 32.2%; 
+  border-radius: unset;
+}
+
+.noLogPage{
+  border-bottom: 1px solid #a33238; /* 添加底部边框 */
+  padding: 0 ;
+  margin: 0 0 10px 0;
+  padding-bottom: 10px; /* 调整内边距 */
+  display: flex; 
+  align-items: center;
+  
+ 
+}
+
+.noLogPage input {
+  padding: 5px 15px;
+  border: 1px solid #ffffff;
+  border-radius: 30px;
+  width: 75%; /* 調整輸入框的寬度 */
+  font-weight: bold;/* 調整輸入字體變粗體 */
+  outline: white 1px solid;
+  color: #a33238 ;
+}
+.noLogPage input:focus {
+  outline: #a33238 3px solid;
+}
+
+.noLogPage label {
+  width: 25%;
+  margin-top: 5px;
+  color: #a33238; /* 改变标签的文本颜色 */
+  font-weight: 900;/* 調整字體變粗體 */
+}
+
+.underBTM {
+  margin-bottom: 10px;
+  border-radius: unset;
+  width: 100%;
+}
 </style>

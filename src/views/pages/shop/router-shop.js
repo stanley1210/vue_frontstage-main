@@ -9,6 +9,7 @@ import Login from "../Login.vue"
 import About from "../About.vue"
 import Register from "../Register.vue"
 import CarCompare from "./CarCompare.vue";
+import ViewCarCard from "@/components/ViewCarCard.vue";
 
 import PreferenceSearch from "./PreferenceSearch.vue";
 export default [
@@ -23,5 +24,6 @@ export default [
     { name: "about", path: "/pages/about", component: About },
     { name: "register", path: "/pages/register", component: Register },
     { name: "car-compare", path: "/pages/compare", component: CarCompare },
-    { name: "pages-shop-PreferenceSearch-link", path: "/pages/shop/PreferenceSearch", component: PreferenceSearch }
+    { name: "pages-shop-PreferenceSearch-link", path: "/pages/shop/PreferenceSearch", component: PreferenceSearch },
+    { name: "components-viewCarCard", path: "/components/viewCarCard", component: ViewCarCard }
 ];

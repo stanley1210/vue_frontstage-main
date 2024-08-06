@@ -2,21 +2,20 @@
     <div class="row">
         <div class="col-2">
             <font-awesome-icon 
-            :icon="['fas', 'star-of-life']" 
-            style=" color: #a33238;margin-top: 8px;" 
-            size="2xl"/></div>
-
-        <div class="col-10" style="display: flex;justify-content: flex-end;"><h1>Sparkling List</h1></div>
-        
-            
-                <el-divider color="#a33238;"></el-divider>
-    </div>
-<!-- Card -->
-    <div class="likecard-container"style="display: flex;justify-content: center;margin-bottom: 1%; ">
-        <LikeCard v-for="like in likes" :key="like.likeId" :like="like" @card-delete="callRemove">
-        </LikeCard>
+                :icon="['fas', 'star-of-life']" 
+                style="color: #a33238; margin-top: 8px;" 
+                size="2xl"/>
+        </div>
+        <div class="col-10" style="display: flex; justify-content: flex-end;">
+            <h1>Sparkling List</h1>
+        </div>
+        <el-divider color="#a33238;"></el-divider>
     </div>
 
+    <!-- Card -->
+    <div class="likecard-container" style="display: flex; justify-content: center; margin-bottom: 1%;">
+        <LikeCard v-for="like in likes" :key="like.likeId" :like="like" @cardDelete="callRemove"/>
+    </div>
 
     <div class="row">
         <div class="col-2">
@@ -25,25 +24,22 @@
                 <option value="desc">最近新增</option>
             </select>
         </div>
-
-        <div class="col-4" >
-            <LikeRows :total="total" :options="[2, 3, 4, 5, 10]" v-model="rows" @rows-change="callFind">
-            </LikeRows>
+        <div class="col-4">
+            <LikeRows :total="total" :options="[2, 3, 4, 5, 10]" v-model="rows" @rows-change="callFind"/>
         </div>
-    
-    
-
-    <!-- 上方分頁欄 --> 
-
-        <div class="col-6" v-show="total != 0" style="display: flex;justify-content: flex-end;">
-            <Paginate :first-last-button="true" first-button-text="<<" last-button-text=">>" prev-text="<" next-text=">"
-                :page-count="pages" :initial-page="current" v-model="current" :click-handler="callFind">
-            </Paginate>
+        <div class="col-6" v-show="total != 0" style="display: flex; justify-content: flex-end;">
+            <Paginate 
+                :first-last-button="true" 
+                first-button-text="<<" 
+                last-button-text=">>" 
+                prev-text="<" 
+                next-text=">" 
+                :page-count="pages" 
+                :initial-page="current" 
+                v-model="current" 
+                :click-handler="callFind"/>
         </div>
     </div>
-    
-
-    
 </template>
 
 <script setup>
@@ -119,27 +115,27 @@ function callFind(page = 1) {
 
 function callRemove(id) {
     if (id) {
-        axios.delete("http://localhost:8080/kajarta/front/like/delete/" + id).then(response => {
-            console.log("response", response);
-            if (response.data.success) {
-                callFind(current.value);
-            } else {
-                Swal.fire({
-                    icon: "warning",
-                    text: response.data.message,
-                });
-            }
-        });
+        axios.delete(`http://localhost:8080/kajarta/front/like/delete/${id}`)
+            .then(response => {
+                console.log("response", response);
+                if (response.data.success) {
+                    callFind(current.value);
+                } else {
+                    Swal.fire({
+                        icon: "warning",
+                        text: response.data.message,
+                    });
+                }
+            });
     }
 }
 </script>
 
 <style scoped>
-.row{
+.row {
     margin-left: 3.2%;
     margin-right: 3.2%;
 }
-
 table {
     width: 100%;
     border-collapse: collapse;
