@@ -34,6 +34,7 @@
 import { reactive, ref, watch } from 'vue'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import axiosapi from '@/plugins/axios';
+import Swal from 'sweetalert2';
 
 const props = defineProps({
   date: String,
@@ -115,7 +116,22 @@ const onClick = async () => {
   } finally {
     loading.value = false
   }
+    axiosapi.get('/front/viewCar/KPI')
+        .then(function (response) {
+            console.log('response=', response);
+            Swal.fire({
+                text: "已成功更新Kpi！",
+                icon: "success"
+            });
+        })
+        .catch(function (error) {
+            Swal.fire({
+                text: "更新失敗" + error.message,
+                icon: "error"
+            });
+        });
 }
+
 
 const handleClose = (done) => {
   if (loading.value) {
