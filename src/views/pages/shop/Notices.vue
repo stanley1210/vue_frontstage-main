@@ -1,18 +1,19 @@
 <template>
-  <!-- <el-icon :size="20" @click="visible = true" class="noticeButton">
-    <Bell />
-  </el-icon> -->
-  <font-awesome-icon :icon="['fas', 'bell']" style="color:#a33238;" size="lg" @click="visible = true"/>
+
+  <font-awesome-icon :icon="['fas', 'bell']" style="color:#a33238;" size="lg" @click="visible = true" />
   <el-drawer v-model="visible" :show-close="false" class="custom-drawer">
+
     <template #header="{ close, titleId, titleClass }">
+      <h3 class="custom-title-color" :id="titleId">Hello，{{ customerInfo.name }}!</h3>
       <div class="drawer-header">
-        <h3 class="custom-title-color" :id="titleId">Hello，{{ customerInfo.name }}!</h3>
-        <el-button type="info" @click="handleClearNotices" >
+        <el-button type="info" @click="handleClearNotices">
           <el-icon class="el-icon--left">
             <CircleCloseFilled />
           </el-icon>
           清空
         </el-button>
+
+
         <el-button type="danger" @click="close">
           <el-icon class="el-icon--left">
             <CircleCloseFilled />
@@ -20,13 +21,13 @@
           Close
         </el-button>
       </div>
-
     </template>
 
-    <div class="switch-container"> <!-- 添加 switch-container -->
+    <div class="drawer-header">
       <el-switch v-model="notificationsEnabled" class="ml-2" inline-prompt
         style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" active-text="關閉通知" inactive-text="開啟通知" />
     </div>
+
     <div v-if="notificationsEnabled">
       <!-- 显示新车信息 -->
 
@@ -207,7 +208,7 @@ const handleClearNotices = () => {
   emit('clear-notices');
 };
 
-const clearNewCar = () =>{
+const clearNewCar = () => {
   newCarData.value = [];
 }
 
@@ -230,7 +231,7 @@ const fetchNewCarData = async (newCarIds) => {
   try {
     // console.log('Fetching new car data for IDs:', newCarIds);
     const carDataPromises = newCarIds.flat().map(carId =>
-    axiosapi.get(`/car/find/${carId}`)
+      axiosapi.get(`/car/find/${carId}`)
     );
     const carDataResponses = await Promise.all(carDataPromises);
     newCarData.value = carDataResponses.flatMap(response => response.data.list);
@@ -260,8 +261,9 @@ const fetchNewCarData = async (newCarIds) => {
 
 .drawer-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  padding-right: 20px;
 }
 
 .info-box {

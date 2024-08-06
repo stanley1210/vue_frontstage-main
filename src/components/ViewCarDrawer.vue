@@ -1,8 +1,8 @@
 <template>
-    <el-button round v-if="props.viewCarStatus!=3" @click="dialog = true" size="small" class="custom-button">
+    <el-button  v-if="props.viewCarStatus!=3" @click="dialog = true" size="middle" class="customBTM">
       賞車評價
     </el-button>
-    <el-button round v-if="props.viewCarStatus===3" disabled @click="dialog = true" size="small" class="custom-button">
+    <el-button  v-if="props.viewCarStatus===3" disabled @click="dialog = true" size="middle" class="customBTMC">
       賞車評價
     </el-button>
     <el-drawer v-model="dialog" title="留下您寶貴的評分吧!" :before-close="handleClose" direction="rtl" class="demo-drawer">
@@ -164,5 +164,19 @@ const cancelForm = () => {
 .small-input {
   width: 100px;
   /* 調整輸入框寬度 */
+}
+.customBTM {
+  margin-left: 10px;
+  color: #a33238;
+  font-size: 16px;
+  font-weight: 1000;
+  letter-spacing: 2px
+}
+.customBTMC {
+  margin-left: 10px;
+  color: #c6c6c6;
+  font-size: 16px;
+  font-weight: 1000;
+  letter-spacing: 2px
 }
 </style>
