@@ -191,7 +191,7 @@ const props = defineProps({
 });
 </script>
 
-<style scoped>
+<style >
 
 .card-container {
   display: flex;

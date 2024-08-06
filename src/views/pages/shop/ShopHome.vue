@@ -152,7 +152,7 @@ function callFind(page) {
 
 </script>
 
-<style scoped>
+<style >
 .imageWidth {
     width: 1000px;
 }
@@ -186,5 +186,36 @@ fieldset {
     width: 100%;
     height: auto;
     
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+  overflow-x: auto;
+}
+
+/* 分頁效果格式 */
+.pagination-container {
+  display: flex;
+  align-items: center;
+  gap: 16px; 
+
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  font-size: 1rem;
+  line-height: 1.5;
 }
 </style>
