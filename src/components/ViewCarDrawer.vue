@@ -33,7 +33,7 @@
 <script lang="ts" setup>
 import { reactive, ref, watch } from 'vue'
 import { ElMessageBox, ElMessage } from 'element-plus'
-import axios from 'axios'
+import axiosapi from '@/plugins/axios';
 
 const props = defineProps({
   date: String,
@@ -59,7 +59,7 @@ const loading = ref(false);
 // Call FindById to fetch data
 const callFindById = async (id) => {
   try {
-    const response = await axios.get(`http://localhost:8080/kajarta/front/viewCar/select/${id}`);
+    const response = await axiosapi.get(`/front/viewCar/select/${id}`);
     const data = response.data.list[0]; // Extracting the first item from the list
     deal.value = data.deal || 0;
     viewCarStatus.value = data.viewCarStatus || 0;
@@ -82,7 +82,7 @@ watch(dialog, (newValue) => {
 const onClick = async () => {
   loading.value = true
   try {
-    const response = await axios.put(`http://localhost:8080/kajarta/front/viewCar/update/${props.viewCarId}`, {
+    const response = await axiosapi.put(`/front/viewCar/update/${props.viewCarId}`, {
       id: props.viewCarId,
       carId: props.carId,
       customerId: customerId.value,
