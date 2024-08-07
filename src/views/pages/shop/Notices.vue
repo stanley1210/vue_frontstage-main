@@ -37,8 +37,10 @@
           <div class="info-content">
             <img :src="fetchNewCarImageId(car)" class="car-img" alt="Car Image" :id="car.id">
             <div class="info-text">
-              <p>有您心儀的車上架了! 快來看看吧!</p>
-              <p>(carId：{{ car.id }})</p>
+              <p class="info-heading">有您心儀的車上架了! 快來看看吧!</p>
+              <p><strong>車型：</strong>{{ car.carinfoModelName }}</p>
+              <p><strong>出廠年份：</strong>{{ car.productionYear }}年</p>
+              <p><strong>里程：</strong>{{ car.milage }}</p>
             </div>
           </div>
         </div>
@@ -52,10 +54,9 @@
           class="info-box-today">
           <div class="info-content">
             <img :src="carPhotoSrc(viewCar)" class="car-img" alt="Car Image" :id="viewCar.id">
-            <div class="info-text">
-              <p>今天是您預約的賞車日期!</p>
+            <div class="custom-title-color">
+              <p style="font-weight: 900;">今天是您預約的賞車日期!</p>
               <p>(賞車編號：{{ viewCar.id }})</p>
-              <p>(carId：{{ viewCar.car }})</p>
               <p>車型：{{ viewCar.modelName }}</p>
             </div>
           </div>
@@ -69,7 +70,6 @@
               <div class="info-text">
                 <p>距離您賞車，還有 {{ viewCar.daysLeft }} 天!</p>
                 <p>(賞車編號：{{ viewCar.id }})</p>
-                <p>(carId：{{ viewCar.car }})</p>
                 <p>車型：{{ viewCar.modelName }}</p>
 
               </div>
@@ -269,21 +269,32 @@ const fetchNewCarData = async (newCarIds) => {
 .info-box {
   border: 1px solid #dcdcdc;
   border-radius: 8px;
-  padding: 16px;
+  padding: 8px;
   background-color: #f9f9f9;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 增加阴影效果 */
+  transition: box-shadow 0.3s ease; /* 平滑过渡 */
+}
+.info-box:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 悬停时阴影效果 */
 }
 
 .info-box-today {
   border: 1px solid #dcdcdc;
   border-radius: 8px;
-  padding: 16px;
+  padding: 3px; /* 增加内边距 */
   background-color: #fff5eb;
-  margin-bottom: 10px;
+  margin-bottom: 16px; /* 增加底部间距 */
   display: flex;
   align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 增加阴影效果 */
+  transition: box-shadow 0.3s ease; /* 平滑过渡 */
+}
+
+.info-box-today:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 悬停时阴影效果 */
 }
 
 .info-content {
@@ -301,7 +312,9 @@ const fetchNewCarData = async (newCarIds) => {
 
 .info-text p {
   margin: 0;
+  font-size: 15px;
 }
+
 
 .today-notification {
   border: 2px solid #a33238;
@@ -319,5 +332,13 @@ const fetchNewCarData = async (newCarIds) => {
 
 .pointer {
   cursor: pointer;
+}
+
+.custom-title-color {
+  color: #a33238;
+  line-height: 5px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 2px;
 }
 </style>
