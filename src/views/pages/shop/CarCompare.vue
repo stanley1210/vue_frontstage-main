@@ -65,8 +65,6 @@
     <!-- ------------------------------------------左資料行 ------------------------------------------ -->
         
     
-    
-    
     <div  class="col-2 CMPT" style="padding: 0; ">
             <div style="margin-top: 5%;">
             <CarCompareColumnL
@@ -75,6 +73,7 @@
             :carData="carData"
             class="text-center navbarBody p-2 flex-fill"
             ></CarCompareColumnL></div>
+        
         </div>
 
     <!-- ------------------------------------------右資料行 ------------------------------------------ -->
@@ -180,7 +179,7 @@ console.log("GGGGGGGGG=",isMainPic.value);
     });
 
 // ============圖片比較============
-   import CarCompareCard from "@/components/CarCompareCard.vue";
+import CarCompareCard from "@/components/CarCompareCard.vue";
 import LikeRows from '@/components/LikeRows.vue';
 import Paginate from 'vuejs-paginate-next';
 const kajartaUrl = import.meta.env.VITE_API_URL;
@@ -309,5 +308,9 @@ h1 {
 
 .el-button + .el-button {
   margin-left: 8px;
+}
+
+.row{
+    background-color:#fff5eb ;
 }
 </style>
