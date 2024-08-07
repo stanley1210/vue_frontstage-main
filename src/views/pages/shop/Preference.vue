@@ -472,10 +472,19 @@ const fetchSavedSearches = async () => {
   try {
     const response = await axiosapi.get(`/preference/findByCustomerId/${customerInfo.value.id}`)
     savedSearches.value = response.data.list
-    console.log("喜好清單資訊="+savedSearches.value[0].carinfo_id)
+    if (savedSearches.value.length === 0) {
+      Swal.fire({
+        icon: 'info',
+        title: '提示',
+        text: '沒有找到儲存的查詢條件',
+        confirmButtonText: '確定'
+      })
+    } else {
+      console.log("喜好清單資訊=" + savedSearches.value[0].carinfo_id)
+    }
   } catch (error) {
     ElMessage({
-      message: '無法獲取儲存的搜尋條件',
+      message: '無法獲取儲存的查詢條件',
       type: 'error',
     })
   }

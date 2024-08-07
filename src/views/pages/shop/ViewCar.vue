@@ -64,6 +64,21 @@ const options = [
 ];
 
 function handleSubmit() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // 清除时间部分，只比较日期
+  const selectedDate = new Date(value.value);
+  selectedDate.setHours(0, 0, 0, 0); // 清除时间部分，只比较日期
+
+  if (selectedDate < today) {
+    Swal.fire({
+      title: '無效日期',
+      text: '不能選擇今天以前的日期，請選擇有效日期。',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    });
+    return;
+  }
+
   const payload = {
     viewTimeSection: timeValue.value,
     carId: props.carId, // 使用传递的 carId
@@ -142,5 +157,8 @@ function handleSubmit() {
 
 .mb-2 {
   margin-bottom: 0.5rem;
+}
+.swal2-container {
+  z-index: 9999 !important; /* 确保 SweetAlert 弹框显示在最上层 */
 }
 </style>

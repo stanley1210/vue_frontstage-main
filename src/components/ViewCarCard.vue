@@ -2,61 +2,63 @@
 
   <div class="row">
     <div class="col-2"></div>
-        <div class="col-10" style="display: flex; justify-content: flex-end;">
-            <h1>Reservation Info</h1>
-        </div>
-        <el-divider color="#a33238;"></el-divider>
+    <div class="col-10" style="display: flex; justify-content: flex-end;">
+      <h1>Reservation Info</h1>
     </div>
+    <el-divider color="#a33238;"></el-divider>
+  </div>
 
 
- 
-    <div v-for="viewCar in viewCars" :key="viewCar.id" class="row" style="height: 70vh;margin-bottom: 5%;">
-      
-        <div class="col-8" style="padding: 0;height: 100%; overflow: hidden;display: flex;align-items: center;justify-content: center;">
-          <img :src="`${path}${viewCar.isMainPic}`" class="img-fluid " alt="Car Image">
-        </div>
-        <div class="col-4 position-relative">
-          <div class="bodyCard ">
-            <div class="text-end">
-              <h5 class="custom-title-color">ID.00{{ viewCar.car }}</h5>
-              <h5 class="custom-title-color">ID.00{{ viewCar.id }}</h5>
-              <h5 class="custom-title-color">{{ viewCar.modelName }}</h5>
-              <div class="d-flex flex-row-reverse">
-                <div class="p-2">
-                  <h6 class="custom-title-color">{{ viewCar.viewCarDate }}</h6>
-                </div>
-                <div class="p-2">
-                  <h6 class="custom-title-color">{{ getViewTimeSectionhText(viewCar.viewTimeSectionNb) }}</h6>
-                </div>
-              </div>
-              <div >
-                <ViewCarDrawer class="customBTM" :date="viewCar.viewCarDate" :timeSection="String(viewCar.viewTimeSectionNb)"
-                  :customerId="customerInfo.id" :carId="viewCar.car" :viewCarId="viewCar.id" :viewCarStatus="viewCar.viewCarStatus">
-                </ViewCarDrawer>
-                <el-button round v-if="viewCar.viewCarStatus===3" disabled size="small" class="customBTM">註銷賞車</el-button>
-                <el-button round v-else @click="confirmRemove(viewCar.id,viewCar.car,viewCar.viewCarDate,viewCar.viewTimeSectionNb)" size="small" class="customBTM" >取消賞車</el-button>
 
-                <el-button round @click="toggleCar(selectedCarId)" size="small" class="customBTM" style="margin-left: 16px;">詳細資料</el-button>
-              </div>
+  <div v-for="viewCar in viewCars" :key="viewCar.id" class="row" style="height: 70vh;margin-bottom: 5%;">
+
+    <div class="col-8"
+      style="padding: 0;height: 100%; overflow: hidden;display: flex;align-items: center;justify-content: center;">
+      <img :src="`${path}${viewCar.firstImageId}`" class="img-fluid " alt="Car Image">
+    </div>
+    <div class="col-4 position-relative">
+      <div class="bodyCard ">
+        <div class="text-end">
+          <h5 class="custom-title-color">ID.00{{ viewCar.id }}</h5>
+          <h5 class="custom-title-color">{{ viewCar.modelName }}</h5>
+          <div class="d-flex flex-row-reverse">
+            <div class="p-2">
+              <h6 class="custom-title-color">{{ viewCar.viewCarDate }}</h6>
             </div>
-            <br>
-            <div class="custom-text-color">
-              <p>預約狀態: {{ getViewCarStatusText(viewCar.viewCarStatus) }}</p>
-              <p>賞車客戶: {{ customerInfo.name }}先生/小姐</p>
-              <p>客戶電話: {{ customerInfo.phone }}</p>
-              <p>接待業務: {{employeeName}}</p>
-              <p>試車分店: {{ getViewCarBranchText(viewCar.branch) }}</p>
-            </div>
-
-            <div class="pageCON">
-              <el-pagination size="small" background layout="prev, next" :total="totalElements"
-                :current-page="currentPage" :page-size="1" @current-change="handlePageChange" />
+            <div class="p-2">
+              <h6 class="custom-title-color">{{ getViewTimeSectionhText(viewCar.viewTimeSectionNb) }}</h6>
             </div>
           </div>
+          <div>
+            <ViewCarDrawer class="customBTM" :date="viewCar.viewCarDate"
+              :timeSection="String(viewCar.viewTimeSectionNb)" :customerId="customerInfo.id" :carId="viewCar.car"
+              :viewCarId="viewCar.id" :viewCarStatus="viewCar.viewCarStatus">
+            </ViewCarDrawer>
+            <el-button  v-if="viewCar.viewCarStatus === 3" disabled class="customBTMC">註銷中</el-button>
+            <el-button  v-else
+              @click="confirmRemove(viewCar.id, viewCar.car, viewCar.viewCarDate, viewCar.viewTimeSectionNb)"
+               class="customBTM">取消賞車</el-button>
+
+          </div>
         </div>
-      
+        <br>
+        <div class="custom-text-color">
+          <p>預約狀態: {{ getViewCarStatusText(viewCar.viewCarStatus) }}</p>
+          <p>賞車客戶: {{ customerInfo.name }}先生/小姐</p>
+          <p>客戶電話: {{ customerInfo.phone }}</p>
+          <p>接待業務: {{ employeeName }}</p>
+          <p>試車分店: {{ getViewCarBranchText(viewCar.branch) }}</p>
+        </div>
+
+        <div class="pageCON">
+          <el-pagination size="small" background layout="prev, next" :total="totalElements" :current-page="currentPage"
+            :page-size="1" @current-change="handlePageChange" />
+        </div>
+      </div>
     </div>
- 
+
+  </div>
+
 </template>
 
 <script setup>
@@ -84,7 +86,7 @@ const viewCarStatusMap = {
   0: '預約中',
   1: '時間確定',
   2: '完成賞車',
-  3: '註銷'
+  3: '註銷中'
 };
 
 const viewTimeSectionhMap = {
@@ -100,19 +102,19 @@ const branchMap = {
   3: '高雄市大巨蛋分店'
 };
 
-const getViewCarStatusText = function(status) {
+const getViewCarStatusText = function (status) {
   return viewCarStatusMap[status] || '未知状态';
 };
 
-const getViewCarBranchText = function(branch) {
+const getViewCarBranchText = function (branch) {
   return branchMap[branch] || '未知状态';
 };
 
-const getViewTimeSectionhText = function(time) {
+const getViewTimeSectionhText = function (time) {
   return viewTimeSectionhMap[time] || '未知状态';
 };
 
-customerInfo = computed(function() {
+customerInfo = computed(function () {
   return store.state.customerInfo.data || {};
 });
 
@@ -131,22 +133,22 @@ const fetchViewCars = async (page = 1) => {
     totalElements.value = data.totalElements;
 
     // Fetch employee information for each viewCar
-    viewCars.value.forEach(function(viewCar) {
+    viewCars.value.forEach(function (viewCar) {
       findEmployee(viewCar.id);
     });
 
     // Iterate over viewCars to fetch car images
-    viewCars.value.forEach(function(viewCar) {
-      axiosapi.get(`/image/isMainPic/${viewCar.car}`)
-        .then(function(response) {
+    viewCars.value.forEach(function (viewCar) {
+      axiosapi.get(`/image/isListPic/${viewCar.car}`)
+        .then(function (response) {
           if (response && response.data) {
-            viewCar.isMainPic = response.data.isMainPic;
+            viewCar.firstImageId = response.data.isListPic.length > 0 ? response.data.isListPic[0].imageId : null;
           } else {
             console.error("Invalid response data structure:", response);
             throw new Error("Invalid car data response");
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.error("Error fetching car data:", error);
         });
     });
@@ -179,14 +181,14 @@ const fetchAllViewCars = async () => {
         // Fetch isMainPic for each viewCar
         await Promise.all(viewCars.value.map(async (viewCar) => {
           try {
-            const response = await axiosapi.get(`/image/isMainPic/${viewCar.car}`);
-            if (response && response.data) {
-              viewCar.isMainPic = response.data.isMainPic;
-              console.log("==============",viewCar.isMainPic);
-              
+            const response = await axiosapi.get(`/image/isListPic/${viewCar.car}`);
+            if (response && response.data && response.data.isListPic) {
+              // Assuming response.data.isListPic is an array of objects with imageId properties
+              viewCar.firstImageId = response.data.isListPic.length > 0 ? response.data.isListPic[0].imageId : null;
+              console.log("First image ID for car:", viewCar.car, viewCar.firstImageId);
             }
           } catch (error) {
-            console.error(`Error fetching isMainPic for car ${viewCar.car}:`, error);
+            console.error(`Error fetching image IDs for car ${viewCar.car}:`, error);
           }
         }));
 
@@ -209,15 +211,15 @@ const fetchAllViewCars = async () => {
 
 
 
-const handlePageChange = function(page) {
+const handlePageChange = function (page) {
   currentPage.value = page;
   fetchViewCars(page);
 };
 
-onMounted(function() {
+onMounted(function () {
   const username = localStorage.getItem('username');
   if (username) {
-    store.dispatch('fetchCustomerInfo', username).then(function() {
+    store.dispatch('fetchCustomerInfo', username).then(function () {
       if (props.viewCarId) {
         fetchAllViewCars();
       } else {
@@ -244,10 +246,10 @@ function confirmRemove(id, car, viewCarDate, viewTimeSectionNb) {
       draggable: true,
     }
   )
-    .then(function() {
+    .then(function () {
       callRemove(id, car, viewCarDate, viewTimeSectionNb);
     })
-    .catch(function() {
+    .catch(function () {
       ElMessage({
         type: 'info',
         message: 'Delete canceled',
@@ -266,7 +268,7 @@ function findEmployee(viewCarId) {
   axiosapi.post("/viewCarAssigned/findByHQL", request).then(function (response) {
     console.log(response.data.data);
     if (response.data.data.length == 0) {
-      // console.log("no單");
+      employeeName.value = "待指派"
     } else {
       employeeName.value = response.data.data[0].employeeName;
       employeeId.value = response.data.data[0].employeeId;
@@ -280,7 +282,7 @@ function findEmployee(viewCarId) {
   });
 }
 
-const callRemove = async function(id, car, viewCarDate, viewTimeSectionNb) {
+const callRemove = async function (id, car, viewCarDate, viewTimeSectionNb) {
   try {
     const response = await axiosapi.put(`/front/viewCar/update/${id}`, {
       viewCarStatus: 3, // 將 viewCarStatus 設置為 3 表示註銷
@@ -317,8 +319,6 @@ const callRemove = async function(id, car, viewCarDate, viewTimeSectionNb) {
 
 
 <style scoped>
-
-
 .img-fluid {
   height: auto;
   /* 设定固定高度 */
@@ -366,11 +366,11 @@ const callRemove = async function(id, car, viewCarDate, viewTimeSectionNb) {
   color: #fff8f3;
   font-size: 20px;
   line-height: 24px;
-  letter-spacing:3px;
+  letter-spacing: 3px;
   font-weight: 900;
 }
 
-.pageCON{
+.pageCON {
   position: absolute;
   bottom: 8%;
   right: 8%;
@@ -384,16 +384,35 @@ const callRemove = async function(id, car, viewCarDate, viewTimeSectionNb) {
 }
 
 h1 {
-    color: #a33238;
-    font-weight: 900;
+  color: #a33238;
+  font-weight: 900;
 }
 
 .row {
-    margin-left: 3.2%;
-    margin-right: 3.2%;
+  margin-left: 3.2%;
+  margin-right: 3.2%;
 }
-.customBTM{
-  margin-left: 15px;
+
+.customBTM {
+  margin-left: 10px;
   color: #a33238;
+  font-size: 16px;
+  font-weight: 1000;
+  letter-spacing: 2px
+}
+
+.custom-text-color-button {
+    color: #a33238;
+    font-size: 17px;
+    font-weight: 200;
+    letter-spacing: 2px
+}
+
+.customBTMC {
+  margin-left: 10px;
+  color: #c6c6c6;
+  font-size: 16px;
+  font-weight: 1000;
+  letter-spacing: 2px
 }
 </style>
