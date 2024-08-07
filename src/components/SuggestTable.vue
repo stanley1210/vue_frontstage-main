@@ -161,7 +161,7 @@ function callSuggestCarFind() {
             console.log('shopSuggestCards 1',shopSuggestCards.value);
             console.log('shopSuggestCards length 1',shopSuggestCards.value.length);
             
-            if (temp.length<3) {
+            if (temp.length<=3) {
                         axiosapi.get('/preference/searchMore', {
                             params: {},
                         }).then(function (response) {
