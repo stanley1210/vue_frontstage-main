@@ -112,38 +112,34 @@
 <script setup>
 import { useRouter } from 'vue-router';
 
-
 const router = useRouter();
 const props = defineProps(["carData"]);
 
 // 重置比較資訊
-  const resetCarCompare = () => {
-  
-  props.carData.id = '';
-  props.carData.carinfoBrand = '';
-  props.carData.carinfoModelName = '';
-  props.carData.productionYear = '';
-  props.carData.color = '';
-  props.carData.price = '';
-  props.carData.milage = '';
-  props.carData.carinfoDoor = '';
-  props.carData.carinfoPassenger = '';
-  props.carData.carinfoSuspension = '';
-  props.carData.carinfoRearWheel = '';
-  props.carData.carinfoTransmission = '';
-  props.carData.carinfoGasoline = '';
-  props.carData.carinfoCc = '';
-  props.carData.carinfoHp = '';
-  props.carData.carinfoTorque = '';
-  props.carData.conditionScore = '';
-  props.carData.remark = '';
-  props.carData.launchDate = '';
-  props.carData.branch = '';
+const resetCarCompare = () => {
+
+  //保留原本的CARID
+  const carId = router.currentRoute.value.query.carId;
+
+  document.body.classList.add('fade-out');
+
+  // 更新 URL
+  const currentUrl = new URL(window.location.href);
+  currentUrl.searchParams.set('carId', carId);
+  window.history.replaceState({}, '', currentUrl);
+  window.location.reload();
+
+  //沒鳥用的刷新特效
+  setTimeout(() => {
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('carId', carId);
+    window.history.replaceState({}, '', currentUrl);
+    window.location.reload();
+  }, 300); 
 };
 
-function resetImage() {
-  
-}
+
+
 // 返回shophome
 const goBack = () => {
   router.push({name:'pages-shop-home-link'}); 
@@ -190,6 +186,7 @@ h1 {
 .button-container {
   display: flex;
   
+  
 }
 
 .custom-button {
@@ -198,5 +195,13 @@ h1 {
   font-size: 15px; /* 调整字体大小 */
 }
 
+.fade-out {
+  animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
 
 </style>
