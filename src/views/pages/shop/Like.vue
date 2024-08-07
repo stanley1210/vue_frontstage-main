@@ -77,10 +77,18 @@ onMounted(() => {
 // 当 rows 改变时重置页码到 1 并调用 callFind
 watch(rows, (newValue, oldValue) => {
     if (newValue !== oldValue) {
+        console.log("========watch-rows")
         current.value = 1;
+    }
+});
+
+watch(customerInfo, (newVal) => {
+    if (newVal && newVal.id) {
+        console.log("==========watch-customerInfo")
         callFind();
     }
 });
+
 
 function callFind(page = 1) {
     // 在更改页码之前，将其设置为 1
@@ -106,10 +114,7 @@ function callFind(page = 1) {
         })
         .catch(error => {
             console.error("Error fetching data:", error);
-            Swal.fire({
-                text: "查詢失敗：" + error.message,
-                icon: "error"
-            });
+           
         });
 }
 
