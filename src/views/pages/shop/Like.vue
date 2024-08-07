@@ -59,7 +59,7 @@ const customerInfo = computed(() => store.state.customerInfo.data || {});
 
 // 定义 reactive 状态
 const rows = ref(4); // 每页显示的条目数
-const sortOrder = ref('asc'); // 排序顺序
+const sortOrder = ref('desc'); // 排序顺序
 const likes = ref([]); // 数据列表
 const total = ref(3); // 总数据笔数
 const pages = ref(1); // 总页数
