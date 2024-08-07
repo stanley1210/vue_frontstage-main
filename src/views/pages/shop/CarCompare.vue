@@ -68,12 +68,6 @@
                       margin-bottom: 5%;
                     "
                   >
-                    <!-- <ShopHomeCard
-                      v-for="shopHomeCard in shopHomeCards"
-                      :key="shopHomeCard.id"
-                      :shopHomeCard="shopHomeCard"
-                      @updateCarId="handleCarNewId"
-                    ></ShopHomeCard> -->
                     <ShopHomeCardCaompare
                       v-for="shopHomeCard in shopHomeCards"
                       :key="shopHomeCard.id"
@@ -81,12 +75,6 @@
                       @updateCarId="handleCarNewId"
                     >
                     </ShopHomeCardCaompare>
-                    <!-- <CarCompareCard
-                      v-for="shopHomeCard in shopHomeCards"
-                      :key="shopHomeCard.id"
-                      :shopHomeCard="shopHomeCard"
-                      @updateCarId="handleCarNewId"
-                    ></CarCompareCard> -->
                   </div>
                 </div>
               </el-popover>
