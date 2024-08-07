@@ -34,10 +34,10 @@
               :timeSection="String(viewCar.viewTimeSectionNb)" :customerId="customerInfo.id" :carId="viewCar.car"
               :viewCarId="viewCar.id" :viewCarStatus="viewCar.viewCarStatus">
             </ViewCarDrawer>
-            <el-button  v-if="viewCar.viewCarStatus === 3" disabled size="middle" class="customBTMC">註銷中</el-button>
+            <el-button  v-if="viewCar.viewCarStatus === 3" disabled class="customBTMC">註銷中</el-button>
             <el-button  v-else
               @click="confirmRemove(viewCar.id, viewCar.car, viewCar.viewCarDate, viewCar.viewTimeSectionNb)"
-              size="middle" class="customBTM">取消賞車</el-button>
+               class="customBTM">取消賞車</el-button>
 
           </div>
         </div>

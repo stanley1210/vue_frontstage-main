@@ -1,8 +1,8 @@
 <template>
-    <el-button  v-if="props.viewCarStatus!=3" @click="dialog = true" size="middle" class="customBTM">
+    <el-button  v-if="props.viewCarStatus!=3" @click="dialog = true"  class="customBTM">
       賞車評價
     </el-button>
-    <el-button  v-if="props.viewCarStatus===3" disabled @click="dialog = true" size="middle" class="customBTMC">
+    <el-button  v-if="props.viewCarStatus===3" disabled @click="dialog = true"  class="customBTMC">
       賞車評價
     </el-button>
     <el-drawer v-model="dialog" title="留下您寶貴的評分吧!" :before-close="handleClose" direction="rtl" class="demo-drawer">
@@ -120,7 +120,7 @@ const onClick = async () => {
         .then(function (response) {
             console.log('response=', response);
             Swal.fire({
-                text: "已成功更新Kpi！",
+                text: "感謝您的評價",
                 icon: "success"
             });
         })
