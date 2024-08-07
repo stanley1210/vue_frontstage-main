@@ -68,11 +68,25 @@
                       margin-bottom: 5%;
                     "
                   >
-                    <ShopHomeCard
+                    <!-- <ShopHomeCard
                       v-for="shopHomeCard in shopHomeCards"
                       :key="shopHomeCard.id"
                       :shopHomeCard="shopHomeCard"
-                    ></ShopHomeCard>
+                      @updateCarId="handleCarNewId"
+                    ></ShopHomeCard> -->
+                    <ShopHomeCardCaompare
+                      v-for="shopHomeCard in shopHomeCards"
+                      :key="shopHomeCard.id"
+                      :shopHomeCard="shopHomeCard"
+                      @updateCarId="handleCarNewId"
+                    >
+                    </ShopHomeCardCaompare>
+                    <!-- <CarCompareCard
+                      v-for="shopHomeCard in shopHomeCards"
+                      :key="shopHomeCard.id"
+                      :shopHomeCard="shopHomeCard"
+                      @updateCarId="handleCarNewId"
+                    ></CarCompareCard> -->
                   </div>
                 </div>
               </el-popover>
@@ -139,6 +153,7 @@
 </template>
 
 <script setup>
+import ShopHomeCardCaompare from "@/components/ShopHomeCardCaompare.vue";
 import SuggestTable from "@/components/SuggestTable.vue";
 import Navigation from "@/views/Navigation.vue";
 import Footer from "@/views/Footer.vue";
