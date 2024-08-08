@@ -23,3 +23,8 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
         app.component(key, component)
 }
 
+
+    window.addEventListener('load', () => {
+        store.commit('clearCustomerInfo');
+    });
+
