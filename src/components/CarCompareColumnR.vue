@@ -55,7 +55,7 @@
     <p>評分&emsp;&emsp;&emsp;&emsp;{{ carData.conditionScore }}</p>
   </div>
   <div class="outsideP">
-    <p>改裝&emsp;&emsp;&emsp;&emsp;{{ carData.remark }}</p>
+    <p>改裝&emsp;&emsp;&emsp;&emsp;{{ getRemarkMap(carData.remark) }}</p>
   </div>
   <div class="outsideP">
     <p>日期&emsp;&emsp;&emsp;&emsp;{{ carData.launchDate }}</p>
@@ -86,6 +86,13 @@
 <script setup>
 const props = defineProps(["carData"]);
 const emit = defineEmits([]);
+const remarkMap = {
+  1: "有改裝",
+  0: "無改裝",
+};
+const getRemarkMap = function (status) {
+  return remarkMap[status] || "找不到";
+};
 </script>
 
 <style scoped>

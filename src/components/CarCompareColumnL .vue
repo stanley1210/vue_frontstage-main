@@ -108,7 +108,7 @@
     <p>{{ carData.conditionScore }}&emsp;&emsp;&emsp;&emsp;車況</p>
   </div>
   <div class="outsideP">
-    <p>{{ carData.remark }}&emsp;&emsp;&emsp;&emsp;是否</p>
+    <p>{{ getRemarkMap(carData.remark) }}&emsp;&emsp;&emsp;&emsp;是否</p>
   </div>
   <div class="outsideP">
     <p>{{ carData.launchDate }}&emsp;&emsp;&emsp;&emsp;上架</p>
@@ -161,7 +161,13 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 const props = defineProps(["carData"]);
-
+const remarkMap = {
+  1: "有改裝",
+  0: "無改裝",
+};
+const getRemarkMap = function (status) {
+  return remarkMap[status] || "找不到";
+};
 // 重置比較資訊
 const resetCarCompare = () => {
   //保留原本的CARID
