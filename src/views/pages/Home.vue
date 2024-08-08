@@ -63,7 +63,7 @@
           <h5 class="offcanvas-title" id="offcanvasScrollingLabel"></h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
+        <div class="offcanvas-body" v-if="customerInfo.accountType !== 1 && customerInfo.accountType !== 2">
           <Login></Login>
         </div>
       </div>
