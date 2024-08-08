@@ -1,7 +1,7 @@
 <template>
   <section class="container-fluid" style="padding: 0; overflow: hidden">
     <Navigation></Navigation>
-    <div style="margin-top: 3%">
+    <div style="margin-top: 3%;">
       <!-- ------------------------------------------大圖------------------------------------------ -->
       <div class="row cmp" style="padding: 0">
         <div class="col-4" style="padding: 0; overflow-x: hidden">
