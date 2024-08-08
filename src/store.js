@@ -5,15 +5,17 @@ import axiosapi from '@/plugins/axios';
 const store = createStore({
     state: {
         customerInfo: {},
+        isAuthenticated: false, // 认证状态
     },
     mutations: {
         setCustomerInfo(state, customerInfo) {
             console.log('Setting customer info:', customerInfo);
             state.customerInfo = customerInfo;
+            state.isAuthenticated = true; // 登录后设置为已认证
         },
         clearCustomerInfo(state) {
             state.customerInfo = {};
-      
+            state.isAuthenticated = false; // 登出时清除认证状态
         }
     },
     actions: {
@@ -41,6 +43,8 @@ const store = createStore({
         },
         logout({ commit }) {
             commit('clearCustomerInfo');
+            // 如果有必要，可以在此调用 API 处理登出请求
+            // await axiosapi.post('/logout');
         }
     }
 });
