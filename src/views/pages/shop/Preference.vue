@@ -2,7 +2,7 @@
   <section >
     <!-- 註冊會員按鍵 -->
     <div>
-      <el-button class="topBTM" color="#a33238" @click="goToRegister" :dark="isDark" :icon="User" v-if="customerInfo.account == 1 || customerInfo.account == 2">註冊會員</el-button>
+      <el-button class="topBTM" color="#a33238" @click="goToRegister" :dark="isDark" :icon="User" v-if="!isCustomerInfoComplete || !isAuthenticated">註冊會員</el-button>
         
         <!-- 會員進階搜尋按鈕 -->
         <el-button class="topBTM" type="primary" color="#a33238" :icon="Search" @click="handleClick" :disabled="false" >
