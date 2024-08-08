@@ -68,11 +68,13 @@
                       margin-bottom: 5%;
                     "
                   >
-                    <ShopHomeCard
+                    <ShopHomeCardCaompare
                       v-for="shopHomeCard in shopHomeCards"
                       :key="shopHomeCard.id"
                       :shopHomeCard="shopHomeCard"
-                    ></ShopHomeCard>
+                      @updateCarId="handleCarNewId"
+                    >
+                    </ShopHomeCardCaompare>
                   </div>
                 </div>
               </el-popover>
@@ -128,17 +130,13 @@
     </div>
 
     <!-- ------------------------------------------字---------------------------------------------------------- -->
-    <!-- <div>
-        ~ {{ customerInfo.name || '用户名' }}
-        ~ {{ customerInfo.id || '用户ID' }}
-        ~ {{ customerInfo.account || '帳號' }}
-    </div> -->
     <SuggestTable></SuggestTable>
     <Footer></Footer>
   </section>
 </template>
 
 <script setup>
+import ShopHomeCardCaompare from "@/components/ShopHomeCardCaompare.vue";
 import SuggestTable from "@/components/SuggestTable.vue";
 import Navigation from "@/views/Navigation.vue";
 import Footer from "@/views/Footer.vue";

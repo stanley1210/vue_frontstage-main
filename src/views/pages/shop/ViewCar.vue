@@ -22,7 +22,8 @@
         <div class="col-12 mb-2">
           <div class="demo-time-picker">
             <el-select v-model="timeValue" placeholder="Time Slot" style="width: 100%">
-              <el-option class="demo-time-picker" v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+              <el-option class="demo-time-picker" v-for="item in options" :key="item.value" :label="item.label"
+                :value="item.value" />
             </el-select>
           </div>
         </div>
@@ -33,16 +34,17 @@
         <el-button size="large" type="warning" @click="handleSubmit">Submit</el-button>
       </div>
     </div>
-    
+
   </div>
-  
+
 </template>
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits } from 'vue';
 import axiosapi from '@/plugins/axios';
 import Swal from 'sweetalert2';
-
+import { useRouter } from 'vue-router'; // 引入 useRouter
+const router = useRouter(); // 使用 useRouter
 const props = defineProps<{
   carId: number;
   customerId: number;
@@ -90,18 +92,37 @@ function handleSubmit() {
   axiosapi.post('/front/viewCar/create', payload)
     .then(response => {
       console.log("提交成功", response);
-      emit('hide-view-car'); // 触发关闭对话框事件
       Swal.fire({
         title: '成功!',
         text: '您的預約已成功提交。',
         icon: 'success',
         confirmButtonText: '確定'
       }).then(() => {
-       
+        // 在成功提交数据后，获取最新的 ViewCar ID
+        axiosapi.get('/front/viewCar/latestId')
+          .then(response => {
+            const data = response.data;
+            console.log('Response Data:', data); // 查看返回数据的结构
+            if (data.success) {
+              const latestId = data.latestId;
+              console.log('latestId-viewCarID', latestId);
+              // 跳转到指定路由
+              router.push({ name: 'pages-shop-memberArea-link', query: { id: latestId } });
+            } else {
+              console.error('Failed to retrieve the latest ViewCar ID:', data.message);
+            }
+          })
+          .catch(error => {
+            console.error("Error fetching latest ID:", error);
+            Swal.fire({
+              text: "查詢失敗：" + error.message,
+              icon: "error"
+            });
+          });
       });
     })
     .catch(error => {
-      console.error("Error fetching data:", error);
+      console.error("Error submitting data:", error);
       Swal.fire({
         text: "查詢失敗：" + error.message,
         icon: "error"
@@ -158,7 +179,9 @@ function handleSubmit() {
 .mb-2 {
   margin-bottom: 0.5rem;
 }
+
 .swal2-container {
-  z-index: 9999 !important; /* 确保 SweetAlert 弹框显示在最上层 */
+  z-index: 9999 !important;
+  /* 确保 SweetAlert 弹框显示在最上层 */
 }
 </style>
