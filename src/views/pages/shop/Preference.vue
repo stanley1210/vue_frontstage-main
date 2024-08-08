@@ -2,7 +2,7 @@
   <section >
     <!-- 註冊會員按鍵 -->
     <div>
-      <el-button class="topBTM" color="#a33238" @click="goToRegister" :dark="isDark" :icon="User" v-if="!isCustomerInfoComplete || !isAuthenticated">註冊會員</el-button>
+      <el-button class="topBTM" color="#a33238" @click="goToRegister" :dark="isDark" :icon="User" v-if="customerInfo.account == 1 || customerInfo.account == 2">註冊會員</el-button>
         
         <!-- 會員進階搜尋按鈕 -->
         <el-button class="topBTM" type="primary" color="#a33238" :icon="Search" @click="handleClick" :disabled="false" >
@@ -202,7 +202,7 @@
         </div>
         <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">查詢</el-button>
         <el-button type="warning" :icon="Refresh" color="#a33238" @click="resetForm">重置查詢</el-button>
-        <el-button v-if="saveValidate"type="success" :icon="FolderAdd" color="#a33238" @click="saveSearchRecord">儲存查詢條件</el-button> 
+        <el-button v-if="saveValidate" type="success" :icon="FolderAdd" color="#a33238" @click="saveSearchRecord">儲存查詢條件</el-button> 
        <p></p>
         <el-button v-if="updateValidate" type="primary" :icon="Edit" color="#a33238" @click="handleUpdate">修改查詢條件
         </el-button>    
