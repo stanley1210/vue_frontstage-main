@@ -30,7 +30,7 @@
           <li class="nav-item col">
             <RouterLink class="nav-link navbtm" disabled="true" to="#">News</RouterLink>
           </li>
-          <li class="nav-item col" v-if="customerInfo.accountType == 1 || customerInfo.accountType == 2">
+          <li class="nav-item col" v-if="isAuthenticated">
             <div class="logout-container">
               <a class="nav-link navbtm" href="#" @click.prevent="logout">Logout</a>
             </div>
