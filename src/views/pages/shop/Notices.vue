@@ -4,7 +4,7 @@
   <el-drawer v-model="visible" :show-close="false" class="custom-drawer">
 
     <template #header="{ close, titleId, titleClass }">
-      <h3 class="custom-title-color" :id="titleId">Hello，{{ customerInfo.name }}!</h3>
+      <h3 class="custom-title-name" :id="titleId">Hello，{{ customerInfo.name }}!</h3>
       <div class="drawer-header">
         <el-button type="info" @click="handleClearNotices">
           <el-icon class="el-icon--left">
@@ -250,10 +250,7 @@ const fetchNewCarData = async (newCarIds) => {
   cursor: pointer;
 }
 
-.custom-title-color {
-  color: #a33238;
-  margin: 0;
-}
+
 
 .custom-drawer {
   padding: 20px;
@@ -338,6 +335,14 @@ const fetchNewCarData = async (newCarIds) => {
   color: #a33238;
   line-height: 5px;
   font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+
+.custom-title-name {
+  color: #a33238;
+  line-height: 5px;
+  font-size: 24px;
   font-weight: 500;
   letter-spacing: 2px;
 }

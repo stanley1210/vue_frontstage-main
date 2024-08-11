@@ -272,6 +272,7 @@ function findEmployee(viewCarId) {
     } else {
       employeeName.value = response.data.data[0].employeeName;
       employeeId.value = response.data.data[0].employeeId;
+      
     }
   }).catch(function (error) {
     console.log("error", error);
