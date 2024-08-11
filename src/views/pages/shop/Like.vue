@@ -1,10 +1,7 @@
 <template>
     <div class="row">
         <div class="col-2">
-            <font-awesome-icon 
-                :icon="['fas', 'star-of-life']" 
-                style="color: #a33238; margin-top: 8px;" 
-                size="2xl"/>
+            <font-awesome-icon :icon="['fas', 'star-of-life']" style="color: #a33238; margin-top: 8px;" size="2xl" />
         </div>
         <div class="col-10" style="display: flex; justify-content: flex-end;">
             <h1>Sparkling List</h1>
@@ -14,7 +11,7 @@
 
     <!-- Card -->
     <div class="likecard-container" style="display: flex; justify-content: center; margin-bottom: 1%;">
-        <LikeCard v-for="like in likes" :key="like.likeId" :like="like" @cardDelete="callRemove"/>
+        <LikeCard v-for="like in likes" :key="like.likeId" :like="like" @cardDelete="callRemove" />
     </div>
 
     <div class="row">
@@ -25,19 +22,11 @@
             </select>
         </div>
         <div class="col-4">
-            <LikeRows :total="total" :options="[2, 3, 4, 5, 10]" v-model="rows" @rows-change="callFind"/>
+            <LikeRows :total="total" :options="[2, 3, 4, 5, 10]" v-model="rows" @rows-change="callFind" />
         </div>
         <div class="col-6" v-show="total != 0" style="display: flex; justify-content: flex-end;">
-            <Paginate 
-                :first-last-button="true" 
-                first-button-text="<<" 
-                last-button-text=">>" 
-                prev-text="<" 
-                next-text=">" 
-                :page-count="pages" 
-                :initial-page="current" 
-                v-model="current" 
-                :click-handler="callFind"/>
+            <Paginate :first-last-button="true" first-button-text="<<" last-button-text=">>" prev-text="<" next-text=">"
+                :page-count="pages" :initial-page="current" v-model="current" :click-handler="callFind" />
         </div>
     </div>
 </template>
@@ -114,7 +103,7 @@ function callFind(page = 1) {
         })
         .catch(error => {
             console.error("Error fetching data:", error);
-           
+
         });
 }
 
@@ -124,6 +113,10 @@ function callRemove(id) {
             .then(response => {
                 console.log("response", response);
                 if (response.data.success) {
+                    ElMessage({
+                        type: 'success',
+                        message: '已移除心儀車輛'
+                    });
                     callFind(current.value);
                 } else {
                     Swal.fire({
@@ -141,17 +134,22 @@ function callRemove(id) {
     margin-left: 3.2%;
     margin-right: 3.2%;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
 }
-th, td {
+
+th,
+td {
     border: 1px solid #ddd;
     padding: 8px;
 }
+
 th {
     background-color: #f2f2f2;
 }
+
 h1 {
     color: #a33238;
     font-weight: 900;
