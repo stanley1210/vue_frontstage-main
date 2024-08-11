@@ -202,7 +202,7 @@
         </div>
         <el-button type="primary"  color="#a33238" :icon="Search" @click="handleSubmit">查詢</el-button>
         <el-button type="warning" :icon="Refresh" color="#a33238" @click="resetForm">重置查詢</el-button>
-        <el-button v-if="saveValidate"type="success" :icon="FolderAdd" color="#a33238" @click="saveSearchRecord">儲存查詢條件</el-button> 
+        <el-button v-if="saveValidate" type="success" :icon="FolderAdd" color="#a33238" @click="saveSearchRecord">儲存查詢條件</el-button> 
        <p></p>
         <el-button v-if="updateValidate" type="primary" :icon="Edit" color="#a33238" @click="handleUpdate">修改查詢條件
         </el-button>    
