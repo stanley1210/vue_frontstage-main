@@ -4,7 +4,7 @@
   <el-drawer v-model="visible" :show-close="false" class="custom-drawer">
 
     <template #header="{ close, titleId, titleClass }">
-      <h3 class="custom-title-color" :id="titleId">Hello，{{ customerInfo.name }}!</h3>
+      <h3 class="custom-title-name" :id="titleId">Hello，{{ customerInfo.name }}!</h3>
       <div class="drawer-header">
         <el-button type="info" @click="handleClearNotices">
           <el-icon class="el-icon--left">
@@ -274,27 +274,36 @@ const fetchNewCarData = async (newCarIds) => {
   margin-bottom: 16px;
   display: flex;
   align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 增加阴影效果 */
-  transition: box-shadow 0.3s ease; /* 平滑过渡 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* 增加阴影效果 */
+  transition: box-shadow 0.3s ease;
+  /* 平滑过渡 */
 }
+
 .info-box:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 悬停时阴影效果 */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  /* 悬停时阴影效果 */
 }
 
 .info-box-today {
   border: 1px solid #dcdcdc;
   border-radius: 8px;
-  padding: 3px; /* 增加内边距 */
+  padding: 3px;
+  /* 增加内边距 */
   background-color: #fff5eb;
-  margin-bottom: 16px; /* 增加底部间距 */
+  margin-bottom: 16px;
+  /* 增加底部间距 */
   display: flex;
   align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 增加阴影效果 */
-  transition: box-shadow 0.3s ease; /* 平滑过渡 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* 增加阴影效果 */
+  transition: box-shadow 0.3s ease;
+  /* 平滑过渡 */
 }
 
 .info-box-today:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 悬停时阴影效果 */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  /* 悬停时阴影效果 */
 }
 
 .info-content {
@@ -338,6 +347,14 @@ const fetchNewCarData = async (newCarIds) => {
   color: #a33238;
   line-height: 5px;
   font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+
+.custom-title-name {
+  color: #a33238;
+  line-height: 5px;
+  font-size: 24px;
   font-weight: 500;
   letter-spacing: 2px;
 }
