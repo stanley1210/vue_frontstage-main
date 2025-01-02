@@ -181,7 +181,7 @@ const resetCarCompare = () => {
   window.history.replaceState({}, "", currentUrl);
   window.location.reload();
 
-  //沒鳥用的刷新特效
+  //刷新特效
   setTimeout(() => {
     const currentUrl = new URL(window.location.href);
     currentUrl.searchParams.set("carId", carId);

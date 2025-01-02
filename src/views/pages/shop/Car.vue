@@ -143,10 +143,6 @@
       </div>
     </div>
 
-    <!-- ------------------------------------------預約、比較、心儀按鈕 ------------------------------------------ -->
-
-    <!-- ------------------------------------------字---------------------------------------------------------- -->
-
     <SuggestTable></SuggestTable>
     <Footer></Footer>
   </section>
@@ -165,7 +161,7 @@ import { useRoute, useRouter } from "vue-router";
 import router from "@/router/router";
 // const router = useRouter();
 const route = useRoute();
-const carId = Number(route.query.carId); // 获取传递过来的carId参数
+const carId = Number(route.query.carId);
 console.log("carId=================" + carId);
 // 串接登入會員,這邊下面的import一定要加
 import { useStore } from "vuex";
@@ -194,7 +190,7 @@ const handleMouseLeave = () => {
 };
 
 const carDatas = ref([]); // 資料列表
-const selectedCarId = ref(null); // 当前选择的汽车 ID
+const selectedCarId = ref(null);
 import CarImage from "@/components/CarImage.vue";
 
 const images = ref([]); // 資料列表
@@ -208,11 +204,10 @@ axiosapi
       carDatas.value = response.data.list;
       carDatas.value.forEach((imageId) => {});
       if (carDatas.value.length > 0) {
-        selectedCarId.value = carDatas.value[0].id; // 假设你选择了第一个汽车
+        selectedCarId.value = carDatas.value[0].id;
         console.log("Selected Car ID:", selectedCarId.value); // Debug output
       }
 
-      // 搜索图片信息
       return axiosapi.get(`/image/isListPic/${carId}`); //給car的id
     } else {
       console.error("Invalid response data structure:", response);
